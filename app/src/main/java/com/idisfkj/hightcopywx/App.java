@@ -23,11 +23,14 @@ public class App extends Application{
     public static final String APP_SECRET_KEY = "HxMA7STSUQMLEiDX+zo+5A==";
     public static final String TAG = "com.idisfkj.hightcopywx";
     public static final String DEVELOPER_ID = "/f6ukNwIPpdSmkrgsmklcMbW6WefG01XkxdILDNEUVw=";
-    public static final String DEVELOPER_NUMBER = "666666";
-    public static final String DEVELOPER_NAME = "idisfkj";
+    public static final String DEVELOPER_NUMBER = "15300112238";
+    public static final String DEVELOPER_NAME = "姜殿璟";
     public static final String DEVELOPER_MESSAGE = "欢迎注册高仿微信App,我是该App的开发者，你可以使用添加朋友自行互动测试！如有问题可以在此留言与我。";
     public static final String HELLO_MESSAGE = "你已添加了%s，现在可以开始聊天了";
     public static final String UNREADNUM = "unReadNum";
+    public static final int CHAT_TYPE_ENGLISHTOCHINESE=1;
+    public static final int CHAT_TYPE_CHINESETOENGLISH=2;
+    public static final int CHAT_TYPE_ENGLISH_STUDY=3;
     public static String mNumber = "-1";
     public static String mRegId = "-1";
     public static SharedPreferences sp;

@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -22,6 +23,7 @@ import android.widget.EditText;
 import com.idisfkj.hightcopywx.App;
 import com.idisfkj.hightcopywx.R;
 import com.idisfkj.hightcopywx.adapter.ChatAdapter;
+import com.idisfkj.hightcopywx.adapter.OnItemTouchListener;
 import com.idisfkj.hightcopywx.dao.ChatMessageDataHelper;
 import com.idisfkj.hightcopywx.ui.BaseActivity;
 import com.idisfkj.hightcopywx.util.VolleyUtils;
@@ -57,6 +59,7 @@ public class ChatActivity extends BaseActivity implements ChatView, View.OnTouch
     private int unReadNum;
     private int _id;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,8 +67,9 @@ public class ChatActivity extends BaseActivity implements ChatView, View.OnTouch
         ButterKnife.inject(this);
         Bundle bundle = getIntent().getExtras();
         _id = bundle.getInt("_id");
+        int chat_type=bundle.getInt("chatType");
 
-        mChatPresenter = new ChatPresenterImp(this);
+        mChatPresenter = new ChatPresenterImp(this,chat_type);
         mChatPresenter.loadData(this, _id);
 
         NotificationManager manager = (NotificationManager) App.getAppContext().getSystemService(Context.NOTIFICATION_SERVICE);
@@ -77,6 +81,8 @@ public class ChatActivity extends BaseActivity implements ChatView, View.OnTouch
             mChatPresenter.cleanUnReadNum(this, App.mRegId, App.mNumber, unReadNum);
         }
         getActionBar().setTitle(userName);
+        getActionBar().setDisplayHomeAsUpEnabled(true);
+
 
         final View root = findViewById(R.id.main);
         root.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -92,6 +98,19 @@ public class ChatActivity extends BaseActivity implements ChatView, View.OnTouch
 //        chatLayout.setListener(this);
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                break;
+            default:
+
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     public void init() {
         manager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
         receiver = new ChatBroadCastReceiver();
@@ -104,6 +123,12 @@ public class ChatActivity extends BaseActivity implements ChatView, View.OnTouch
         chatView.setLayoutManager(new LinearLayoutManager(this));
         chatView.setAdapter(mChatAdapter);
         chatView.setOnTouchListener(this);
+        chatView.addOnItemTouchListener(new OnItemTouchListener(chatView) {
+            @Override
+            public void onItemListener(RecyclerView.ViewHolder vh) {
+//                ToastUtils.showLong(vh.getLayoutPosition()+"");
+            }
+        });
         chatContent.setOnFocusChangeListener(this);
 
         getLoaderManager().initLoader(0, null, this);

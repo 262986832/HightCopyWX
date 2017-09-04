@@ -1,5 +1,6 @@
 package com.idisfkj.hightcopywx.util;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -18,5 +19,10 @@ public class CalendarUtils {
         Date date = new Date(System.currentTimeMillis());
         String time = format.format(date);
         return time;
+    }
+
+    public static long getLongDate(String str) throws ParseException {
+        SimpleDateFormat format = new SimpleDateFormat("MM月dd日 HH:mm");
+        return  format.parse(str).getTime();
     }
 }

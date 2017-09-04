@@ -115,13 +115,5 @@ public class ChatModelImp implements ChatModel {
         wxHelper = null;
     }
 
-    public interface requestListener {
-        void onSucceed(ChatMessageInfo chatMessageInfo, ChatMessageDataHelper helper);
 
-        void onError(String errorMessage);
-    }
-
-    public interface cursorListener {
-        void onSucceed(String regId, String number, String userName, int unReadNum);
-    }
 }

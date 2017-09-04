@@ -9,14 +9,17 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.idisfkj.hightcopywx.App;
 import com.idisfkj.hightcopywx.R;
 import com.idisfkj.hightcopywx.dao.WXDataHelper;
 import com.idisfkj.hightcopywx.util.BadgeViewUtils;
 import com.idisfkj.hightcopywx.util.CursorUtils;
+import com.idisfkj.hightcopywx.util.ToastUtils;
 import com.readystatesoftware.viewbadger.BadgeView;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.OnClick;
 
 /**
  * 聊天通信适配器
@@ -36,7 +39,7 @@ public class WXAdapter extends RecyclerViewCursorBaseAdapter<WXAdapter.ViewHolde
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = mLayoutInflater.inflate(R.layout.wx_item, parent, false);
-        return new ViewHolder(view);
+        return new ViewHolder(view,mContext);
     }
 
     @Override
@@ -45,6 +48,7 @@ public class WXAdapter extends RecyclerViewCursorBaseAdapter<WXAdapter.ViewHolde
         holder.wxItemContent.setText(CursorUtils.formatString(cursor, WXDataHelper.WXItemDataInfo.CONTENT));
         holder.wxItemTime.setText(CursorUtils.formatString(cursor, WXDataHelper.WXItemDataInfo.TIME));
         holder.unReadNum = CursorUtils.formatInt(cursor, WXDataHelper.WXItemDataInfo.UNREAD_NUM);
+        holder.CHAT_TYPE=CursorUtils.formatInt(cursor, WXDataHelper.WXItemDataInfo.CHAT_TYPE);
         //回收 防止影响更新
         if (holder.badgeView != null)
             holder.badgeView.hide();
@@ -54,8 +58,11 @@ public class WXAdapter extends RecyclerViewCursorBaseAdapter<WXAdapter.ViewHolde
         }
 //        holder.wxItemTitle.getRootView().setId(cursor.getPosition());
     }
+    void test(){
 
-    static class ViewHolder extends RecyclerView.ViewHolder {
+    }
+
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         @InjectView(R.id.wx_item_picture)
         ImageView wxItemPicture;
         @InjectView(R.id.wx_item_title)
@@ -66,10 +73,51 @@ public class WXAdapter extends RecyclerViewCursorBaseAdapter<WXAdapter.ViewHolde
         TextView wxItemContent;
         public int unReadNum;
         public BadgeView badgeView;
+        public int CHAT_TYPE=0;
+        private Context mContext;
 
-        ViewHolder(View view) {
+        @OnClick(R.id.wx_item_picture)
+        public void onPictureClick() {
+            onClick();
+        }
+        @OnClick(R.id.wx_item_title)
+        public void onTitleClick() {
+            onClick();
+        }
+        @OnClick(R.id.wx_item_time)
+        public void onTimeClick() {
+            onClick();
+        }
+        @OnClick(R.id.wx_item_content)
+        public void onContentClick() {
+            onClick();
+        }
+
+        public int getCHAT_TYPE() {
+            return CHAT_TYPE;
+        }
+
+        public void setCHAT_TYPE(int CHAT_TYPE) {
+            this.CHAT_TYPE = CHAT_TYPE;
+        }
+
+        private void onClick(){
+            if(CHAT_TYPE== App.CHAT_TYPE_CHINESETOENGLISH){
+                ToastUtils.showShort(CHAT_TYPE+"");
+            }else if(CHAT_TYPE== App.CHAT_TYPE_ENGLISHTOCHINESE){
+                ToastUtils.showShort(CHAT_TYPE+"");
+            }
+//            Intent intent = new Intent(mContext, ChatActivity.class);
+//            Bundle bundle = new Bundle();
+//            bundle.putInt("_id", CHAT_TYPE);
+//            intent.putExtras(bundle);
+//            mContext.startActivity(intent);
+        }
+        
+        ViewHolder(View view,Context context) {
             super(view);
             ButterKnife.inject(this, view);
+            mContext=context;
         }
     }
 }

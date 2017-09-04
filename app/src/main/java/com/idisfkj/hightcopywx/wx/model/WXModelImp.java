@@ -27,6 +27,25 @@ public class WXModelImp implements WXModel {
             wxItemInfo.setTime(CalendarUtils.getCurrentDate());
             wxItemInfo.setRegId(App.DEVELOPER_ID);
             wxItemInfo.setNumber(App.DEVELOPER_NUMBER);
+            wxItemInfo.setChatType(App.CHAT_TYPE_CHINESETOENGLISH);
+            wxItemInfo.setCurrentAccount(SPUtils.getString("userPhone"));
+
+            helper.insert(wxItemInfo);
+            wxItemInfo.setTitle("汉英翻译");
+            wxItemInfo.setContent("您说的中文，将被翻译成英文。");
+            wxItemInfo.setTime(CalendarUtils.getCurrentDate());
+            wxItemInfo.setRegId("Chinese to english");
+            wxItemInfo.setNumber("001");
+            wxItemInfo.setChatType(App.CHAT_TYPE_CHINESETOENGLISH);
+            wxItemInfo.setCurrentAccount(SPUtils.getString("userPhone"));
+            helper.insert(wxItemInfo);
+
+            wxItemInfo.setTitle("英汉翻译");
+            wxItemInfo.setContent("您说英文，将被翻译成中文。");
+            wxItemInfo.setTime(CalendarUtils.getCurrentDate());
+            wxItemInfo.setRegId("English to chinese");
+            wxItemInfo.setNumber("002");
+            wxItemInfo.setChatType(App.CHAT_TYPE_ENGLISHTOCHINESE);
             wxItemInfo.setCurrentAccount(SPUtils.getString("userPhone"));
             helper.insert(wxItemInfo);
         }

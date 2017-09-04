@@ -1,5 +1,7 @@
 package com.idisfkj.hightcopywx.util;
 
+import com.idisfkj.hightcopywx.BuildConfig;
+
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
@@ -19,7 +21,31 @@ public class UrlUtils {
     private static final String PASS_THROUGH = "&pass_through=1";
     private static final String NOTIFY_ID = "&notify_id=0";
 
+    private static final String BAIDU_TRANSLATE_API = "http://api.fanyi.baidu.com/api/trans/vip/translate?";
+    public static final int ZHTOEN = 0;
+    public static final int ENTOGH = 1;
     public UrlUtils() {
+    }
+
+    //http://api.fanyi.baidu.com/api/trans/vip/translate?
+    // q=apple&from=en&to=zh&appid=2015063000000001&salt=1435660288&sign=f89f9594663708c1605f3d736d01d2d4
+    public static String getBaiduTranslateApiUrl(String query, int type) {
+        String salt = SignUtils.getRandomInt(10);
+        String sign = SignUtils.getSign(BuildConfig.BAIDU_APP_ID, query, salt, BuildConfig.BAIDU_SCREAT_KEY);
+        StringBuilder url = new StringBuilder(BAIDU_TRANSLATE_API);
+        url.append("q=");
+        url.append(query);
+        if (type == ZHTOEN)
+            url.append("&from=zh&to=en&appid=");
+        else
+            url.append("&from=en&to=zh&appid=");
+        url.append(BuildConfig.BAIDU_APP_ID);
+        url.append("&salt=");
+        url.append(salt);
+        url.append("&sign=");
+        url.append(sign);
+        String urlStr = url.toString();
+        return urlStr;
     }
 
     /**

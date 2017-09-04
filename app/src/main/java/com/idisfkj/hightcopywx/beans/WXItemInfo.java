@@ -21,6 +21,16 @@ public class WXItemInfo {
         this.unReadNum = unReadNum;
     }
 
+    private int chatType;
+
+    public int getChatType() {
+        return chatType;
+    }
+
+    public void setChatType(int chatType) {
+        this.chatType = chatType;
+    }
+
     private int unReadNum;
 
     public String getCurrentAccount() {

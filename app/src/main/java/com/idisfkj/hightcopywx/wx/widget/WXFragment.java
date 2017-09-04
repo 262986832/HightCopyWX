@@ -56,9 +56,12 @@ public class WXFragment extends Fragment implements WXView, LoaderManager.Loader
         wxRecyclerView.addOnItemTouchListener(new OnItemTouchListener(wxRecyclerView) {
             @Override
             public void onItemListener(RecyclerView.ViewHolder vh) {
+                WXAdapter.ViewHolder wxhd=(WXAdapter.ViewHolder)vh;
+                int chatType=wxhd.getCHAT_TYPE();
                 Intent intent = new Intent(getActivity(), ChatActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putInt("_id", vh.getLayoutPosition()+1);
+                bundle.putInt("chatType", chatType);
                 intent.putExtras(bundle);
                 startActivity(intent);
             }

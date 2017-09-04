@@ -36,7 +36,9 @@
             android:layout_toRightOf="@id/chat_receive_picture"
             android:background="@drawable/chat_tv_receive"
             android:gravity="center_vertical"
-            android:paddingLeft="10dp"
+            android:drawableLeft="@mipmap/icon_voice_left3"
+            android:drawablePadding="10dp"
+            android:paddingRight="10dp"
             android:text="hello" />
     </RelativeLayout>
 

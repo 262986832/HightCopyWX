@@ -29,7 +29,7 @@ public class WXDataHelper extends BaseDataHelper {
         public WXItemDataInfo() {
         }
 
-        public static final String TABLE_NAME = "wx";
+        public static final String TABLE_NAME = "weike";
         public static final String PICTURE_URL = "pictureUrl";
         public static final String TITLE = "title";
         public static final String CONTENT = "content";
@@ -38,6 +38,7 @@ public class WXDataHelper extends BaseDataHelper {
         public static final String NUMBER = "number";
         public static final String CURRENT_ACCOUNT = "currentAccount";
         public static final String UNREAD_NUM = "unReadNum";
+        public static final String CHAT_TYPE="chatType";
 
         public static final SQLiteTable TABLE = new SQLiteTable(TABLE_NAME)
                 .addColumn(PICTURE_URL, Column.DataType.TEXT)
@@ -47,7 +48,8 @@ public class WXDataHelper extends BaseDataHelper {
                 .addColumn(REGID, Column.DataType.TEXT)
                 .addColumn(NUMBER, Column.DataType.TEXT)
                 .addColumn(CURRENT_ACCOUNT, Column.DataType.TEXT)
-                .addColumn(UNREAD_NUM, Column.DataType.INTEGER);
+                .addColumn(UNREAD_NUM, Column.DataType.INTEGER)
+                .addColumn(CHAT_TYPE, Column.DataType.INTEGER);
     }
 
     public ContentValues getContentValues(WXItemInfo itemInfo) {
@@ -60,6 +62,7 @@ public class WXDataHelper extends BaseDataHelper {
         values.put(WXItemDataInfo.NUMBER, itemInfo.getNumber());
         values.put(WXItemDataInfo.CURRENT_ACCOUNT, itemInfo.getCurrentAccount());
         values.put(WXItemDataInfo.UNREAD_NUM, itemInfo.getUnReadNum());
+        values.put(WXItemDataInfo.CHAT_TYPE, itemInfo.getChatType());
         return values;
     }
 

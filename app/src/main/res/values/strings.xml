@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">高仿微信</string>
     <string name="tab_weiXin">微信</string>
-    <string name="tab_friend">通信录</string>
-    <string name="tab_find">发现</string>
+    <string name="tab_friend">课程</string>
+    <string name="tab_find">激励</string>
     <string name="tab_me">我</string>
     <string name="action_bar_search">search</string>
     <string name="plus">plus</string>

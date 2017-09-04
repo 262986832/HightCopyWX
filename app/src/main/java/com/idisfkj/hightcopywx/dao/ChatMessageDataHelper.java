@@ -39,7 +39,7 @@ public class ChatMessageDataHelper extends BaseDataHelper {
     }
 
     public static final class ChatMessageDataInfo implements BaseColumns {
-        public static final String TABLE_NAME = "chat";
+        public static final String TABLE_NAME = "chatMessage";
         public static final String MESSAGE = "message";
         public static final String FLAG = "flag";
         public static final String TIME = "time";
