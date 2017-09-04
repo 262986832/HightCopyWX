@@ -10,6 +10,13 @@
         <item name="android:itemBackground">@drawable/action_bar_item_bg</item>
         <item name="android:itemTextAppearance">@style/WXItemOverflow</item>
     </style>
+
+    <style name="text_subhead_black">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/text_title</item>
+        <item name="android:textSize">@dimen/text_subhead</item>
+    </style>
     
     <style name="WXActionBar" parent="@android:style/Widget.Holo.ActionBar">
         <item name="android:background">#303537</item>

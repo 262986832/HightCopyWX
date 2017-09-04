@@ -19,6 +19,9 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.idisfkj.hightcopywx.App;
 import com.idisfkj.hightcopywx.R;
@@ -48,6 +51,13 @@ public class ChatActivity extends BaseActivity implements ChatView, View.OnTouch
     RecyclerView chatView;
     @InjectView(R.id.chat_line)
     View chatLine;
+    @InjectView(R.id.voice_swith)
+    ImageView voiceSwith;
+    @InjectView(R.id.voice_button)
+    TextView voice_button;
+    @InjectView(R.id.chat_bottm)
+    RelativeLayout relativeLayout;
+
     private static final String ACTION_FILTER = "com.idisfkj.hightcopywx.chat";
     private ChatPresenter mChatPresenter;
     private String mChatContent;
@@ -132,6 +142,61 @@ public class ChatActivity extends BaseActivity implements ChatView, View.OnTouch
         chatContent.setOnFocusChangeListener(this);
 
         getLoaderManager().initLoader(0, null, this);
+
+        voice_button.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                // 获得x轴坐标
+                int x = (int) event.getX();
+                // 获得y轴坐标
+                int y = (int) event.getY();
+
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        //mVoicePop.showAtLocation(v, Gravity.CENTER, 0, 0);
+                        voice_button.setText("松开结束");
+                        //mPopVoiceText.setText("手指上滑，取消发送");
+                        voice_button.setTag("1");
+                        //mAudioRecoderUtils.startRecord(mActivity);
+                        //通知开始识别
+                        break;
+                    case MotionEvent.ACTION_MOVE:
+                        if (wantToCancle(x, y)) {
+                            voice_button.setText("松开结束");
+                            voice_button.setTag("2");
+                        } else {
+                            voice_button.setText("松开结束");
+                            voice_button.setTag("1");
+                        }
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        if (voice_button.getTag().equals("2")) {
+                            //取消录音（删除录音文件）
+                            //mAudioRecoderUtils.cancelRecord();
+                        } else {
+                            //结束录音（保存录音文件）
+                            //mAudioRecoderUtils.stopRecord();
+                        }
+                        voice_button.setText("按住说话");
+                        voice_button.setTag("3");
+                        // mVoiceText.setVisibility(View.GONE);
+                        // mEditText.setVisibility(View.VISIBLE);
+                        break;
+                }
+                return true;
+            }
+        });
+    }
+    private boolean wantToCancle(int x, int y) {
+        // 超过按钮的宽度
+        if (x < 0 || x > voice_button.getWidth()) {
+            return true;
+        }
+        // 超过按钮的高度
+        if (y < -50 || y > voice_button.getHeight() + 50) {
+            return true;
+        }
+        return false;
     }
 
     private boolean isKeyboardShown(View rootView) {
@@ -208,6 +273,14 @@ public class ChatActivity extends BaseActivity implements ChatView, View.OnTouch
         }
         chatContent.setText("");
     }
+
+    @OnClick(R.id.voice_swith)
+    public void onVoice_swithClick() {
+        relativeLayout.setVisibility(relativeLayout.getVisibility()==View.VISIBLE?View.GONE:View.VISIBLE);
+        voice_button.setVisibility(voice_button.getVisibility()==View.VISIBLE?View.GONE:View.VISIBLE);
+    }
+
+
 
     @Override
     public void onDestroy() {

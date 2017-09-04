@@ -4,55 +4,87 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <RelativeLayout
-        android:id="@+id/chat_bottm"
+    <LinearLayout
+        android:id="@+id/chat_bottm_father"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="46dp"
+        android:background="@color/bg_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingBottom="6dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:paddingTop="6dp"
         android:layout_alignParentBottom="true"
         android:focusableInTouchMode="true">
-
-        <Button
-            android:id="@+id/chat_send"
-            android:layout_width="45dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_margin="8dp"
-            android:background="@drawable/send_bt_bg"
-            android:text="@string/chat_send"
-            android:textColor="@android:color/white"
-            android:textSize="14sp" />
-
         <ImageView
-            android:id="@+id/chat_emoji"
-            android:layout_width="wrap_content"
+            android:id="@+id/voice_swith"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_marginRight="@dimen/content_horizontal_margin"
+            android:clickable="true"
+            android:scaleType="centerCrop"
+            android:layout_toLeftOf="@+id/voice_text"
+            android:src="@mipmap/icon_chat_voice" />
+        <TextView
+            android:id="@+id/voice_button"
+            style="@style/text_subhead_black"
+            android:layout_alignParentRight="true"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_toLeftOf="@id/chat_send"
-            android:background="@drawable/emoji" />
-
-        <View
-            android:id="@+id/chat_line"
+            android:layout_weight="1"
+            android:background="@drawable/corners_edit"
+            android:gravity="center"
+            android:minHeight="46dp"
+            android:visibility="gone"
+            android:paddingLeft="@dimen/content_horizontal_margin"
+            android:paddingRight="@dimen/content_horizontal_margin"
+            android:text="按住说话"
+            />
+        <RelativeLayout
+            android:id="@+id/chat_bottm"
             android:layout_width="match_parent"
-            android:layout_height="0.5dp"
+            android:layout_height="50dp"
             android:layout_alignParentBottom="true"
-            android:layout_marginBottom="8dp"
-            android:layout_marginLeft="10dp"
-            android:layout_toLeftOf="@id/chat_send"
-            android:background="@color/line_color" />
 
-        <EditText
-            android:id="@+id/chat_content"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_above="@id/chat_line"
-            android:layout_toLeftOf="@+id/chat_emoji"
-            android:background="@null"
-            android:paddingLeft="10dp" />
+            android:focusableInTouchMode="true">
 
-    </RelativeLayout>
+            <Button
+                android:id="@+id/chat_send"
+                android:layout_width="45dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_margin="8dp"
+                android:background="@drawable/send_bt_bg"
+                android:text="@string/chat_send"
+                android:textColor="@android:color/white"
+                android:textSize="14sp" />
+
+            <View
+                android:id="@+id/chat_line"
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="8dp"
+                android:layout_marginLeft="10dp"
+                android:layout_toLeftOf="@id/chat_send"
+                android:background="@color/line_color" />
+
+            <EditText
+                android:id="@+id/chat_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_above="@id/chat_line"
+                android:layout_toLeftOf="@+id/chat_send"
+                android:background="@null"
+                android:paddingLeft="10dp" />
+
+        </RelativeLayout>
+    </LinearLayout>
+
 
     <View
-        android:layout_above="@id/chat_bottm"
+        android:layout_above="@id/chat_bottm_father"
         android:id="@+id/disi_line"
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
