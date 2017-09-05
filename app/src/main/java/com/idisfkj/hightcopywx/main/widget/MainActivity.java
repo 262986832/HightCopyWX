@@ -20,7 +20,7 @@ import com.idisfkj.hightcopywx.main.presenter.MainPresenterImp;
 import com.idisfkj.hightcopywx.main.view.MainView;
 import com.idisfkj.hightcopywx.ui.BaseActivity;
 import com.idisfkj.hightcopywx.util.BadgeViewUtils;
-import com.idisfkj.hightcopywx.util.SPUtils;
+import com.idisfkj.hightcopywx.util.SharedPreferencesManager;
 import com.idisfkj.hightcopywx.wx.widget.ChatActivity;
 import com.readystatesoftware.viewbadger.BadgeView;
 
@@ -190,7 +190,7 @@ public class MainActivity extends BaseActivity implements MainView {
 
     @Override
     public void createBadgeView() {
-        unReadNum = SPUtils.getInt(App.UNREADNUM);
+        unReadNum = SharedPreferencesManager.getInt(App.UNREADNUM);
         if (badgeView != null)
             badgeView.hide();
         if (unReadNum > 0) {

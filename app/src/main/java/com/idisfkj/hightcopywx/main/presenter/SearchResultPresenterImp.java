@@ -15,7 +15,7 @@ import com.idisfkj.hightcopywx.main.model.SearchResultModel;
 import com.idisfkj.hightcopywx.main.model.SearchResultModelImp;
 import com.idisfkj.hightcopywx.main.view.SearchResultView;
 import com.idisfkj.hightcopywx.util.CalendarUtils;
-import com.idisfkj.hightcopywx.util.SPUtils;
+import com.idisfkj.hightcopywx.util.SharedPreferencesManager;
 import com.idisfkj.hightcopywx.util.VolleyUtils;
 
 /**
@@ -43,7 +43,7 @@ public class SearchResultPresenterImp implements SearchResultPresenter, SearchRe
         wxHelper = new WXDataHelper(App.getAppContext());
         chatHelper = new ChatMessageDataHelper(App.getAppContext());
         WXItemInfo info = new WXItemInfo();
-        String currentAccount = SPUtils.getString("userPhone");
+        String currentAccount = SharedPreferencesManager.getString("userPhone");
         info.setTitle(userName);
         info.setNumber(number);
         info.setRegId(regId);

@@ -18,7 +18,7 @@ import com.idisfkj.hightcopywx.adapter.SearchResultAdapter;
 import com.idisfkj.hightcopywx.dao.RegisterDataHelper;
 import com.idisfkj.hightcopywx.dao.WXDataHelper;
 import com.idisfkj.hightcopywx.util.CursorUtils;
-import com.idisfkj.hightcopywx.util.SPUtils;
+import com.idisfkj.hightcopywx.util.SharedPreferencesManager;
 import com.idisfkj.hightcopywx.util.ToastUtils;
 import com.idisfkj.hightcopywx.util.UrlUtils;
 import com.idisfkj.hightcopywx.util.VolleyUtils;
@@ -54,8 +54,8 @@ public class SearchResultModelImp implements SearchResultModel {
 
                             WXDataHelper wxHelper = new WXDataHelper(context);
                             Cursor wxCursor = wxHelper.query(number, regId, userName);
-                            if (wxCursor.getCount() > 0 || (number.equals(SPUtils.getString("userPhone"))
-                                    && regId.equals(SPUtils.getString("regId")))) {
+                            if (wxCursor.getCount() > 0 || (number.equals(SharedPreferencesManager.getString("userPhone"))
+                                    && regId.equals(SharedPreferencesManager.getString("regId")))) {
                                 ToastUtils.showShort("你已经添加了该好友！");
                             } else {
                                 //发送添加好友请求

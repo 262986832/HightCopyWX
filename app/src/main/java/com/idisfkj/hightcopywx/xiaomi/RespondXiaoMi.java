@@ -4,7 +4,7 @@ package com.idisfkj.hightcopywx.xiaomi;
  * Created by fvelement on 2017/9/4.
  */
 
-public class ResPonseSingle {
+public class RespondXiaoMi {
     private String result;
     private String trace_id;
     private int code;

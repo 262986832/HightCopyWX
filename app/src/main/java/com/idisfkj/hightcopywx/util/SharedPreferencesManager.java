@@ -8,8 +8,8 @@ import com.idisfkj.hightcopywx.App;
  * Created by idisfkj on 16/4/28.
  * Email : idisfkj@qq.com.
  */
-public class SPUtils {
-    public SPUtils() {
+public class SharedPreferencesManager {
+    public SharedPreferencesManager() {
     }
     public static SharedPreferences.Editor putString(String key, String value){
         App.editor = App.sp.edit();

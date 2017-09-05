@@ -22,7 +22,7 @@ import com.idisfkj.hightcopywx.dao.WXDataHelper;
 import com.idisfkj.hightcopywx.main.widget.MainActivity;
 import com.idisfkj.hightcopywx.util.CalendarUtils;
 import com.idisfkj.hightcopywx.util.CursorUtils;
-import com.idisfkj.hightcopywx.util.SPUtils;
+import com.idisfkj.hightcopywx.util.SharedPreferencesManager;
 import com.xiaomi.mipush.sdk.ErrorCode;
 import com.xiaomi.mipush.sdk.MiPushClient;
 import com.xiaomi.mipush.sdk.MiPushCommandMessage;
@@ -172,7 +172,7 @@ public class WXMessageReceiver extends PushMessageReceiver {
             }
         }
 //        Log.d("TAG", "register:" + mRegId);
-        SPUtils.putString("regId", mRegId).commit();
+        SharedPreferencesManager.putString("regId", mRegId).commit();
     }
 
     public void userInformation(String message) {
@@ -204,20 +204,20 @@ public class WXMessageReceiver extends PushMessageReceiver {
         // insert user information
         helper.insert(info);
 
-        if (SPUtils.getString("regId").equals(App.DEVELOPER_ID)) {
+        if (SharedPreferencesManager.getString("regId").equals(App.DEVELOPER_ID)) {
             WXDataHelper wxHelper = new WXDataHelper(App.getAppContext());
             WXItemInfo itemInfo = new WXItemInfo();
             itemInfo.setRegId(regId);
             itemInfo.setTitle(userName);
             itemInfo.setNumber(number);
             itemInfo.setContent(String.format(App.HELLO_MESSAGE, userName));
-            itemInfo.setCurrentAccount(SPUtils.getString("userPhone"));
+            itemInfo.setCurrentAccount(SharedPreferencesManager.getString("userPhone"));
             itemInfo.setTime(CalendarUtils.getCurrentDate());
             wxHelper.insert(itemInfo);
 
             //insert system information
             ChatMessageInfo chatInfo = new ChatMessageInfo(String.format(App.HELLO_MESSAGE, userName), 2, CalendarUtils.getCurrentDate()
-                    , SPUtils.getString("userPhone"), regId, number);
+                    , SharedPreferencesManager.getString("userPhone"), regId, number);
             chatHelper.insert(chatInfo);
         }
     }
@@ -252,7 +252,7 @@ public class WXMessageReceiver extends PushMessageReceiver {
 
             chatHelper.insert(chatMessageInfo);
 
-            SPUtils.putInt("unReadNum", SPUtils.getInt("unReadNum") + 1).commit();
+            SharedPreferencesManager.putInt("unReadNum", SharedPreferencesManager.getInt("unReadNum") + 1).commit();
             WXDataHelper wxHelper = new WXDataHelper(App.getAppContext());
 
             Cursor cursor = wxHelper.query(sendNumber, regId, userName);
@@ -304,7 +304,7 @@ public class WXMessageReceiver extends PushMessageReceiver {
         String userName = message.substring(0, index1);
         String number = message.substring(index1 + 1, index2);
         String regId = message.substring(index2 + 1);
-        String currentAccount = SPUtils.getString("userPhone");
+        String currentAccount = SharedPreferencesManager.getString("userPhone");
         WXItemInfo itemInfo = new WXItemInfo();
         itemInfo.setTitle(userName);
         itemInfo.setNumber(number);

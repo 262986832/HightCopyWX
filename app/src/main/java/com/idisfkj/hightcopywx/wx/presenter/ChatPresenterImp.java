@@ -8,7 +8,7 @@ import com.idisfkj.hightcopywx.App;
 import com.idisfkj.hightcopywx.beans.ChatMessageInfo;
 import com.idisfkj.hightcopywx.dao.ChatMessageDataHelper;
 import com.idisfkj.hightcopywx.util.CalendarUtils;
-import com.idisfkj.hightcopywx.util.SPUtils;
+import com.idisfkj.hightcopywx.util.SharedPreferencesManager;
 import com.idisfkj.hightcopywx.util.ToastUtils;
 import com.idisfkj.hightcopywx.util.UrlUtils;
 import com.idisfkj.hightcopywx.wx.model.ChatModel;
@@ -39,7 +39,7 @@ public class ChatPresenterImp implements ChatPresenter, ChatModel.requestListene
     @Override
     public void sendData(String chatContent, String number, String regId, ChatMessageDataHelper helper) {
         ChatMessageInfo chatMessageInfo = new ChatMessageInfo(chatContent, 1, CalendarUtils.getCurrentDate(),
-                number, regId, SPUtils.getString("userPhone", ""));
+                number, regId, SharedPreferencesManager.getString("userPhone", ""));
         mChatModel.insertData(chatMessageInfo, helper);
         mChatModel.requestData(this, chatContent, number, regId, helper);
     }

@@ -9,6 +9,7 @@ import com.android.volley.VolleyError;
 import com.idisfkj.hightcopywx.App;
 import com.idisfkj.hightcopywx.beans.ResponsdServer;
 import com.idisfkj.hightcopywx.util.GsonRequest;
+import com.idisfkj.hightcopywx.util.SharedPreferencesManager;
 import com.idisfkj.hightcopywx.util.UrlUtils;
 import com.idisfkj.hightcopywx.util.VolleyUtils;
 
@@ -23,7 +24,7 @@ import static android.content.ContentValues.TAG;
  */
 public class RegisterModelImp implements RegisterModel {
     @Override
-    public void requestRegister(final requestRegisterListener listener, String userName, String mobile, String passowrd) {
+    public void requestRegister(final requestRegisterListener listener, final String userName, final String mobile, String passowrd) {
 
         GsonRequest<ResponsdServer> gsonRequest = new GsonRequest<ResponsdServer>
                 (Request.Method.POST,
@@ -33,6 +34,8 @@ public class RegisterModelImp implements RegisterModel {
                             @Override
                             public void onResponse(ResponsdServer responsdServer) {
                                 if (responsdServer.getCode() == 0) {
+                                    SharedPreferencesManager.putString("userName",userName).commit();
+                                    SharedPreferencesManager.putString("userPhone",mobile).commit();
                                     listener.onRegisterSucceed();
                                 } else {
                                     listener.onError(responsdServer.getMsg());

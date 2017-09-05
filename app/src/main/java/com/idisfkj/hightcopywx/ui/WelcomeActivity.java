@@ -7,7 +7,7 @@ import android.os.Bundle;
 import com.idisfkj.hightcopywx.R;
 import com.idisfkj.hightcopywx.main.widget.MainActivity;
 import com.idisfkj.hightcopywx.ui.widget.RegisterActivity;
-import com.idisfkj.hightcopywx.util.SPUtils;
+import com.idisfkj.hightcopywx.util.SharedPreferencesManager;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -28,8 +28,8 @@ public class WelcomeActivity extends Activity {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                if (SPUtils.getString("userName", "") == "" &&
-                        SPUtils.getString("userPhone", "") == "") {
+                if (SharedPreferencesManager.getString("userName", "") == "" &&
+                        SharedPreferencesManager.getString("userPhone", "") == "") {
                     intent = new Intent(WelcomeActivity.this, RegisterActivity.class);
                 } else {
                     intent = new Intent(WelcomeActivity.this, MainActivity.class);
@@ -37,7 +37,7 @@ public class WelcomeActivity extends Activity {
                 startActivity(intent);
                 finish();
             }
-        }, 3000);
+        }, 300);
     }
 
     @Override

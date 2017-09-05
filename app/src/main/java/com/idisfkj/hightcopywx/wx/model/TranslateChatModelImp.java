@@ -12,7 +12,7 @@ import com.idisfkj.hightcopywx.beans.ChatMessageInfo;
 import com.idisfkj.hightcopywx.dao.ChatMessageDataHelper;
 import com.idisfkj.hightcopywx.util.CalendarUtils;
 import com.idisfkj.hightcopywx.util.GsonRequest;
-import com.idisfkj.hightcopywx.util.SPUtils;
+import com.idisfkj.hightcopywx.util.SharedPreferencesManager;
 import com.idisfkj.hightcopywx.util.UrlUtils;
 import com.idisfkj.hightcopywx.util.VolleyUtils;
 
@@ -43,7 +43,7 @@ public class TranslateChatModelImp extends ChatModelImp {
                         if (baiduFanyiResponse.getTrans_result()!=null && baiduFanyiResponse.getTrans_result().size()>0){
                             String result=(String) baiduFanyiResponse.getTrans_result().get(0).getDst();
                             ChatMessageInfo mChatMessageInfo = new ChatMessageInfo(result, 0, CalendarUtils.getCurrentDate(),
-                                    number, regId, SPUtils.getString("userPhone", ""));
+                                    number, regId, SharedPreferencesManager.getString("userPhone", ""));
                             listener.onSucceed(mChatMessageInfo, helper);
                         }
 

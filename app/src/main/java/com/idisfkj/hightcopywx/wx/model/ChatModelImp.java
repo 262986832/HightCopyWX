@@ -15,7 +15,7 @@ import com.idisfkj.hightcopywx.dao.ChatMessageDataHelper;
 import com.idisfkj.hightcopywx.dao.WXDataHelper;
 import com.idisfkj.hightcopywx.util.CalendarUtils;
 import com.idisfkj.hightcopywx.util.CursorUtils;
-import com.idisfkj.hightcopywx.util.SPUtils;
+import com.idisfkj.hightcopywx.util.SharedPreferencesManager;
 import com.idisfkj.hightcopywx.util.UrlUtils;
 import com.idisfkj.hightcopywx.util.VolleyUtils;
 
@@ -39,7 +39,7 @@ public class ChatModelImp implements ChatModel {
             @Override
             public void onResponse(JSONObject jsonObject) {
                 mChatMessageInfo = new ChatMessageInfo(chatContent, 1, CalendarUtils.getCurrentDate(),
-                        number, regId, SPUtils.getString("userPhone", ""));
+                        number, regId, SharedPreferencesManager.getString("userPhone", ""));
                 listener.onSucceed(mChatMessageInfo, helper);
             }
         }, new Response.ErrorListener() {
@@ -69,7 +69,7 @@ public class ChatModelImp implements ChatModel {
     public void initData(ChatMessageDataHelper helper, String mRegId, String mNumber, String userName) {
         if (mRegId.equals(App.DEVELOPER_ID)) {
             ChatMessageInfo info = new ChatMessageInfo(App.DEVELOPER_MESSAGE, 0, CalendarUtils.getCurrentDate(),
-                    SPUtils.getString("userPhone"), App.DEVELOPER_ID, App.DEVELOPER_NUMBER);
+                    SharedPreferencesManager.getString("userPhone"), App.DEVELOPER_ID, App.DEVELOPER_NUMBER);
             helper.insert(info);
         }
         helper = null;
@@ -92,7 +92,7 @@ public class ChatModelImp implements ChatModel {
 
     @Override
     public void updateUnReadNum(Context context, String regId, String number, int unReadNum) {
-        SPUtils.putInt("unReadNum", SPUtils.getInt("unReadNum") - unReadNum).commit();
+        SharedPreferencesManager.putInt("unReadNum", SharedPreferencesManager.getInt("unReadNum") - unReadNum).commit();
         WXDataHelper wxHelper = new WXDataHelper(context);
         wxHelper.update(0, regId, number);
         wxHelper = null;

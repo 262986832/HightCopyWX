@@ -17,7 +17,7 @@ import com.idisfkj.hightcopywx.R;
 import com.idisfkj.hightcopywx.adapter.OnItemTouchListener;
 import com.idisfkj.hightcopywx.adapter.WXAdapter;
 import com.idisfkj.hightcopywx.dao.WXDataHelper;
-import com.idisfkj.hightcopywx.util.SPUtils;
+import com.idisfkj.hightcopywx.util.SharedPreferencesManager;
 import com.idisfkj.hightcopywx.wx.WXItemDecoration;
 import com.idisfkj.hightcopywx.wx.presenter.WXPresent;
 import com.idisfkj.hightcopywx.wx.presenter.WXPresentImp;
@@ -78,7 +78,7 @@ public class WXFragment extends Fragment implements WXView, LoaderManager.Loader
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        return mHelper.getCursorLoader(SPUtils.getString("userPhone"));
+        return mHelper.getCursorLoader(SharedPreferencesManager.getString("userPhone"));
     }
 
     @Override

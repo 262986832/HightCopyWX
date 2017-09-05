@@ -75,8 +75,8 @@ public class UrlUtils {
         String content = null;
         try {
             content = URLEncoder.encode(message + "(" + number + "@" +
-                    SPUtils.getString("regId", "") + "@" + SPUtils.getString("userPhone", "") + "@" +
-                    SPUtils.getString("userName"), "UTF-8");
+                    SharedPreferencesManager.getString("regId", "") + "@" + SharedPreferencesManager.getString("userPhone", "") + "@" +
+                    SharedPreferencesManager.getString("userName"), "UTF-8");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
@@ -99,8 +99,8 @@ public class UrlUtils {
     public static String addFriendUrl(String regId) {
         String content = null;
         try {
-            content = URLEncoder.encode(SPUtils.getString("userName") + "&" + SPUtils.getString("userPhone") + "@" +
-                    SPUtils.getString("regId", ""), "UTF-8");
+            content = URLEncoder.encode(SharedPreferencesManager.getString("userName") + "&" + SharedPreferencesManager.getString("userPhone") + "@" +
+                    SharedPreferencesManager.getString("regId", ""), "UTF-8");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
@@ -122,7 +122,7 @@ public class UrlUtils {
      * @return
      */
     public static String registerUrl(String userName, String number) {
-        String content = userName + "^" + SPUtils.getString("regId", "") + "@" + number;
+        String content = userName + "^" + SharedPreferencesManager.getString("regId", "") + "@" + number;
         try {
             content = URLEncoder.encode(content, "UTF-8");
         } catch (UnsupportedEncodingException e) {
