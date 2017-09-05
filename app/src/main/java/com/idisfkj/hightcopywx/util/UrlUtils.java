@@ -5,6 +5,8 @@ import com.idisfkj.hightcopywx.BuildConfig;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
+import static com.idisfkj.hightcopywx.R.string.userName;
+
 /**
  * 请求api工具类
  * Created by idisfkj on 16/4/26.
@@ -60,6 +62,17 @@ public class UrlUtils {
         url.append(password);
         url.append("&userName=");
         url.append(userName);
+        return url.toString();
+    }
+    //登录请求
+    public static String getLoginApiUrl(String mobile, String password,String clientid) {
+        StringBuilder url = new StringBuilder(SERVER_REGISTER+"login?");
+        url.append("mobile=");
+        url.append(mobile);
+        url.append("&password=");
+        url.append(password);
+        url.append("&clientid=");
+        url.append(clientid);
         return url.toString();
     }
 
