@@ -150,7 +150,6 @@ public class ChatActivity extends BaseActivity implements ChatView, View.OnTouch
                 int x = (int) event.getX();
                 // 获得y轴坐标
                 int y = (int) event.getY();
-
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         //mVoicePop.showAtLocation(v, Gravity.CENTER, 0, 0);

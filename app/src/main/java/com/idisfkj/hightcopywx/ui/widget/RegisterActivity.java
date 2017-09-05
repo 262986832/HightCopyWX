@@ -53,6 +53,8 @@ public class RegisterActivity extends Activity implements RegisterView, View.OnF
     View userPasswordLine;
     @InjectView(R.id.userPassword_et)
     EditText userPasswordEt;
+    @InjectView(R.id.userPassword_et1)
+    EditText userPasswordEt1;
 
     private RegisterPresenter mRegisterPresenter;
     private String[] items;
@@ -87,6 +89,11 @@ public class RegisterActivity extends Activity implements RegisterView, View.OnF
                 mRegisterPresenter.choosePicture();
                 break;
             case R.id.register_bt:
+                if(!userPasswordEt1.getText().toString().trim().equals(userPasswordEt.getText().toString().trim()))
+                {
+                    ToastUtils.showShort("两次密码，输入不一致！");
+                    break;
+                }
                 mRegisterPresenter.registerInfo(userNameEt, userPhoneEt, userPasswordEt);
                 break;
         }

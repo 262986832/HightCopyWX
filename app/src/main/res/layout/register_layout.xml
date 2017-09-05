@@ -36,7 +36,7 @@
             android:gravity="center_vertical"
             android:textSize="16sp"
             android:text="@string/userName"
-            android:layout_width="wrap_content"
+            android:layout_width="80dp"
             android:layout_height="match_parent" />
 
         <EditText
@@ -44,7 +44,7 @@
             android:id="@+id/userName_et"
             android:background="@null"
             android:layout_above="@id/userName_line"
-            android:layout_marginLeft="50dp"
+            android:layout_marginLeft="10dp"
             android:layout_marginTop="30dp"
             android:hint="@string/userName_hint"
             android:layout_toRightOf="@id/register_user_tv"
@@ -70,7 +70,7 @@
             android:gravity="center_vertical"
             android:textSize="16sp"
             android:text="@string/userPhone_pre"
-            android:layout_width="wrap_content"
+            android:layout_width="80dp"
             android:layout_height="match_parent" />
         <EditText
             android:maxLength="11"
@@ -79,7 +79,7 @@
             android:id="@+id/userPhone_et"
             android:layout_marginRight="10dp"
             android:background="@null"
-            android:layout_marginLeft="50dp"
+            android:layout_marginLeft="10dp"
             android:layout_toRightOf="@id/userPhone_tv"
             android:hint="@string/userPhone_hint"
             android:layout_width="match_parent"
@@ -90,32 +90,69 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="50dp">
+
+        <View
+            android:id="@+id/userPassword_line"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@color/line_color" />
+
+        <TextView
+            android:id="@+id/userPassword_tv"
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="20dp"
+            android:gravity="center_vertical"
+            android:text="@string/userPassword"
+            android:textSize="16sp" />
+
+        <EditText
+            android:id="@+id/userPassword_et"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_toRightOf="@id/userPassword_tv"
+            android:background="@null"
+            android:hint="@string/userPassword_hint"
+            android:inputType="textPassword"
+            android:maxLength="16"
+            android:maxLines="1" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
         <View
             android:layout_marginRight="10dp"
             android:layout_marginLeft="10dp"
-            android:id="@+id/userPassword_line"
+            android:id="@+id/userPassword_line1"
             android:layout_alignParentBottom="true"
             android:background="@color/line_color"
             android:layout_width="match_parent"
             android:layout_height="0.5dp"/>
         <TextView
-            android:id="@+id/userPassword_tv"
+            android:id="@+id/userPassword_tv1"
             android:layout_marginLeft="20dp"
             android:gravity="center_vertical"
             android:textSize="16sp"
-            android:text="@string/userPassword"
-            android:layout_width="wrap_content"
+            android:text="@string/conformUserPassword"
+            android:layout_width="80dp"
             android:layout_height="match_parent" />
         <EditText
             android:maxLength="16"
             android:maxLines="1"
             android:inputType="textPassword"
-            android:id="@+id/userPassword_et"
+            android:id="@+id/userPassword_et1"
             android:layout_marginRight="10dp"
             android:background="@null"
-            android:layout_marginLeft="50dp"
-            android:layout_toRightOf="@id/userPassword_tv"
-            android:hint="@string/userPassword_hint"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@id/userPassword_tv1"
+            android:hint="@string/conformUserPassword_hint"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 

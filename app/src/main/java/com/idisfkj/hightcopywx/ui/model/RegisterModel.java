@@ -1,13 +1,15 @@
 package com.idisfkj.hightcopywx.ui.model;
 
-import android.widget.EditText;
-
 /**
  * Created by idisfkj on 16/4/28.
  * Email : idisfkj@qq.com.
  */
 public interface RegisterModel {
-    void saveData(RegisterModelImp.saveDataListener listener, EditText... editTexts);
+    void requestRegister(requestRegisterListener listener, String userName, String mobile, String passowrd);
 
-    void sendAll(RegisterModelImp.sendAllListener listener, String userName, String number);
+    public interface requestRegisterListener {
+        void onRegisterSucceed();
+
+        void onError(String msg);
+    }
 }

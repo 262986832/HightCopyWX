@@ -20,13 +20,17 @@ public class UrlUtils {
     private static final String NOTIFY_TYPE = "&notify_type=2";
     private static final String PASS_THROUGH = "&pass_through=1";
     private static final String NOTIFY_ID = "&notify_id=0";
-
+    //百度翻译
     private static final String BAIDU_TRANSLATE_API = "http://api.fanyi.baidu.com/api/trans/vip/translate?";
     public static final int ZHTOEN = 0;
     public static final int ENTOGH = 1;
+    //注册
+    private static final String SERVER_REGISTER = "http://10.16.66.168:8001/api/";
+
+
     public UrlUtils() {
     }
-
+    //百度翻译
     //http://api.fanyi.baidu.com/api/trans/vip/translate?
     // q=apple&from=en&to=zh&appid=2015063000000001&salt=1435660288&sign=f89f9594663708c1605f3d736d01d2d4
     public static String getBaiduTranslateApiUrl(String query, int type) {
@@ -46,6 +50,17 @@ public class UrlUtils {
         url.append(sign);
         String urlStr = url.toString();
         return urlStr;
+    }
+    //注册请求
+    public static String getRegisterApiUrl(String userName, String mobile,String password) {
+        StringBuilder url = new StringBuilder(SERVER_REGISTER+"register?");
+        url.append("mobile=");
+        url.append(mobile);
+        url.append("&password=");
+        url.append(password);
+        url.append("&userName=");
+        url.append(userName);
+        return url.toString();
     }
 
     /**

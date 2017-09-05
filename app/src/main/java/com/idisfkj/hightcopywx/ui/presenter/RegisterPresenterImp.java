@@ -9,12 +9,13 @@ import com.idisfkj.hightcopywx.R;
 import com.idisfkj.hightcopywx.ui.model.RegisterModel;
 import com.idisfkj.hightcopywx.ui.model.RegisterModelImp;
 import com.idisfkj.hightcopywx.ui.view.RegisterView;
+import com.idisfkj.hightcopywx.util.ToastUtils;
 
 /**
  * Created by idisfkj on 16/4/28.
  * Email : idisfkj@qq.com.
  */
-public class RegisterPresenterImp implements RegisterPresenter, RegisterModelImp.saveDataListener, RegisterModelImp.sendAllListener {
+public class RegisterPresenterImp implements RegisterPresenter, RegisterModel.requestRegisterListener {
     private RegisterView mRegisterView;
     private RegisterModel mRegisterModel;
 
@@ -24,8 +25,8 @@ public class RegisterPresenterImp implements RegisterPresenter, RegisterModelImp
     }
 
     @Override
-    public void switchUserLine(boolean hasFocus,int id) {
-        switch (id){
+    public void switchUserLine(boolean hasFocus, int id) {
+        switch (id) {
             case R.id.userName_et:
                 mRegisterView.changeUserNameLine(hasFocus);
                 break;
@@ -41,7 +42,16 @@ public class RegisterPresenterImp implements RegisterPresenter, RegisterModelImp
     @Override
     public void registerInfo(EditText... editTexts) {
         mRegisterView.showProgressDialog();
-        mRegisterModel.saveData(this,editTexts);
+        String[] user;
+        user = new String[editTexts.length];
+        for (int i = 0; i < editTexts.length; i++) {
+            user[i] = editTexts[i].getText().toString().trim();
+            if (user[i].length() <= 0) {
+                ToastUtils.showShort("昵称、号码或密码不能为空");
+                return;
+            }
+        }
+        mRegisterModel.requestRegister(this, user[0], user[1], user[2]);
     }
 
     @Override
@@ -64,20 +74,16 @@ public class RegisterPresenterImp implements RegisterPresenter, RegisterModelImp
         mRegisterView.saveHeadPicture(bitmap);
     }
 
-    @Override
-    public void onSucceed(String userName,String number) {
-        mRegisterModel.sendAll(this,userName,number);
-    }
 
     @Override
-    public void onSendSucceed() {
+    public void onRegisterSucceed() {
         mRegisterView.hideProgressDialog();
         mRegisterView.showSucceedToast();
         mRegisterView.jumpMainActivity();
     }
 
     @Override
-    public void onError() {
+    public void onError(String msg) {
         mRegisterView.hideProgressDialog();
         mRegisterView.showErrorToast();
     }
