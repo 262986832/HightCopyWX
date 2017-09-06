@@ -33,13 +33,13 @@ public class ChatModelImp implements ChatModel {
     private ChatMessageInfo mChatMessageInfo;
 
     @Override
-    public void requestData(final requestListener listener, final String chatContent, final String number, final String regId, final ChatMessageDataHelper helper) {
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, UrlUtils.chatTopicUrl(chatContent, number)
+    public void requestData(final requestListener listener, final String chatContent, final String chatToMobile, final ChatMessageDataHelper helper) {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, UrlUtils.chatTopicUrl(chatContent, chatToMobile)
                 , null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject jsonObject) {
                 mChatMessageInfo = new ChatMessageInfo(chatContent, 1, CalendarUtils.getCurrentDate(),
-                        number, regId, SharedPreferencesManager.getString("userPhone", ""));
+                        chatToMobile, chatToMobile);
                 listener.onSucceed(mChatMessageInfo, helper);
             }
         }, new Response.ErrorListener() {
@@ -68,9 +68,9 @@ public class ChatModelImp implements ChatModel {
     @Override
     public void initData(ChatMessageDataHelper helper, String mRegId, String mNumber, String userName) {
         if (mRegId.equals(App.DEVELOPER_ID)) {
-            ChatMessageInfo info = new ChatMessageInfo(App.DEVELOPER_MESSAGE, 0, CalendarUtils.getCurrentDate(),
-                    SharedPreferencesManager.getString("userPhone"), App.DEVELOPER_ID, App.DEVELOPER_NUMBER);
-            helper.insert(info);
+//            ChatMessageInfo info = new  new ChatMessageInfo("hello", 1, CalendarUtils.getCurrentDate(),
+//                    chatToMobile, chatToMobile);
+//            helper.insert(info);
         }
         helper = null;
     }
@@ -81,7 +81,7 @@ public class ChatModelImp implements ChatModel {
         Cursor cursor = wxHelper.query(_id);
         if (cursor.moveToFirst()) {
             String mRegId = CursorUtils.formatString(cursor, WXDataHelper.WXItemDataInfo.REGID);
-            String mNumber = CursorUtils.formatString(cursor, WXDataHelper.WXItemDataInfo.NUMBER);
+            String mNumber = CursorUtils.formatString(cursor, WXDataHelper.WXItemDataInfo.MOBILE);
             String userName = CursorUtils.formatString(cursor, WXDataHelper.WXItemDataInfo.TITLE);
             int unReadNum = CursorUtils.formatInt(cursor, WXDataHelper.WXItemDataInfo.UNREAD_NUM);
             listener.onSucceed(mRegId, mNumber, userName, unReadNum);

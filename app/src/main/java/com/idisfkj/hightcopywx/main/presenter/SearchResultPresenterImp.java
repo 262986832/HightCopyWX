@@ -7,7 +7,6 @@ import android.view.View;
 
 import com.idisfkj.hightcopywx.App;
 import com.idisfkj.hightcopywx.adapter.SearchResultAdapter;
-import com.idisfkj.hightcopywx.beans.ChatMessageInfo;
 import com.idisfkj.hightcopywx.beans.WXItemInfo;
 import com.idisfkj.hightcopywx.dao.ChatMessageDataHelper;
 import com.idisfkj.hightcopywx.dao.WXDataHelper;
@@ -45,19 +44,19 @@ public class SearchResultPresenterImp implements SearchResultPresenter, SearchRe
         WXItemInfo info = new WXItemInfo();
         String currentAccount = SharedPreferencesManager.getString("userPhone");
         info.setTitle(userName);
-        info.setNumber(number);
+        info.setMobile(number);
         info.setRegId(regId);
         info.setContent(String.format(App.HELLO_MESSAGE, userName));
-        info.setCurrentAccount(currentAccount);
+        info.setChattomobile(currentAccount);
         info.setTime(CalendarUtils.getCurrentDate());
         //添加到聊天通信数据库
         wxHelper.insert(info);
         cursor.close();
 
         //添加系统消息
-        ChatMessageInfo chatInfo = new ChatMessageInfo(String.format(App.HELLO_MESSAGE,userName),2
-                ,CalendarUtils.getCurrentDate(),currentAccount,regId,number);
-        chatHelper.insert(chatInfo);
+//        ChatMessageInfo chatInfo = new ChatMessageInfo(String.format(App.HELLO_MESSAGE,userName),2
+//                ,CalendarUtils.getCurrentDate(),currentAccount,regId,number);
+//        chatHelper.insert(chatInfo);
 
         VolleyUtils.cancelAll("addRequest");
         mView.succeedToFinish();

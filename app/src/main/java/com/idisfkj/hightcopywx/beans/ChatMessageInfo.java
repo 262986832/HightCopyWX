@@ -22,16 +22,26 @@ public class ChatMessageInfo implements Serializable {
      * 发送者的账号
      */
     private String sendNumber;
+    //跟谁聊天
+    private String chatToMobile;
+
 
     public ChatMessageInfo() {
     }
 
-    public ChatMessageInfo(String message, int flag, String time, String receiverNumber, String regId, String sendNumber) {
+    public String getChatToMobile() {
+        return chatToMobile;
+    }
+
+    public void setChatToMobile(String chatToMobile) {
+        this.chatToMobile = chatToMobile;
+    }
+
+    public ChatMessageInfo(String message, int flag, String time, String chatToMobile, String sendNumber) {
         this.message = message;
         this.flag = flag;
         this.time = time;
-        this.receiverNumber = receiverNumber;
-        this.regId = regId;
+        this.chatToMobile = chatToMobile;
         this.sendNumber = sendNumber;
     }
 

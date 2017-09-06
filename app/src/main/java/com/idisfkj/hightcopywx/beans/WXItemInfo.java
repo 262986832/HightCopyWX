@@ -10,8 +10,8 @@ public class WXItemInfo {
     private String content;
     private String time;
     private String regId;
-    private String number;
-    private String currentAccount;
+    private String mobile;
+    private String chattomobile;
 
     public int getUnReadNum() {
         return unReadNum;
@@ -33,20 +33,20 @@ public class WXItemInfo {
 
     private int unReadNum;
 
-    public String getCurrentAccount() {
-        return currentAccount;
+    public String getMobile() {
+        return mobile;
     }
 
-    public void setCurrentAccount(String currentAccount) {
-        this.currentAccount = currentAccount;
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
     }
 
-    public String getNumber() {
-        return number;
+    public String getChattomobile() {
+        return chattomobile;
     }
 
-    public void setNumber(String number) {
-        this.number = number;
+    public void setChattomobile(String chattomobile) {
+        this.chattomobile = chattomobile;
     }
 
     public String getRegId() {

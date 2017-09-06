@@ -79,7 +79,7 @@
         </receiver>
 
         <receiver
-            android:name="com.idisfkj.hightcopywx.xiaomi.WXMessageReceiver"
+            android:name="com.idisfkj.hightcopywx.xiaomi.XiaoMiMessageReceiver"
             android:exported="true">
             <intent-filter>
                 <action android:name="com.xiaomi.mipush.RECEIVE_MESSAGE" />

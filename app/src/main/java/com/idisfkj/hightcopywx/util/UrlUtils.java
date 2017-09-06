@@ -107,15 +107,15 @@ public class UrlUtils {
                 NOTIFY_ID;
         return url;
     }
-    public static String chatTopicUrl(String message, String number) {
-        return  chatTopicUrl(message,number,SharedPreferencesManager.getString("userPhone") );
+    public static String chatTopicUrl(String message, String chatToMobile) {
+        return  chatTopicUrl(message,chatToMobile,SharedPreferencesManager.getString("userPhone") );
     }
 
-    public static String chatTopicUrl(String message, String number, String topic) {
+    public static String chatTopicUrl(String message, String chatToMobile, String topic) {
 
         String content = null;
         try {
-            content = URLEncoder.encode(message + "(" + number + "@" +
+            content = URLEncoder.encode(message + "(" + chatToMobile + "@" +
                     SharedPreferencesManager.getString("regId", "") + "@" + SharedPreferencesManager.getString("userPhone", "") + "@" +
                     SharedPreferencesManager.getString("userName"), "UTF-8");
         } catch (UnsupportedEncodingException e) {

@@ -36,7 +36,7 @@ import java.util.List;
  * Created by idisfkj on 16/4/23.
  * Email : idisfkj@qq.com.
  */
-public class WXMessageReceiver extends PushMessageReceiver {
+public class XiaoMiMessageReceiver extends PushMessageReceiver {
     private String mRegId;
     private long mResultCode = -1;
     private String mReason;
@@ -44,6 +44,7 @@ public class WXMessageReceiver extends PushMessageReceiver {
     private String mMessage;
     private String mTopic;
     private String mAlias;
+    private String mUserAccount;
     private String mStartTime;
     private String mEndTime;
     private ChatMessageDataHelper chatHelper;
@@ -63,8 +64,10 @@ public class WXMessageReceiver extends PushMessageReceiver {
             mTopic = message.getTopic();
         } else if (!TextUtils.isEmpty(message.getAlias())) {
             mAlias = message.getAlias();
+        } else if(!TextUtils.isEmpty(message.getUserAccount())) {
+            mUserAccount=message.getUserAccount();
         }
-//        Log.d("TAG", "message:" + mMessage);
+
         intent = new Intent();
         chatHelper = new ChatMessageDataHelper(App.getAppContext());
 
@@ -209,16 +212,16 @@ public class WXMessageReceiver extends PushMessageReceiver {
             WXItemInfo itemInfo = new WXItemInfo();
             itemInfo.setRegId(regId);
             itemInfo.setTitle(userName);
-            itemInfo.setNumber(number);
+            itemInfo.setMobile(number);
             itemInfo.setContent(String.format(App.HELLO_MESSAGE, userName));
-            itemInfo.setCurrentAccount(SharedPreferencesManager.getString("userPhone"));
+            itemInfo.setChattomobile(SharedPreferencesManager.getString("userPhone"));
             itemInfo.setTime(CalendarUtils.getCurrentDate());
             wxHelper.insert(itemInfo);
 
             //insert system information
-            ChatMessageInfo chatInfo = new ChatMessageInfo(String.format(App.HELLO_MESSAGE, userName), 2, CalendarUtils.getCurrentDate()
-                    , SharedPreferencesManager.getString("userPhone"), regId, number);
-            chatHelper.insert(chatInfo);
+//            ChatMessageInfo chatInfo = new ChatMessageInfo(String.format(App.HELLO_MESSAGE, userName), 2, CalendarUtils.getCurrentDate()
+//                    , SharedPreferencesManager.getString("userPhone"), regId, number);
+//            chatHelper.insert(chatInfo);
         }
     }
 
@@ -237,7 +240,7 @@ public class WXMessageReceiver extends PushMessageReceiver {
         String userName = extraMessage.substring(index4 + 1);
 
         ChatMessageInfo chatMessageInfo = new ChatMessageInfo(rMessage, 0, CalendarUtils.getCurrentDate()
-                , receiverNumber, regId, sendNumber);
+                , receiverNumber, sendNumber);
 
         if (App.mNumber.equals(sendNumber) && App.mRegId.equals(regId)) {
             //在当前聊天界面
@@ -307,10 +310,10 @@ public class WXMessageReceiver extends PushMessageReceiver {
         String currentAccount = SharedPreferencesManager.getString("userPhone");
         WXItemInfo itemInfo = new WXItemInfo();
         itemInfo.setTitle(userName);
-        itemInfo.setNumber(number);
+        itemInfo.setMobile(number);
         itemInfo.setRegId(regId);
         itemInfo.setContent(String.format(App.HELLO_MESSAGE, number));
-        itemInfo.setCurrentAccount(currentAccount);
+        itemInfo.setChattomobile(currentAccount);
         itemInfo.setTime(CalendarUtils.getCurrentDate());
         WXDataHelper wxHelper = new WXDataHelper(App.getAppContext());
         //默认添加朋友请求
@@ -318,7 +321,7 @@ public class WXMessageReceiver extends PushMessageReceiver {
 
         //插入系统消息
         ChatMessageInfo chatInfo = new ChatMessageInfo(String.format(App.HELLO_MESSAGE, userName), 2,
-                CalendarUtils.getCurrentDate(), currentAccount, regId, number);
+                CalendarUtils.getCurrentDate(), currentAccount, number);
         chatHelper.insert(chatInfo);
     }
 

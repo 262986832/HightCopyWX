@@ -8,11 +8,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.idisfkj.hightcopywx.App;
 import com.idisfkj.hightcopywx.beans.BaiduFanyiResponse;
-import com.idisfkj.hightcopywx.beans.ChatMessageInfo;
 import com.idisfkj.hightcopywx.dao.ChatMessageDataHelper;
-import com.idisfkj.hightcopywx.util.CalendarUtils;
 import com.idisfkj.hightcopywx.util.GsonRequest;
-import com.idisfkj.hightcopywx.util.SharedPreferencesManager;
 import com.idisfkj.hightcopywx.util.UrlUtils;
 import com.idisfkj.hightcopywx.util.VolleyUtils;
 
@@ -33,7 +30,7 @@ public class TranslateChatModelImp extends ChatModelImp {
     }
 
     @Override
-    public void requestData(final requestListener listener, final String chatContent, final String number, final String regId, final ChatMessageDataHelper helper) {
+    public void requestData(final requestListener listener, final String chatContent, final String chatToMobile, final ChatMessageDataHelper helper) {
 
         GsonRequest<BaiduFanyiResponse> gsonRequest = new GsonRequest<BaiduFanyiResponse>(Request.Method.POST,
                 UrlUtils.getBaiduTranslateApiUrl(chatContent,type), BaiduFanyiResponse.class,
@@ -42,9 +39,9 @@ public class TranslateChatModelImp extends ChatModelImp {
                     public void onResponse(BaiduFanyiResponse baiduFanyiResponse) {
                         if (baiduFanyiResponse.getTrans_result()!=null && baiduFanyiResponse.getTrans_result().size()>0){
                             String result=(String) baiduFanyiResponse.getTrans_result().get(0).getDst();
-                            ChatMessageInfo mChatMessageInfo = new ChatMessageInfo(result, 0, CalendarUtils.getCurrentDate(),
-                                    number, regId, SharedPreferencesManager.getString("userPhone", ""));
-                            listener.onSucceed(mChatMessageInfo, helper);
+//                            ChatMessageInfo mChatMessageInfo = new ChatMessageInfo(result, 0, CalendarUtils.getCurrentDate(),
+//                                    number, regId, SharedPreferencesManager.getString("userPhone", ""));
+//                            listener.onSucceed(mChatMessageInfo, helper);
                         }
 
                     }

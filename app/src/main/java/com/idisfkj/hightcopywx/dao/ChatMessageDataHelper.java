@@ -35,6 +35,7 @@ public class ChatMessageDataHelper extends BaseDataHelper {
         values.put(ChatMessageDataInfo.RECEIVER_NUMBER, info.getReceiverNumber());
         values.put(ChatMessageDataInfo.REGID, info.getRegId());
         values.put(ChatMessageDataInfo.SEND_NUMBER, info.getSendNumber());
+        values.put(ChatMessageDataInfo.CHATTOMOBILE, info.getChatToMobile());
         return values;
     }
 
@@ -46,12 +47,14 @@ public class ChatMessageDataHelper extends BaseDataHelper {
         public static final String RECEIVER_NUMBER = "receiverNumber";
         public static final String REGID = "regId";
         public static final String SEND_NUMBER = "sendNumber";
+        public static final String CHATTOMOBILE = "chatToMobile";
         public static final SQLiteTable TABLE = new SQLiteTable(TABLE_NAME)
                 .addColumn(MESSAGE, Column.DataType.TEXT)
                 .addColumn(FLAG, Column.DataType.INTEGER)
                 .addColumn(TIME, Column.DataType.TEXT)
                 .addColumn(RECEIVER_NUMBER, Column.DataType.TEXT)
                 .addColumn(REGID, Column.DataType.TEXT)
+                .addColumn(CHATTOMOBILE, Column.DataType.TEXT)
                 .addColumn(SEND_NUMBER, Column.DataType.TEXT);
     }
 
@@ -77,10 +80,8 @@ public class ChatMessageDataHelper extends BaseDataHelper {
         bulkInsert(valuesList.toArray(valuesArray));
     }
 
-    public CursorLoader getCursorLoader(String receiverNumber, String regId) {
-        return getCursorLoader(null, "(" + ChatMessageDataInfo.SEND_NUMBER + "=?" + " OR "
-                + ChatMessageDataInfo.RECEIVER_NUMBER + "=?" + ") AND "
-                + ChatMessageDataInfo.REGID + "=?", new String[]{receiverNumber, receiverNumber, regId}
+    public CursorLoader getCursorLoader(String chatToMobile) {
+        return getCursorLoader(null, ChatMessageDataInfo.CHATTOMOBILE + "=?", new String[]{chatToMobile}
                 , ChatMessageDataInfo._ID + " ASC");
     }
 }

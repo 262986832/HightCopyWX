@@ -37,11 +37,11 @@ public class ChatPresenterImp implements ChatPresenter, ChatModel.requestListene
     }
 
     @Override
-    public void sendData(String chatContent, String number, String regId, ChatMessageDataHelper helper) {
+    public void sendData(String chatContent, String chatToMobile, ChatMessageDataHelper helper) {
         ChatMessageInfo chatMessageInfo = new ChatMessageInfo(chatContent, 1, CalendarUtils.getCurrentDate(),
-                number, regId, SharedPreferencesManager.getString("userPhone", ""));
+                chatToMobile, SharedPreferencesManager.getString("userPhone", ""));
         mChatModel.insertData(chatMessageInfo, helper);
-        mChatModel.requestData(this, chatContent, number, regId, helper);
+        mChatModel.requestData(this, chatContent, chatToMobile, helper);
     }
 
     @Override

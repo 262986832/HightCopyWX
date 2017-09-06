@@ -43,7 +43,9 @@ import butterknife.OnClick;
  * Created by idisfkj on 16/4/25.
  * Email : idisfkj@qq.com.
  */
-public class ChatActivity extends BaseActivity implements ChatView, View.OnTouchListener, View.OnFocusChangeListener, LoaderManager.LoaderCallbacks<Cursor> {
+public class ChatActivity extends BaseActivity
+        implements ChatView, View.OnTouchListener,
+        View.OnFocusChangeListener, LoaderManager.LoaderCallbacks<Cursor> {
 
     @InjectView(R.id.chat_content)
     EditText chatContent;
@@ -65,9 +67,9 @@ public class ChatActivity extends BaseActivity implements ChatView, View.OnTouch
     private BroadcastReceiver receiver;
     private InputMethodManager manager;
     private ChatMessageDataHelper chatHelper;
-    private String userName;
+    private String chatTitle;
     private int unReadNum;
-    private int _id;
+    private String chatToMobile;
 
 
     @Override
@@ -75,22 +77,24 @@ public class ChatActivity extends BaseActivity implements ChatView, View.OnTouch
         super.onCreate(savedInstanceState);
         setContentView(R.layout.chat_layout);
         ButterKnife.inject(this);
+
         Bundle bundle = getIntent().getExtras();
-        _id = bundle.getInt("_id");
+        chatToMobile = bundle.getString("chatToMobile");
+        chatTitle = bundle.getString("chatTitle");
         int chat_type=bundle.getInt("chatType");
 
         mChatPresenter = new ChatPresenterImp(this,chat_type);
-        mChatPresenter.loadData(this, _id);
+        //mChatPresenter.loadData(this, _id);
 
         NotificationManager manager = (NotificationManager) App.getAppContext().getSystemService(Context.NOTIFICATION_SERVICE);
-        manager.cancel(_id);
+        //manager.cancel(_id);
 
         init();
 
         if (unReadNum > 0) {
             mChatPresenter.cleanUnReadNum(this, App.mRegId, App.mNumber, unReadNum);
         }
-        getActionBar().setTitle(userName);
+        getActionBar().setTitle(chatTitle);
         getActionBar().setDisplayHomeAsUpEnabled(true);
 
 
@@ -223,14 +227,11 @@ public class ChatActivity extends BaseActivity implements ChatView, View.OnTouch
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        return chatHelper.getCursorLoader(App.mNumber, App.mRegId);
+        return chatHelper.getCursorLoader(chatToMobile);
     }
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        if (loader != null && data.getCount() <= 0) {
-            mChatPresenter.initData(chatHelper, App.mRegId, App.mNumber, userName);
-        }
         mChatAdapter.changeCursor(data);
         mChatAdapter.setCursor(data);
         chatView.smoothScrollToPosition(mChatAdapter.getItemCount());
@@ -245,16 +246,9 @@ public class ChatActivity extends BaseActivity implements ChatView, View.OnTouch
     public void loadUserInfo(String regId, String number, String userName, int unReadNum) {
         App.mRegId = regId;
         App.mNumber = number;
-        this.userName = userName;
         this.unReadNum = unReadNum;
     }
 
-//    @Override
-//    public void onSoftKeyboardShown(boolean isShowing) {
-//        Log.d("TAG", "Listener");
-//        if (isShowing)
-//            chatView.smoothScrollToPosition(mChatAdapter.getItemCount());
-//    }
 
     private class ChatBroadCastReceiver extends BroadcastReceiver {
 
@@ -268,7 +262,7 @@ public class ChatActivity extends BaseActivity implements ChatView, View.OnTouch
     public void onClick() {
         mChatContent = chatContent.getText().toString();
         if (mChatContent.trim().length() > 0) {
-            mChatPresenter.sendData(mChatContent, App.mNumber, App.mRegId, chatHelper);
+            mChatPresenter.sendData(mChatContent, chatToMobile, chatHelper);
         }
         chatContent.setText("");
     }
