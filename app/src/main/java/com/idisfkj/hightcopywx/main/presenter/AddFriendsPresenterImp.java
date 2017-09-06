@@ -30,7 +30,7 @@ public class AddFriendsPresenterImp implements AddFriendsPresenter {
 
     @Override
     public void switchActicity(TextView searchContent, RegisterDataHelper helper) {
-        String text = searchContent.getText().toString();
+        String text = searchContent.getText().toString().trim();
         Cursor cursor = helper.query(text);
         if (cursor.getCount() > 0)
             mAddFriendsView.jumpSearchResult(text);

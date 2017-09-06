@@ -7,7 +7,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.idisfkj.hightcopywx.App;
-import com.idisfkj.hightcopywx.beans.ResponsdServer;
+import com.idisfkj.hightcopywx.beans.RespondLogin;
 import com.idisfkj.hightcopywx.util.GsonRequest;
 import com.idisfkj.hightcopywx.util.SharedPreferencesManager;
 import com.idisfkj.hightcopywx.util.UrlUtils;
@@ -19,25 +19,26 @@ import java.util.Map;
 import static android.content.ContentValues.TAG;
 
 /**
- * Created by idisfkj on 16/4/28.
- * Email : idisfkj@qq.com.
+ * Created by fvelement on 2017/9/6.
  */
-public class RegisterModelImp implements RegisterModel {
-    @Override
-    public void requestRegister(final requestRegisterListener listener, final String userName, final String mobile, final String passowrd) {
 
-        GsonRequest<ResponsdServer> gsonRequest = new GsonRequest<ResponsdServer>
+public class LoginModelImp implements LoginModel {
+    @Override
+    public void requestLogin(final requestLoginListener listener, final String mobile, final String password, String clientid) {
+        GsonRequest<RespondLogin> gsonRequest = new GsonRequest<RespondLogin>
                 (Request.Method.POST,
-                        UrlUtils.getRegisterApiUrl(userName, mobile, passowrd),
-                        ResponsdServer.class,
-                        new Response.Listener<ResponsdServer>() {
+                        UrlUtils.getLoginApiUrl( mobile, password,clientid),
+                        RespondLogin.class,
+                        new Response.Listener<RespondLogin>() {
                             @Override
-                            public void onResponse(ResponsdServer responsdServer) {
-                                if (responsdServer.getCode() == 0) {
-                                    SharedPreferencesManager.putString("userName",userName).commit();
-                                    listener.onRegisterSucceed();
+                            public void onResponse(RespondLogin respondLogin) {
+                                if (respondLogin.getCode() == 0) {
+                                    SharedPreferencesManager.putString("userPhone",mobile).commit();
+                                    SharedPreferencesManager.putString("password",password).commit();
+                                    SharedPreferencesManager.putString("token",respondLogin.getToken()).commit();
+                                    listener.onLoginSucceed();
                                 } else {
-                                    listener.onError(responsdServer.getMsg());
+                                    listener.onError(respondLogin.getMsg());
                                 }
                             }
                         },
@@ -54,9 +55,6 @@ public class RegisterModelImp implements RegisterModel {
                 return header;
             }
         };
-        VolleyUtils.addQueue(gsonRequest, "registerRequest");
+        VolleyUtils.addQueue(gsonRequest, "loginRequest");
     }
-
-
-
 }

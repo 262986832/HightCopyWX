@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">故知微课</string>
+    <string name="app_name">高仿微信</string>
     <string name="tab_weiXin">微课</string>
     <string name="tab_friend">激励</string>
     <string name="tab_find">发现</string>
@@ -16,12 +16,14 @@
     <string name="userName">昵称</string>
     <string name="userName_hint">例如：张三</string>
     <string name="userPhone_pre">+86</string>
-    <string name="userPhone_hint">你的手机号码</string>
+    <string name="userPhone_hint">您的手机号码</string>
     <string name="userPassword">密码  </string>
     <string name="conformUserPassword">确认密码</string>
     <string name="userPassword_hint">填写密码</string>
     <string name="conformUserPassword_hint">填写确认密码</string>
-    <string name="register">注册</string>
+    <string name="register">注册并登录</string>
+    <string name="fogetpassword">忘记密码</string>
+    <string name="login">登录</string>
     <string name="choose_picture">选择图片</string>
     <string name="choose_from_photo">从相册中选择</string>
     <string name="choose_from_camera">相机拍照</string>

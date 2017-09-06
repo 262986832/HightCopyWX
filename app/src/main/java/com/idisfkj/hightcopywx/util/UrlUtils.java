@@ -5,8 +5,6 @@ import com.idisfkj.hightcopywx.BuildConfig;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
-import static com.idisfkj.hightcopywx.R.string.userName;
-
 /**
  * 请求api工具类
  * Created by idisfkj on 16/4/26.
@@ -26,8 +24,8 @@ public class UrlUtils {
     private static final String BAIDU_TRANSLATE_API = "http://api.fanyi.baidu.com/api/trans/vip/translate?";
     public static final int ZHTOEN = 0;
     public static final int ENTOGH = 1;
-    //注册
-    private static final String SERVER_REGISTER = "http://10.16.66.168:8001/api/";
+    //服务端
+    private static final String SERVER_REGISTER = "http://10.16.66.233:8001/api/";
 
 
     public UrlUtils() {
