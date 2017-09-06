@@ -27,7 +27,7 @@ public class WXModelImp implements WXModel {
             wxItemInfo.setTime(CalendarUtils.getCurrentDate());
             wxItemInfo.setRegId(App.DEVELOPER_ID);
             wxItemInfo.setNumber(App.DEVELOPER_NUMBER);
-            wxItemInfo.setChatType(App.CHAT_TYPE_CHINESETOENGLISH);
+            wxItemInfo.setChatType(App.CHAT_TYPE_ENGLISH_STUDY);
             wxItemInfo.setCurrentAccount(SharedPreferencesManager.getString("userPhone"));
 
             helper.insert(wxItemInfo);

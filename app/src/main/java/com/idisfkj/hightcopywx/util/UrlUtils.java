@@ -13,10 +13,16 @@ import java.net.URLEncoder;
 public class UrlUtils {
     private static final String PACKAGE_NAME = "com.idisfkj.hightcopywx";
     private static final String REGID_API = "https://api.xmpush.xiaomi.com/v2/message/regid";
+    private static final String REGISTRATION_ID = "&registration_id=";
+    private static final String ACCOUNT_API = "https://api.xmpush.xiaomi.com/v2/message/user_account";
+    private static final String USER_ACCOUNT = "&user_account=";
+    private static final String TOPIC_API = "https://api.xmpush.xiaomi.com/v2/message/topic";
+    private static final String TOPIC = "&topic=";
     private static final String ALL_API = "https://api.xmpush.xiaomi.com/v2/message/all";
     private static final String PAYLOAD = "?payload=";
     private static final String RESTRICTED_PACKAGE_NAME = "&restricted_package_name=";
-    private static final String REGISTRATION_ID = "&registration_id=";
+
+
     private static final String NOTIFY_TYPE = "&notify_type=2";
     private static final String PASS_THROUGH = "&pass_through=1";
     private static final String NOTIFY_ID = "&notify_id=0";
@@ -82,7 +88,51 @@ public class UrlUtils {
      * @param regId
      * @return
      */
+    public static String chatAccountUrl(String message, String number, String regId) {
+
+        String content = null;
+        try {
+            content = URLEncoder.encode(message + "(" + number + "@" +
+                    SharedPreferencesManager.getString("regId", "") + "@" + SharedPreferencesManager.getString("userPhone", "") + "@" +
+                    SharedPreferencesManager.getString("userName"), "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        String url = ACCOUNT_API +
+                PAYLOAD + content +
+                RESTRICTED_PACKAGE_NAME + PACKAGE_NAME +
+                USER_ACCOUNT + SharedPreferencesManager.getString("userPhone") +
+                NOTIFY_TYPE +
+                PASS_THROUGH +
+                NOTIFY_ID;
+        return url;
+    }
+    public static String chatTopicUrl(String message, String number) {
+        return  chatTopicUrl(message,number,SharedPreferencesManager.getString("userPhone") );
+    }
+
+    public static String chatTopicUrl(String message, String number, String topic) {
+
+        String content = null;
+        try {
+            content = URLEncoder.encode(message + "(" + number + "@" +
+                    SharedPreferencesManager.getString("regId", "") + "@" + SharedPreferencesManager.getString("userPhone", "") + "@" +
+                    SharedPreferencesManager.getString("userName"), "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        String url = TOPIC_API +
+                PAYLOAD + content +
+                RESTRICTED_PACKAGE_NAME + PACKAGE_NAME +
+                TOPIC + topic +
+                NOTIFY_TYPE +
+                PASS_THROUGH +
+                NOTIFY_ID;
+        return url;
+    }
+
     public static String chatUrl(String message, String number, String regId) {
+
         String content = null;
         try {
             content = URLEncoder.encode(message + "(" + number + "@" +

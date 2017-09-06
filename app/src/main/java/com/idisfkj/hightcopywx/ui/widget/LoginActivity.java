@@ -58,6 +58,7 @@ public class LoginActivity extends Activity implements LoginView {
     @Override
     public void onLoginSuccess() {
         MiPushClient.setUserAccount(this,userPhone_et.getText().toString().trim(),userPhone_et.getText().toString().trim());
+        MiPushClient.subscribe(this,userPhone_et.getText().toString().trim(),userPhone_et.getText().toString().trim());
         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
         startActivity(intent);
         finish();
