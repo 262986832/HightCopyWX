@@ -9,12 +9,12 @@ import android.widget.ImageView;
 
 import com.idisfkj.hightcopywx.R;
 import com.idisfkj.hightcopywx.main.widget.MainActivity;
-import com.idisfkj.hightcopywx.ui.WelcomeActivity;
 import com.idisfkj.hightcopywx.ui.presenter.LoginPresenter;
 import com.idisfkj.hightcopywx.ui.presenter.LoginPresenterImp;
 import com.idisfkj.hightcopywx.ui.view.LoginView;
 import com.idisfkj.hightcopywx.util.SharedPreferencesManager;
 import com.idisfkj.hightcopywx.util.ToastUtils;
+import com.xiaomi.mipush.sdk.MiPushClient;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -57,6 +57,7 @@ public class LoginActivity extends Activity implements LoginView {
 
     @Override
     public void onLoginSuccess() {
+        MiPushClient.setUserAccount(this,userPhone_et.getText().toString().trim(),userPhone_et.getText().toString().trim());
         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
         startActivity(intent);
         finish();
