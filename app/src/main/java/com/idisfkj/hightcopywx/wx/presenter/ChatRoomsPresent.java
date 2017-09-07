@@ -1,17 +1,13 @@
 package com.idisfkj.hightcopywx.wx.presenter;
 
 import android.database.Cursor;
-
-import com.idisfkj.hightcopywx.dao.ChatRoomsDataHelper;
+import android.support.v4.content.Loader;
 
 /**
  * Created by idisfkj on 16/4/23.
  * Email : idisfkj@qq.com.
  */
 public interface ChatRoomsPresent {
-    void initData(ChatRoomsDataHelper helper,InitRoomsDataLinsener initRoomsDataLinsener);
-    public interface InitRoomsDataLinsener{
-        void onInitDataComplete( Cursor data);
-        void onInitDataing();
-    }
+    Loader<Cursor> creatLoader(String ownMobile);
+    void initData();
 }

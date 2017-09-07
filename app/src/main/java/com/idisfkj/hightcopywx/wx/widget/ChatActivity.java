@@ -70,7 +70,7 @@ public class ChatActivity extends BaseActivity
     private ChatMessageDataHelper chatHelper;
     private String chatTitle;
     private int unReadNum;
-    private String chatToMobile;
+    private String chatRoomID;
 
 
     @Override
@@ -80,7 +80,7 @@ public class ChatActivity extends BaseActivity
         ButterKnife.inject(this);
 
         Bundle bundle = getIntent().getExtras();
-        chatToMobile = bundle.getString("chatToMobile");
+        chatRoomID = bundle.getString("chatRoomID");
         chatTitle = bundle.getString("chatTitle");
         int chat_type=bundle.getInt("chatType");
 
@@ -228,7 +228,7 @@ public class ChatActivity extends BaseActivity
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        return chatHelper.getCursorLoader(chatToMobile);
+        return chatHelper.getCursorLoader(chatRoomID);
     }
 
     @Override

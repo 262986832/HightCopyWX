@@ -49,7 +49,7 @@ public class ChatRoomsAdapter extends RecyclerViewCursorBaseAdapter<ChatRoomsAda
         holder.wxItemTime.setText(formatString(cursor, ChatRoomsDataHelper.WXItemDataInfo.time));
         holder.unReadNum = CursorUtils.formatInt(cursor, ChatRoomsDataHelper.WXItemDataInfo.unReadNumber);
         holder.chatType = CursorUtils.formatInt(cursor, ChatRoomsDataHelper.WXItemDataInfo.chatType);
-        holder.chatToMobile=CursorUtils.formatString(cursor, ChatRoomsDataHelper.WXItemDataInfo.chatRoomID);
+        holder.chatRoomID=CursorUtils.formatString(cursor, ChatRoomsDataHelper.WXItemDataInfo.chatRoomID);
 
 
         //回收 防止影响更新
@@ -80,17 +80,11 @@ public class ChatRoomsAdapter extends RecyclerViewCursorBaseAdapter<ChatRoomsAda
         public BadgeView badgeView;
         public int chatType = 0;
 
-        public String chatToMobile;
+        public String chatRoomID;
         public String chatTitle;
         private Context mContext;
 
-        public String getChatToMobile() {
-            return chatToMobile;
-        }
 
-        public void setChatToMobile() {
-            this.chatToMobile = chatToMobile;
-        }
 
         public int getChatType() {
             return chatType;

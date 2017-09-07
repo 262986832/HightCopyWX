@@ -7,22 +7,16 @@ import com.idisfkj.hightcopywx.beans.ChatRoomItemInfo;
 import com.idisfkj.hightcopywx.dao.ChatRoomsDataHelper;
 import com.idisfkj.hightcopywx.util.CalendarUtils;
 import com.idisfkj.hightcopywx.util.SharedPreferencesManager;
-import com.idisfkj.hightcopywx.wx.presenter.ChatRoomsPresent;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.idisfkj.hightcopywx.wx.view.ChatRoomsView;
 
 /**
  * Created by idisfkj on 16/4/23.
  * Email : idisfkj@qq.com.
  */
 public class ChatRoomsModelImp implements ChatRoomsModel {
-    private List<ChatRoomItemInfo> mList;
-    private ChatRoomItemInfo chatRoomItemInfo;
-
     @Override
-    public void initData(ChatRoomsDataHelper mHelper,ChatRoomsPresent.InitRoomsDataLinsener initRoomsDataLinsener) {
-        mList = new ArrayList<>();
+    public void initData(ChatRoomsDataHelper mHelper, ChatRoomsView chatRoomsView) {
+        chatRoomsView.onInitDataing();
         Cursor cursor=mHelper.query("EnglishToChinese");
         int count=cursor.getCount();
         //String chartRoomid=CursorUtils.formatString(cursor, ChatRoomsDataHelper.WXItemDataInfo.chatRoomID);
@@ -52,7 +46,7 @@ public class ChatRoomsModelImp implements ChatRoomsModel {
             chatRoomItemInfo.setChatType(App.CHAT_TYPE_ENGLISHTOCHINESE);
             mHelper.insert(chatRoomItemInfo);
         }
-        initRoomsDataLinsener.onInitDataComplete(cursor);
+        chatRoomsView.onInitDataComplete(cursor);
     }
 
 }
