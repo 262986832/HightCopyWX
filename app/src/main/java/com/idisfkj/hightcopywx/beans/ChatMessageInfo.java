@@ -7,66 +7,96 @@ import java.io.Serializable;
  * Email : idisfkj@qq.com.
  */
 public class ChatMessageInfo implements Serializable {
-    private String message;
-    /**
-     * 接收与发送的标识
-     */
-    private int flag;
+    private String ownMobile;
+    private String chatRoomID;
+    private int sendOrReciveFlag;
+    private int messageType;
+    private String messageTitle;
+    private String messageContent;
+    private String messageImgUrl;
+    private String messageVoiceUrl;
     private String time;
-    /**
-     * 接收该信息的账号
-     */
-    private String receiverNumber;
-    private String regId;
-    /**
-     * 发送者的账号
-     */
-    private String sendNumber;
-    //跟谁聊天
-    private String chatToMobile;
-
+    private String sendMobile;
 
     public ChatMessageInfo() {
+
     }
 
-    public String getChatToMobile() {
-        return chatToMobile;
-    }
-
-    public void setChatToMobile(String chatToMobile) {
-        this.chatToMobile = chatToMobile;
-    }
-
-    public ChatMessageInfo(String message, int flag, String time, String chatToMobile, String sendNumber) {
-        this.message = message;
-        this.flag = flag;
+    public ChatMessageInfo(String ownMobile, String chatRoomID, int sendOrReciveFlag, int messageType, String messageTitle, String messageContent, String messageImgUrl, String messageVoiceUrl, String time, String sendMobile) {
+        this.ownMobile = ownMobile;
+        this.chatRoomID = chatRoomID;
+        this.sendOrReciveFlag = sendOrReciveFlag;
+        this.messageType = messageType;
+        this.messageTitle = messageTitle;
+        this.messageContent = messageContent;
+        this.messageImgUrl = messageImgUrl;
+        this.messageVoiceUrl = messageVoiceUrl;
         this.time = time;
-        this.chatToMobile = chatToMobile;
-        this.sendNumber = sendNumber;
+        this.sendMobile = sendMobile;
     }
 
-    public String getReceiverNumber() {
-        return receiverNumber;
+    public String getOwnMobile() {
+        return ownMobile;
     }
 
-    public void setReceiverNumber(String receiverNumber) {
-        this.receiverNumber = receiverNumber;
+    public void setOwnMobile(String ownMobile) {
+        this.ownMobile = ownMobile;
     }
 
-    public String getRegId() {
-        return regId;
+    public String getChatRoomID() {
+        return chatRoomID;
     }
 
-    public void setRegId(String regId) {
-        this.regId = regId;
+    public void setChatRoomID(String chatRoomID) {
+        this.chatRoomID = chatRoomID;
     }
 
-    public String getSendNumber() {
-        return sendNumber;
+    public int getSendOrReciveFlag() {
+        return sendOrReciveFlag;
     }
 
-    public void setSendNumber(String sendNumber) {
-        this.sendNumber = sendNumber;
+    public void setSendOrReciveFlag(int sendOrReciveFlag) {
+        this.sendOrReciveFlag = sendOrReciveFlag;
+    }
+
+    public int getMessageType() {
+        return messageType;
+    }
+
+    public void setMessageType(int messageType) {
+        this.messageType = messageType;
+    }
+
+    public String getMessageTitle() {
+        return messageTitle;
+    }
+
+    public void setMessageTitle(String messageTitle) {
+        this.messageTitle = messageTitle;
+    }
+
+    public String getMessageContent() {
+        return messageContent;
+    }
+
+    public void setMessageContent(String messageContent) {
+        this.messageContent = messageContent;
+    }
+
+    public String getMessageImgUrl() {
+        return messageImgUrl;
+    }
+
+    public void setMessageImgUrl(String messageImgUrl) {
+        this.messageImgUrl = messageImgUrl;
+    }
+
+    public String getMessageVoiceUrl() {
+        return messageVoiceUrl;
+    }
+
+    public void setMessageVoiceUrl(String messageVoiceUrl) {
+        this.messageVoiceUrl = messageVoiceUrl;
     }
 
     public String getTime() {
@@ -77,19 +107,11 @@ public class ChatMessageInfo implements Serializable {
         this.time = time;
     }
 
-    public String getMessage() {
-        return message;
+    public String getSendMobile() {
+        return sendMobile;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public int getFlag() {
-        return flag;
-    }
-
-    public void setFlag(int flag) {
-        this.flag = flag;
+    public void setSendMobile(String sendMobile) {
+        this.sendMobile = sendMobile;
     }
 }

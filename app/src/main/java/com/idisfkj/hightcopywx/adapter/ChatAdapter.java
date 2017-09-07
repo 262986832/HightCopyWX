@@ -71,30 +71,30 @@ public class ChatAdapter extends RecyclerViewCursorBaseAdapter<RecyclerView.View
     public void onBindViewHolder(RecyclerView.ViewHolder holder, Cursor cursor) {
         if (holder instanceof ChatReceiveViewHolder) {
             try {
-                if (CursorUtils.isShowSystem(cursor, ChatMessageDataHelper.ChatMessageDataInfo.TIME))
+                if (CursorUtils.isShowSystem(cursor, ChatMessageDataHelper.ChatMessageDataInfo.time))
                     ((ChatReceiveViewHolder) holder).chatReceiveTime.setVisibility(View.GONE);
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-            ((ChatReceiveViewHolder) holder).chatReceiveTime.setText(CursorUtils.formatString(cursor, ChatMessageDataHelper.ChatMessageDataInfo.TIME));
+            ((ChatReceiveViewHolder) holder).chatReceiveTime.setText(CursorUtils.formatString(cursor, ChatMessageDataHelper.ChatMessageDataInfo.time));
 //            ((ChatReceiveViewHolder) holder).chatReceivePicture.setImageBitmap();
-            ((ChatReceiveViewHolder) holder).chatReceiveContent.setText(CursorUtils.formatString(cursor, ChatMessageDataHelper.ChatMessageDataInfo.MESSAGE));
+            ((ChatReceiveViewHolder) holder).chatReceiveContent.setText(CursorUtils.formatString(cursor, ChatMessageDataHelper.ChatMessageDataInfo.messageContent));
         } else if (holder instanceof ChatSendViewHolder) {
             try {
-                if (CursorUtils.isShowSystem(cursor, ChatMessageDataHelper.ChatMessageDataInfo.TIME))
+                if (CursorUtils.isShowSystem(cursor, ChatMessageDataHelper.ChatMessageDataInfo.time))
                     ((ChatSendViewHolder) holder).chatSendTime.setVisibility(View.GONE);
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-            ((ChatSendViewHolder) holder).chatSendTime.setText(CursorUtils.formatString(cursor, ChatMessageDataHelper.ChatMessageDataInfo.TIME));
+            ((ChatSendViewHolder) holder).chatSendTime.setText(CursorUtils.formatString(cursor, ChatMessageDataHelper.ChatMessageDataInfo.time));
             if (sendBitmap != null)
                 ((ChatSendViewHolder) holder).chatSendPicture.setImageBitmap(sendBitmap);
-            ((ChatSendViewHolder) holder).content = CursorUtils.formatString(cursor, ChatMessageDataHelper.ChatMessageDataInfo.MESSAGE);
-            ((ChatSendViewHolder) holder).chatSendContent.setText(CursorUtils.formatString(cursor, ChatMessageDataHelper.ChatMessageDataInfo.MESSAGE));
+            ((ChatSendViewHolder) holder).content = CursorUtils.formatString(cursor, ChatMessageDataHelper.ChatMessageDataInfo.messageContent);
+            ((ChatSendViewHolder) holder).chatSendContent.setText(CursorUtils.formatString(cursor, ChatMessageDataHelper.ChatMessageDataInfo.messageContent));
             ((ChatSendViewHolder) holder).chatSendContent.setVisibility(View.VISIBLE);
         } else {
-            ((ChatSystemViewHolder) holder).chatSystemTime.setText(CursorUtils.formatString(cursor, ChatMessageDataHelper.ChatMessageDataInfo.TIME));
-            ((ChatSystemViewHolder) holder).chatSystemContent.setText(CursorUtils.formatString(cursor, ChatMessageDataHelper.ChatMessageDataInfo.MESSAGE));
+            ((ChatSystemViewHolder) holder).chatSystemTime.setText(CursorUtils.formatString(cursor, ChatMessageDataHelper.ChatMessageDataInfo.time));
+            ((ChatSystemViewHolder) holder).chatSystemContent.setText(CursorUtils.formatString(cursor, ChatMessageDataHelper.ChatMessageDataInfo.messageContent));
         }
 
     }
@@ -102,9 +102,9 @@ public class ChatAdapter extends RecyclerViewCursorBaseAdapter<RecyclerView.View
     @Override
     public int getItemViewType(int position) {
         if (mCursor.moveToPosition(position)) {
-            if (CursorUtils.formatInt(mCursor, ChatMessageDataHelper.ChatMessageDataInfo.FLAG) == 0) {
+            if (CursorUtils.formatInt(mCursor, ChatMessageDataHelper.ChatMessageDataInfo.sendOrReciveFlag) == 0) {
                 return RECEIVE_MESSAGE;
-            } else if (CursorUtils.formatInt(mCursor, ChatMessageDataHelper.ChatMessageDataInfo.FLAG) == 1) {
+            } else if (CursorUtils.formatInt(mCursor, ChatMessageDataHelper.ChatMessageDataInfo.sendOrReciveFlag) == 1) {
                 return SEND_MESSAGE;
             } else {
                 return SYSTEM_MESSAGE;

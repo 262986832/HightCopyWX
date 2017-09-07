@@ -5,7 +5,7 @@ import android.support.v4.app.Fragment;
 import com.idisfkj.hightcopywx.contact.ContactFragment;
 import com.idisfkj.hightcopywx.find.FindFragment;
 import com.idisfkj.hightcopywx.me.MeFragment;
-import com.idisfkj.hightcopywx.wx.widget.WXFragment;
+import com.idisfkj.hightcopywx.wx.widget.ChatRoomsFragment;
 
 /**
  * Fragment工厂
@@ -26,7 +26,7 @@ public class FragmentFactory {
     public Fragment createFragment(int position){
         switch (position){
             case 0:
-                mFragment = new WXFragment();
+                mFragment = new ChatRoomsFragment();
                 break;
             case 1:
                 mFragment = new ContactFragment();

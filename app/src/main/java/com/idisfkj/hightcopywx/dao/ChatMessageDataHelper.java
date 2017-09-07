@@ -29,39 +29,49 @@ public class ChatMessageDataHelper extends BaseDataHelper {
 
     public ContentValues getContentValues(ChatMessageInfo info) {
         ContentValues values = new ContentValues();
-        values.put(ChatMessageDataInfo.MESSAGE, info.getMessage());
-        values.put(ChatMessageDataInfo.FLAG, info.getFlag());
-        values.put(ChatMessageDataInfo.TIME, info.getTime());
-        values.put(ChatMessageDataInfo.RECEIVER_NUMBER, info.getReceiverNumber());
-        values.put(ChatMessageDataInfo.REGID, info.getRegId());
-        values.put(ChatMessageDataInfo.SEND_NUMBER, info.getSendNumber());
-        values.put(ChatMessageDataInfo.CHATTOMOBILE, info.getChatToMobile());
+        values.put(ChatMessageDataInfo.ownMobile, info.getOwnMobile());
+        values.put(ChatMessageDataInfo.chatRoomID, info.getChatRoomID());
+        values.put(ChatMessageDataInfo.sendOrReciveFlag, info.getSendOrReciveFlag());
+        values.put(ChatMessageDataInfo.messageType, info.getMessageType());
+        values.put(ChatMessageDataInfo.messageTitle, info.getMessageTitle());
+        values.put(ChatMessageDataInfo.messageContent, info.getMessageContent());
+        values.put(ChatMessageDataInfo.messageImgUrl, info.getMessageImgUrl());
+        values.put(ChatMessageDataInfo.messageVoiceUrl, info.getMessageVoiceUrl());
+        values.put(ChatMessageDataInfo.time, info.getTime());
+        values.put(ChatMessageDataInfo.sendMobile, info.getSendMobile());
         return values;
     }
 
     public static final class ChatMessageDataInfo implements BaseColumns {
-        public static final String TABLE_NAME = "chatMessage";
-        public static final String MESSAGE = "message";
-        public static final String FLAG = "flag";
-        public static final String TIME = "time";
-        public static final String RECEIVER_NUMBER = "receiverNumber";
-        public static final String REGID = "regId";
-        public static final String SEND_NUMBER = "sendNumber";
-        public static final String CHATTOMOBILE = "chatToMobile";
+        public static final String TABLE_NAME = "chatMessages";
+        public static final String ownMobile = "ownMobile";
+        public static final String chatRoomID = "chatRoomID";
+        public static final String sendOrReciveFlag = "sendOrReciveFlag";
+        public static final String messageType = "messageType";
+        public static final String messageTitle = "messageTitle";
+        public static final String messageContent = "messageContent";
+        public static final String messageImgUrl = "messageImgUrl";
+        public static final String messageVoiceUrl = "messageVoiceUrl";
+        public static final String time = "time";
+        public static final String sendMobile = "sendMobile";
         public static final SQLiteTable TABLE = new SQLiteTable(TABLE_NAME)
-                .addColumn(MESSAGE, Column.DataType.TEXT)
-                .addColumn(FLAG, Column.DataType.INTEGER)
-                .addColumn(TIME, Column.DataType.TEXT)
-                .addColumn(RECEIVER_NUMBER, Column.DataType.TEXT)
-                .addColumn(REGID, Column.DataType.TEXT)
-                .addColumn(CHATTOMOBILE, Column.DataType.TEXT)
-                .addColumn(SEND_NUMBER, Column.DataType.TEXT);
+                .addColumn(ownMobile, Column.DataType.TEXT)
+                .addColumn(chatRoomID, Column.DataType.TEXT)
+                .addColumn(sendOrReciveFlag, Column.DataType.INTEGER)
+                .addColumn(messageType, Column.DataType.INTEGER)
+                .addColumn(messageTitle, Column.DataType.TEXT)
+                .addColumn(messageContent, Column.DataType.TEXT)
+                .addColumn(messageImgUrl, Column.DataType.TEXT)
+                .addColumn(messageVoiceUrl, Column.DataType.TEXT)
+                .addColumn(time, Column.DataType.TEXT)
+                .addColumn(sendMobile, Column.DataType.TEXT);
     }
 
-    public Cursor query(String receiverNumber, String regId) {
-        Cursor cursor = query(new String[]{ChatMessageDataInfo.MESSAGE, ChatMessageDataInfo.TIME}, "(" + ChatMessageDataInfo.RECEIVER_NUMBER + "=?" + " OR "
-                + ChatMessageDataInfo.SEND_NUMBER + "=?" + ") AND "
-                + ChatMessageDataInfo.REGID + "=?", new String[]{receiverNumber, receiverNumber, regId}, ChatMessageDataInfo._ID + " DESC");
+    public Cursor query(String chatRoomId) {
+        Cursor cursor = query(null
+                , ChatMessageDataInfo.chatRoomID + "=?"
+                , new String[]{chatRoomId}
+                , ChatMessageDataInfo._ID + " DESC");
         return cursor;
     }
 
@@ -80,8 +90,8 @@ public class ChatMessageDataHelper extends BaseDataHelper {
         bulkInsert(valuesList.toArray(valuesArray));
     }
 
-    public CursorLoader getCursorLoader(String chatToMobile) {
-        return getCursorLoader(null, ChatMessageDataInfo.CHATTOMOBILE + "=?", new String[]{chatToMobile}
+    public CursorLoader getCursorLoader(String chatRoomId) {
+        return getCursorLoader(null, ChatMessageDataInfo.chatRoomID + "=?", new String[]{chatRoomId}
                 , ChatMessageDataInfo._ID + " ASC");
     }
 }

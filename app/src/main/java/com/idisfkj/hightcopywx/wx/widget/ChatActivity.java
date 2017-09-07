@@ -27,6 +27,7 @@ import com.idisfkj.hightcopywx.App;
 import com.idisfkj.hightcopywx.R;
 import com.idisfkj.hightcopywx.adapter.ChatAdapter;
 import com.idisfkj.hightcopywx.adapter.OnItemTouchListener;
+import com.idisfkj.hightcopywx.beans.ChatMessageInfo;
 import com.idisfkj.hightcopywx.dao.ChatMessageDataHelper;
 import com.idisfkj.hightcopywx.ui.BaseActivity;
 import com.idisfkj.hightcopywx.util.VolleyUtils;
@@ -261,8 +262,9 @@ public class ChatActivity extends BaseActivity
     @OnClick(R.id.chat_send)
     public void onClick() {
         mChatContent = chatContent.getText().toString();
+        ChatMessageInfo chatMessageInfo=new ChatMessageInfo();
         if (mChatContent.trim().length() > 0) {
-            mChatPresenter.sendData(mChatContent, chatToMobile, chatHelper);
+            mChatPresenter.sendData(chatMessageInfo, chatHelper);
         }
         chatContent.setText("");
     }

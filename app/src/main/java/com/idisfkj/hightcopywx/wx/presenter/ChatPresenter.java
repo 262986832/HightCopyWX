@@ -3,6 +3,7 @@ package com.idisfkj.hightcopywx.wx.presenter;
 import android.content.Context;
 import android.content.Intent;
 
+import com.idisfkj.hightcopywx.beans.ChatMessageInfo;
 import com.idisfkj.hightcopywx.dao.ChatMessageDataHelper;
 
 /**
@@ -10,7 +11,7 @@ import com.idisfkj.hightcopywx.dao.ChatMessageDataHelper;
  * Email : idisfkj@qq.com.
  */
 public interface ChatPresenter {
-    void sendData(String chatContent, String chatToMobile, ChatMessageDataHelper helper);
+    void sendData(ChatMessageInfo chatMessageInfo, ChatMessageDataHelper helper);
 
     void receiveData(Intent intent, ChatMessageDataHelper helper);
 

@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.idisfkj.hightcopywx.R;
-import com.idisfkj.hightcopywx.dao.WXDataHelper;
+import com.idisfkj.hightcopywx.dao.ChatRoomsDataHelper;
 import com.idisfkj.hightcopywx.util.BadgeViewUtils;
 import com.idisfkj.hightcopywx.util.CursorUtils;
 import com.readystatesoftware.viewbadger.BadgeView;
@@ -43,13 +43,13 @@ public class WXAdapter extends RecyclerViewCursorBaseAdapter<WXAdapter.ViewHolde
 
     @Override
     public void onBindViewHolder(ViewHolder holder, Cursor cursor) {
-        holder.wxItemTitle.setText(formatString(cursor, WXDataHelper.WXItemDataInfo.TITLE));
-        holder.chatTitle=(formatString(cursor, WXDataHelper.WXItemDataInfo.TITLE));
-        holder.wxItemContent.setText(formatString(cursor, WXDataHelper.WXItemDataInfo.CONTENT));
-        holder.wxItemTime.setText(formatString(cursor, WXDataHelper.WXItemDataInfo.TIME));
-        holder.unReadNum = CursorUtils.formatInt(cursor, WXDataHelper.WXItemDataInfo.UNREAD_NUM);
-        holder.chatType = CursorUtils.formatInt(cursor, WXDataHelper.WXItemDataInfo.CHAT_TYPE);
-        holder.chatToMobile=CursorUtils.formatString(cursor, WXDataHelper.WXItemDataInfo.CHATTOMBILE);
+        holder.wxItemTitle.setText(formatString(cursor, ChatRoomsDataHelper.WXItemDataInfo.title));
+        holder.chatTitle=(formatString(cursor, ChatRoomsDataHelper.WXItemDataInfo.title));
+        holder.wxItemContent.setText(formatString(cursor, ChatRoomsDataHelper.WXItemDataInfo.content));
+        holder.wxItemTime.setText(formatString(cursor, ChatRoomsDataHelper.WXItemDataInfo.time));
+        holder.unReadNum = CursorUtils.formatInt(cursor, ChatRoomsDataHelper.WXItemDataInfo.unReadNumber);
+        holder.chatType = CursorUtils.formatInt(cursor, ChatRoomsDataHelper.WXItemDataInfo.chatType);
+        holder.chatToMobile=CursorUtils.formatString(cursor, ChatRoomsDataHelper.WXItemDataInfo.chatRoomID);
 
 
         //回收 防止影响更新

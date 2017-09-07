@@ -8,6 +8,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.idisfkj.hightcopywx.App;
 import com.idisfkj.hightcopywx.beans.BaiduFanyiResponse;
+import com.idisfkj.hightcopywx.beans.ChatMessageInfo;
 import com.idisfkj.hightcopywx.dao.ChatMessageDataHelper;
 import com.idisfkj.hightcopywx.util.GsonRequest;
 import com.idisfkj.hightcopywx.util.UrlUtils;
@@ -30,10 +31,10 @@ public class TranslateChatModelImp extends ChatModelImp {
     }
 
     @Override
-    public void requestData(final requestListener listener, final String chatContent, final String chatToMobile, final ChatMessageDataHelper helper) {
+    public void requestData(final requestListener listener, ChatMessageInfo chatMessageInfo, final ChatMessageDataHelper helper) {
 
         GsonRequest<BaiduFanyiResponse> gsonRequest = new GsonRequest<BaiduFanyiResponse>(Request.Method.POST,
-                UrlUtils.getBaiduTranslateApiUrl(chatContent,type), BaiduFanyiResponse.class,
+                UrlUtils.getBaiduTranslateApiUrl(chatMessageInfo.getMessageContent(),type), BaiduFanyiResponse.class,
                 new Response.Listener<BaiduFanyiResponse>() {
                     @Override
                     public void onResponse(BaiduFanyiResponse baiduFanyiResponse) {

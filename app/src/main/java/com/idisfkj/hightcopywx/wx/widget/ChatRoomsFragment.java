@@ -16,11 +16,11 @@ import android.view.ViewGroup;
 import com.idisfkj.hightcopywx.R;
 import com.idisfkj.hightcopywx.adapter.OnItemTouchListener;
 import com.idisfkj.hightcopywx.adapter.WXAdapter;
-import com.idisfkj.hightcopywx.dao.WXDataHelper;
+import com.idisfkj.hightcopywx.dao.ChatRoomsDataHelper;
 import com.idisfkj.hightcopywx.util.SharedPreferencesManager;
 import com.idisfkj.hightcopywx.wx.WXItemDecoration;
-import com.idisfkj.hightcopywx.wx.presenter.WXPresent;
-import com.idisfkj.hightcopywx.wx.presenter.WXPresentImp;
+import com.idisfkj.hightcopywx.wx.presenter.ChatRoomsPresent;
+import com.idisfkj.hightcopywx.wx.presenter.ChatRoomsPresentImp;
 import com.idisfkj.hightcopywx.wx.view.WXView;
 
 import butterknife.ButterKnife;
@@ -31,12 +31,12 @@ import butterknife.InjectView;
  * Created by idisfkj on 16/4/19.
  * Email : idisfkj@qq.com.
  */
-public class WXFragment extends Fragment implements WXView, LoaderManager.LoaderCallbacks<Cursor> {
+public class ChatRoomsFragment extends Fragment implements WXView, LoaderManager.LoaderCallbacks<Cursor> {
     @InjectView(R.id.wx_recyclerView)
     RecyclerView wxRecyclerView;
     private WXAdapter wxAdapter;
-    private WXPresent mWXPresent;
-    private WXDataHelper mHelper;
+    private ChatRoomsPresent mChatRoomsPresent;
+    private ChatRoomsDataHelper mHelper;
 
     @Nullable
     @Override
@@ -49,7 +49,7 @@ public class WXFragment extends Fragment implements WXView, LoaderManager.Loader
 
     public void init() {
         wxAdapter = new WXAdapter(getContext());
-        mWXPresent = new WXPresentImp(this);
+        mChatRoomsPresent = new ChatRoomsPresentImp(this);
         wxRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         wxRecyclerView.addItemDecoration(new WXItemDecoration(getContext()));
         wxRecyclerView.setAdapter(wxAdapter);
@@ -67,7 +67,7 @@ public class WXFragment extends Fragment implements WXView, LoaderManager.Loader
                 startActivity(intent);
             }
         });
-        mHelper = new WXDataHelper(getContext());
+        mHelper = new ChatRoomsDataHelper(getContext());
         getLoaderManager().initLoader(0, null, this);
     }
 
@@ -85,7 +85,7 @@ public class WXFragment extends Fragment implements WXView, LoaderManager.Loader
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         if (loader != null && data.getCount() <= 0) {
-            mWXPresent.initData(mHelper);
+            mChatRoomsPresent.initData(mHelper);
         }
         wxAdapter.changeCursor(data);
     }

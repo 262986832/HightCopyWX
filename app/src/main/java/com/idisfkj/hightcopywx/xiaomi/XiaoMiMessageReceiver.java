@@ -1,26 +1,21 @@
 package com.idisfkj.hightcopywx.xiaomi;
 
 import android.app.ActivityManager;
-import android.app.Notification;
 import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 
+import com.google.gson.Gson;
 import com.idisfkj.hightcopywx.App;
-import com.idisfkj.hightcopywx.R;
 import com.idisfkj.hightcopywx.beans.ChatMessageInfo;
 import com.idisfkj.hightcopywx.beans.RegisterInfo;
-import com.idisfkj.hightcopywx.beans.WXItemInfo;
+import com.idisfkj.hightcopywx.beans.ChatRoomItemInfo;
 import com.idisfkj.hightcopywx.dao.ChatMessageDataHelper;
+import com.idisfkj.hightcopywx.dao.ChatRoomsDataHelper;
 import com.idisfkj.hightcopywx.dao.RegisterDataHelper;
-import com.idisfkj.hightcopywx.dao.WXDataHelper;
-import com.idisfkj.hightcopywx.main.widget.MainActivity;
-import com.idisfkj.hightcopywx.util.CalendarUtils;
 import com.idisfkj.hightcopywx.util.CursorUtils;
 import com.idisfkj.hightcopywx.util.SharedPreferencesManager;
 import com.xiaomi.mipush.sdk.ErrorCode;
@@ -60,6 +55,8 @@ public class XiaoMiMessageReceiver extends PushMessageReceiver {
     @Override
     public void onReceivePassThroughMessage(Context context, MiPushMessage message) {
         mMessage = message.getContent();
+        Gson gson = new Gson();
+        DuduMessage duduMessage=gson.fromJson(mMessage,DuduMessage.class);
         if (!TextUtils.isEmpty(message.getTopic())) {
             mTopic = message.getTopic();
         } else if (!TextUtils.isEmpty(message.getAlias())) {
@@ -208,15 +205,15 @@ public class XiaoMiMessageReceiver extends PushMessageReceiver {
         helper.insert(info);
 
         if (SharedPreferencesManager.getString("regId").equals(App.DEVELOPER_ID)) {
-            WXDataHelper wxHelper = new WXDataHelper(App.getAppContext());
-            WXItemInfo itemInfo = new WXItemInfo();
-            itemInfo.setRegId(regId);
-            itemInfo.setTitle(userName);
-            itemInfo.setMobile(number);
-            itemInfo.setContent(String.format(App.HELLO_MESSAGE, userName));
-            itemInfo.setChattomobile(SharedPreferencesManager.getString("userPhone"));
-            itemInfo.setTime(CalendarUtils.getCurrentDate());
-            wxHelper.insert(itemInfo);
+            ChatRoomsDataHelper wxHelper = new ChatRoomsDataHelper(App.getAppContext());
+            ChatRoomItemInfo itemInfo = new ChatRoomItemInfo();
+//            itemInfo.setRegId(regId);
+//            itemInfo.setTitle(userName);
+//            itemInfo.setMobile(number);
+//            itemInfo.setContent(String.format(App.HELLO_MESSAGE, userName));
+//            itemInfo.setChattomobile(SharedPreferencesManager.getString("userPhone"));
+//            itemInfo.setTime(CalendarUtils.getCurrentDate());
+//            wxHelper.insert(itemInfo);
 
             //insert system information
 //            ChatMessageInfo chatInfo = new ChatMessageInfo(String.format(App.HELLO_MESSAGE, userName), 2, CalendarUtils.getCurrentDate()
@@ -239,8 +236,7 @@ public class XiaoMiMessageReceiver extends PushMessageReceiver {
         String sendNumber = extraMessage.substring(index3 + 1, index4);
         String userName = extraMessage.substring(index4 + 1);
 
-        ChatMessageInfo chatMessageInfo = new ChatMessageInfo(rMessage, 0, CalendarUtils.getCurrentDate()
-                , receiverNumber, sendNumber);
+        ChatMessageInfo chatMessageInfo = new ChatMessageInfo();
 
         if (App.mNumber.equals(sendNumber) && App.mRegId.equals(regId)) {
             //在当前聊天界面
@@ -256,15 +252,15 @@ public class XiaoMiMessageReceiver extends PushMessageReceiver {
             chatHelper.insert(chatMessageInfo);
 
             SharedPreferencesManager.putInt("unReadNum", SharedPreferencesManager.getInt("unReadNum") + 1).commit();
-            WXDataHelper wxHelper = new WXDataHelper(App.getAppContext());
-
+            ChatRoomsDataHelper wxHelper = new ChatRoomsDataHelper(App.getAppContext());
+/*
             Cursor cursor = wxHelper.query(sendNumber, regId, userName);
             int unReadNum = 0;
             int _id = 0;
             if (cursor.moveToFirst()) {
                 //更新目标未读消息数
-                unReadNum = CursorUtils.formatInt(cursor, WXDataHelper.WXItemDataInfo.UNREAD_NUM);
-                _id = CursorUtils.formatInt(cursor, WXDataHelper.WXItemDataInfo._ID);
+                unReadNum = CursorUtils.formatInt(cursor, ChatRoomsDataHelper.WXItemDataInfo.UNREAD_NUM);
+                _id = CursorUtils.formatInt(cursor, ChatRoomsDataHelper.WXItemDataInfo._ID);
                 wxHelper.update(++unReadNum, regId, sendNumber);
                 cursor.close();
             }
@@ -297,7 +293,7 @@ public class XiaoMiMessageReceiver extends PushMessageReceiver {
                         .setWhen(System.currentTimeMillis())
                         .build();
                 manager.notify(_id, notification);
-            }
+            }*/
         }
     }
 
@@ -308,21 +304,21 @@ public class XiaoMiMessageReceiver extends PushMessageReceiver {
         String number = message.substring(index1 + 1, index2);
         String regId = message.substring(index2 + 1);
         String currentAccount = SharedPreferencesManager.getString("userPhone");
-        WXItemInfo itemInfo = new WXItemInfo();
+        ChatRoomItemInfo itemInfo = new ChatRoomItemInfo();
+        /*
         itemInfo.setTitle(userName);
         itemInfo.setMobile(number);
         itemInfo.setRegId(regId);
         itemInfo.setContent(String.format(App.HELLO_MESSAGE, number));
         itemInfo.setChattomobile(currentAccount);
         itemInfo.setTime(CalendarUtils.getCurrentDate());
-        WXDataHelper wxHelper = new WXDataHelper(App.getAppContext());
+        ChatRoomsDataHelper wxHelper = new ChatRoomsDataHelper(App.getAppContext());
         //默认添加朋友请求
         wxHelper.insert(itemInfo);
 
         //插入系统消息
-        ChatMessageInfo chatInfo = new ChatMessageInfo(String.format(App.HELLO_MESSAGE, userName), 2,
-                CalendarUtils.getCurrentDate(), currentAccount, number);
-        chatHelper.insert(chatInfo);
+        ChatMessageInfo chatInfo = new ChatMessageInfo();
+        chatHelper.insert(chatInfo);*/
     }
 
     public boolean isApp2Background() {

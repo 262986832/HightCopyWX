@@ -50,8 +50,10 @@ public class RegisterDataHelper extends BaseDataHelper {
     }
 
     public Cursor query(String number, String regId) {
-        Cursor cursor = query(null, RegisterDataInfo.NUMBER + "=?" + " AND " + RegisterDataInfo.REGID + "=?"
-                , new String[]{number, regId}, null);
+        Cursor cursor = query(null
+                , RegisterDataInfo.NUMBER + "=?" + " AND " + RegisterDataInfo.REGID + "=?"
+                , new String[]{number, regId}
+                , null);
         return cursor;
     }
 

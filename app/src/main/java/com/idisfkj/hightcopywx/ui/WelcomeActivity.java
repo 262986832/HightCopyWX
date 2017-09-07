@@ -12,6 +12,7 @@ import com.idisfkj.hightcopywx.ui.model.RegisterModel;
 import com.idisfkj.hightcopywx.ui.model.RegisterModelImp;
 import com.idisfkj.hightcopywx.ui.widget.LoginActivity;
 import com.idisfkj.hightcopywx.util.SharedPreferencesManager;
+import com.idisfkj.hightcopywx.util.ToastUtils;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -68,6 +69,6 @@ public class WelcomeActivity extends Activity implements LoginModel.requestLogin
 
     @Override
     public void onError(String msg) {
-
+        ToastUtils.showShort("网络异常,请检查网络");
     }
 }

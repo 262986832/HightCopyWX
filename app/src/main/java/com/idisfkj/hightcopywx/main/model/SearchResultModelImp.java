@@ -15,8 +15,8 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.idisfkj.hightcopywx.App;
 import com.idisfkj.hightcopywx.R;
 import com.idisfkj.hightcopywx.adapter.SearchResultAdapter;
+import com.idisfkj.hightcopywx.dao.ChatRoomsDataHelper;
 import com.idisfkj.hightcopywx.dao.RegisterDataHelper;
-import com.idisfkj.hightcopywx.dao.WXDataHelper;
 import com.idisfkj.hightcopywx.util.CursorUtils;
 import com.idisfkj.hightcopywx.util.SharedPreferencesManager;
 import com.idisfkj.hightcopywx.util.ToastUtils;
@@ -52,8 +52,8 @@ public class SearchResultModelImp implements SearchResultModel {
                             String regId = CursorUtils.formatString(cursor, RegisterDataHelper.RegisterDataInfo.REGID);
                             String userName = CursorUtils.formatString(cursor, RegisterDataHelper.RegisterDataInfo.USER_NAME);
 
-                            WXDataHelper wxHelper = new WXDataHelper(context);
-                            Cursor wxCursor = wxHelper.query(number, regId, userName);
+                            ChatRoomsDataHelper chatRoomsDataHelper = new ChatRoomsDataHelper(context);
+                            Cursor wxCursor = chatRoomsDataHelper.query(number);
                             if (wxCursor.getCount() > 0 || (number.equals(SharedPreferencesManager.getString("userPhone"))
                                     && regId.equals(SharedPreferencesManager.getString("regId")))) {
                                 ToastUtils.showShort("你已经添加了该好友！");

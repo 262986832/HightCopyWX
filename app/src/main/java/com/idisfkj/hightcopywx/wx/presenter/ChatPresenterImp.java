@@ -7,8 +7,6 @@ import android.os.Bundle;
 import com.idisfkj.hightcopywx.App;
 import com.idisfkj.hightcopywx.beans.ChatMessageInfo;
 import com.idisfkj.hightcopywx.dao.ChatMessageDataHelper;
-import com.idisfkj.hightcopywx.util.CalendarUtils;
-import com.idisfkj.hightcopywx.util.SharedPreferencesManager;
 import com.idisfkj.hightcopywx.util.ToastUtils;
 import com.idisfkj.hightcopywx.util.UrlUtils;
 import com.idisfkj.hightcopywx.wx.model.ChatModel;
@@ -37,11 +35,9 @@ public class ChatPresenterImp implements ChatPresenter, ChatModel.requestListene
     }
 
     @Override
-    public void sendData(String chatContent, String chatToMobile, ChatMessageDataHelper helper) {
-        ChatMessageInfo chatMessageInfo = new ChatMessageInfo(chatContent, 1, CalendarUtils.getCurrentDate(),
-                chatToMobile, SharedPreferencesManager.getString("userPhone", ""));
+    public void sendData(ChatMessageInfo chatMessageInfo, ChatMessageDataHelper helper) {
         mChatModel.insertData(chatMessageInfo, helper);
-        mChatModel.requestData(this, chatContent, chatToMobile, helper);
+        mChatModel.requestData(this, chatMessageInfo, helper);
     }
 
     @Override

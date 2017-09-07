@@ -10,7 +10,7 @@ import com.idisfkj.hightcopywx.dao.ChatMessageDataHelper;
  * Email : idisfkj@qq.com.
  */
 public interface ChatModel {
-    void requestData(requestListener listener, String chatContent, String chatToMobile, ChatMessageDataHelper helper);
+    void requestData(requestListener listener, ChatMessageInfo chatMessageInfo, ChatMessageDataHelper helper);
 
     void insertData(ChatMessageInfo info, ChatMessageDataHelper helper);
 

@@ -46,6 +46,7 @@ public class LoginModelImp implements LoginModel {
                             @Override
                             public void onErrorResponse(VolleyError error) {
                                 Log.e(TAG, error.getMessage(), error);
+                                listener.onError(error.getMessage());
                             }
                         }) {
             @Override

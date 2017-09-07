@@ -164,7 +164,7 @@ public class DataProvider extends ContentProvider {
                 table = RegisterDataHelper.RegisterDataInfo.TABLE_NAME;
                 break;
             case WXS:
-                table = WXDataHelper.WXItemDataInfo.TABLE_NAME;
+                table = ChatRoomsDataHelper.WXItemDataInfo.TABLE_NAME;
                 break;
             case CHAT_MESSAGES:
                 table = ChatMessageDataHelper.ChatMessageDataInfo.TABLE_NAME;

@@ -7,13 +7,12 @@ import android.view.View;
 
 import com.idisfkj.hightcopywx.App;
 import com.idisfkj.hightcopywx.adapter.SearchResultAdapter;
-import com.idisfkj.hightcopywx.beans.WXItemInfo;
+import com.idisfkj.hightcopywx.beans.ChatRoomItemInfo;
 import com.idisfkj.hightcopywx.dao.ChatMessageDataHelper;
-import com.idisfkj.hightcopywx.dao.WXDataHelper;
+import com.idisfkj.hightcopywx.dao.ChatRoomsDataHelper;
 import com.idisfkj.hightcopywx.main.model.SearchResultModel;
 import com.idisfkj.hightcopywx.main.model.SearchResultModelImp;
 import com.idisfkj.hightcopywx.main.view.SearchResultView;
-import com.idisfkj.hightcopywx.util.CalendarUtils;
 import com.idisfkj.hightcopywx.util.SharedPreferencesManager;
 import com.idisfkj.hightcopywx.util.VolleyUtils;
 
@@ -24,7 +23,7 @@ import com.idisfkj.hightcopywx.util.VolleyUtils;
 public class SearchResultPresenterImp implements SearchResultPresenter, SearchResultModelImp.requestListener {
     private SearchResultModel mModel;
     private SearchResultView mView;
-    private WXDataHelper wxHelper;
+    private ChatRoomsDataHelper wxHelper;
     private ChatMessageDataHelper chatHelper;
 
     public SearchResultPresenterImp(SearchResultView View) {
@@ -39,16 +38,11 @@ public class SearchResultPresenterImp implements SearchResultPresenter, SearchRe
 
     @Override
     public void onSucceed(String userName, String number, String regId, Cursor cursor, ProgressDialog pd) {
-        wxHelper = new WXDataHelper(App.getAppContext());
+        wxHelper = new ChatRoomsDataHelper(App.getAppContext());
         chatHelper = new ChatMessageDataHelper(App.getAppContext());
-        WXItemInfo info = new WXItemInfo();
+        ChatRoomItemInfo info = new ChatRoomItemInfo();
         String currentAccount = SharedPreferencesManager.getString("userPhone");
-        info.setTitle(userName);
-        info.setMobile(number);
-        info.setRegId(regId);
-        info.setContent(String.format(App.HELLO_MESSAGE, userName));
-        info.setChattomobile(currentAccount);
-        info.setTime(CalendarUtils.getCurrentDate());
+
         //添加到聊天通信数据库
         wxHelper.insert(info);
         cursor.close();
