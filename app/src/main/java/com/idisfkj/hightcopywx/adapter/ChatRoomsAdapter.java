@@ -25,11 +25,11 @@ import static com.idisfkj.hightcopywx.util.CursorUtils.formatString;
  * Created by idisfkj on 16/4/22.
  * Email : idisfkj@qq.com.
  */
-public class WXAdapter extends RecyclerViewCursorBaseAdapter<WXAdapter.ViewHolder> {
+public class ChatRoomsAdapter extends RecyclerViewCursorBaseAdapter<ChatRoomsAdapter.ViewHolder> {
     private LayoutInflater mLayoutInflater;
     private Context mContext;
 
-    public WXAdapter(Context context) {
+    public ChatRoomsAdapter(Context context) {
         super(context, null);
         mLayoutInflater = LayoutInflater.from(context);
         mContext = context;

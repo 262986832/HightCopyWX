@@ -100,8 +100,8 @@ public class ChatRoomsDataHelper extends BaseDataHelper {
         }
     }
 
-    public android.support.v4.content.CursorLoader getCursorLoader(String chatRoomid) {
-        return getV4CursorLoader(null, WXItemDataInfo.chatRoomID + "=?"
-                , new String[]{chatRoomid}, WXItemDataInfo._ID + " ASC");
+    public android.support.v4.content.CursorLoader getCursorLoader(String ownMobile) {
+        return getV4CursorLoader(null, WXItemDataInfo.ownMobile + "=?"
+                , new String[]{ownMobile}, WXItemDataInfo._ID + " ASC");
     }
 }

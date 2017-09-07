@@ -14,14 +14,15 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.idisfkj.hightcopywx.R;
+import com.idisfkj.hightcopywx.adapter.ChatRoomsAdapter;
 import com.idisfkj.hightcopywx.adapter.OnItemTouchListener;
-import com.idisfkj.hightcopywx.adapter.WXAdapter;
 import com.idisfkj.hightcopywx.dao.ChatRoomsDataHelper;
 import com.idisfkj.hightcopywx.util.SharedPreferencesManager;
+import com.idisfkj.hightcopywx.util.ToastUtils;
 import com.idisfkj.hightcopywx.wx.WXItemDecoration;
 import com.idisfkj.hightcopywx.wx.presenter.ChatRoomsPresent;
 import com.idisfkj.hightcopywx.wx.presenter.ChatRoomsPresentImp;
-import com.idisfkj.hightcopywx.wx.view.WXView;
+import com.idisfkj.hightcopywx.wx.view.ChatRoomsView;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -31,10 +32,10 @@ import butterknife.InjectView;
  * Created by idisfkj on 16/4/19.
  * Email : idisfkj@qq.com.
  */
-public class ChatRoomsFragment extends Fragment implements WXView, LoaderManager.LoaderCallbacks<Cursor> {
+public class ChatRoomsFragment extends Fragment implements ChatRoomsView,ChatRoomsPresent.InitRoomsDataLinsener, LoaderManager.LoaderCallbacks<Cursor> {
     @InjectView(R.id.wx_recyclerView)
     RecyclerView wxRecyclerView;
-    private WXAdapter wxAdapter;
+    private ChatRoomsAdapter chatRoomsAdapter;
     private ChatRoomsPresent mChatRoomsPresent;
     private ChatRoomsDataHelper mHelper;
 
@@ -48,20 +49,20 @@ public class ChatRoomsFragment extends Fragment implements WXView, LoaderManager
     }
 
     public void init() {
-        wxAdapter = new WXAdapter(getContext());
+        chatRoomsAdapter = new ChatRoomsAdapter(getContext());
         mChatRoomsPresent = new ChatRoomsPresentImp(this);
         wxRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         wxRecyclerView.addItemDecoration(new WXItemDecoration(getContext()));
-        wxRecyclerView.setAdapter(wxAdapter);
+        wxRecyclerView.setAdapter(chatRoomsAdapter);
         wxRecyclerView.addOnItemTouchListener(new OnItemTouchListener(wxRecyclerView) {
             @Override
             public void onItemListener(RecyclerView.ViewHolder vh) {
-                WXAdapter.ViewHolder wxhd=(WXAdapter.ViewHolder)vh;
+                ChatRoomsAdapter.ViewHolder wxhd=(ChatRoomsAdapter.ViewHolder)vh;
                 int chatType=wxhd.getChatType();
                 Intent intent = new Intent(getActivity(), ChatActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putString("chatToMobile", ((WXAdapter.ViewHolder) vh).getChatToMobile());
-                bundle.putString("chatTitle", ((WXAdapter.ViewHolder) vh).chatTitle);
+                bundle.putString("chatToMobile", ((ChatRoomsAdapter.ViewHolder) vh).getChatToMobile());
+                bundle.putString("chatTitle", ((ChatRoomsAdapter.ViewHolder) vh).chatTitle);
                 bundle.putInt("chatType", chatType);
                 intent.putExtras(bundle);
                 startActivity(intent);
@@ -82,16 +83,27 @@ public class ChatRoomsFragment extends Fragment implements WXView, LoaderManager
         return mHelper.getCursorLoader(SharedPreferencesManager.getString("userPhone"));
     }
 
+
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         if (loader != null && data.getCount() <= 0) {
-            mChatRoomsPresent.initData(mHelper);
+            mChatRoomsPresent.initData(mHelper,this);
         }
-        wxAdapter.changeCursor(data);
+        chatRoomsAdapter.changeCursor(data);
     }
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-        wxAdapter.changeCursor(null);
+        chatRoomsAdapter.changeCursor(null);
+    }
+
+    @Override
+    public void onInitDataComplete( Cursor data) {
+        chatRoomsAdapter.changeCursor(data);
+    }
+
+    @Override
+    public void onInitDataing() {
+        ToastUtils.showShort("正在初始化课程信息");
     }
 }
