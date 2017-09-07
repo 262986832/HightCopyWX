@@ -1,6 +1,7 @@
 package com.idisfkj.hightcopywx.wx.presenter;
 
 import android.content.Context;
+import android.content.CursorLoader;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -21,9 +22,11 @@ import com.idisfkj.hightcopywx.wx.view.ChatView;
 public class ChatPresenterImp implements ChatPresenter, ChatModel.requestListener, ChatModel.cursorListener {
     private ChatView mChatView;
     private ChatModel mChatModel;
+    private ChatMessageDataHelper mHelper;
 
-    public ChatPresenterImp(ChatView chatView, int chatType) {
+    public ChatPresenterImp(ChatView chatView, int chatType,Context context) {
         mChatView = chatView;
+        mHelper = new ChatMessageDataHelper(context);
         if (chatType == App.CHAT_TYPE_CHINESETOENGLISH)
             mChatModel = new TranslateChatModelImp(UrlUtils.ZHTOEN);
         else if (chatType == App.CHAT_TYPE_ENGLISHTOCHINESE)
@@ -35,37 +38,38 @@ public class ChatPresenterImp implements ChatPresenter, ChatModel.requestListene
     }
 
     @Override
-    public void sendData(ChatMessageInfo chatMessageInfo, ChatMessageDataHelper helper) {
-        mChatModel.insertData(chatMessageInfo, helper);
-        mChatModel.requestData(this, chatMessageInfo, helper);
+    public CursorLoader creatLoader(String charRoomid) {
+        return  mHelper.getCursorLoader(charRoomid);
     }
 
     @Override
-    public void receiveData(Intent intent, ChatMessageDataHelper helper) {
+    public void initData() {
+
+    }
+
+    @Override
+    public void sendData(ChatMessageInfo chatMessageInfo) {
+        mChatModel.insertData(chatMessageInfo, mHelper);
+        mChatModel.requestData(this, chatMessageInfo, mHelper);
+    }
+
+    @Override
+    public void receiveData(Intent intent) {
         Bundle bundle = intent.getExtras();
         ChatMessageInfo info = (ChatMessageInfo) bundle.getSerializable("chatMessageInfo");
-        mChatModel.insertData(info, helper);
+        mChatModel.insertData(info, mHelper);
     }
 
     @Override
-    public void initData(ChatMessageDataHelper helper, String mRegId, String mNumber, String userName) {
-        mChatModel.initData(helper, mRegId, mNumber, userName);
+    public void cleanUnReadNum(String ownMobile, String chatRoomId) {
+
     }
 
     @Override
-    public void loadData(Context context, int _id) {
-        mChatModel.getUserInfo(context, this, _id);
+    public void updateLasterContent(String ownMobile, String chatRoomId) {
+
     }
 
-    @Override
-    public void cleanUnReadNum(Context context, String regId, String number, int unReadNum) {
-        mChatModel.updateUnReadNum(context, regId, number, unReadNum);
-    }
-
-    @Override
-    public void updateLasterContent(Context context, String regId, String number) {
-        mChatModel.updateLasterContent(context, regId, number);
-    }
 
     @Override
     public void onSucceed(ChatMessageInfo chatMessageInfo, ChatMessageDataHelper helper) {
@@ -79,6 +83,6 @@ public class ChatPresenterImp implements ChatPresenter, ChatModel.requestListene
 
     @Override
     public void onSucceed(String regId, String number, String userName, int unReadNum) {
-        mChatView.loadUserInfo(regId, number, userName, unReadNum);
+
     }
 }

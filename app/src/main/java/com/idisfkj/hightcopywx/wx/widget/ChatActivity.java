@@ -28,7 +28,6 @@ import com.idisfkj.hightcopywx.R;
 import com.idisfkj.hightcopywx.adapter.ChatAdapter;
 import com.idisfkj.hightcopywx.adapter.OnItemTouchListener;
 import com.idisfkj.hightcopywx.beans.ChatMessageInfo;
-import com.idisfkj.hightcopywx.dao.ChatMessageDataHelper;
 import com.idisfkj.hightcopywx.ui.BaseActivity;
 import com.idisfkj.hightcopywx.util.VolleyUtils;
 import com.idisfkj.hightcopywx.wx.presenter.ChatPresenter;
@@ -49,7 +48,7 @@ public class ChatActivity extends BaseActivity
         View.OnFocusChangeListener, LoaderManager.LoaderCallbacks<Cursor> {
 
     @InjectView(R.id.chat_content)
-    EditText chatContent;
+    EditText mChatContent;
     @InjectView(R.id.chat_view)
     RecyclerView chatView;
     @InjectView(R.id.chat_line)
@@ -63,14 +62,13 @@ public class ChatActivity extends BaseActivity
 
     private static final String ACTION_FILTER = "com.idisfkj.hightcopywx.chat";
     private ChatPresenter mChatPresenter;
-    private String mChatContent;
     private ChatAdapter mChatAdapter;
     private BroadcastReceiver receiver;
     private InputMethodManager manager;
-    private ChatMessageDataHelper chatHelper;
+
     private String chatTitle;
     private int unReadNum;
-    private String chatRoomID;
+    private String mChatRoomID;
 
 
     @Override
@@ -80,12 +78,10 @@ public class ChatActivity extends BaseActivity
         ButterKnife.inject(this);
 
         Bundle bundle = getIntent().getExtras();
-        chatRoomID = bundle.getString("chatRoomID");
+        mChatRoomID = bundle.getString("chatRoomID");
         chatTitle = bundle.getString("chatTitle");
-        int chat_type=bundle.getInt("chatType");
-
-        mChatPresenter = new ChatPresenterImp(this,chat_type);
-        //mChatPresenter.loadData(this, _id);
+        int chat_type = bundle.getInt("chatType");
+        mChatPresenter = new ChatPresenterImp(this, chat_type, this);
 
         NotificationManager manager = (NotificationManager) App.getAppContext().getSystemService(Context.NOTIFICATION_SERVICE);
         //manager.cancel(_id);
@@ -93,7 +89,7 @@ public class ChatActivity extends BaseActivity
         init();
 
         if (unReadNum > 0) {
-            mChatPresenter.cleanUnReadNum(this, App.mRegId, App.mNumber, unReadNum);
+            mChatPresenter.cleanUnReadNum("","");
         }
         getActionBar().setTitle(chatTitle);
         getActionBar().setDisplayHomeAsUpEnabled(true);
@@ -109,8 +105,6 @@ public class ChatActivity extends BaseActivity
             }
         });
 
-//        @SuppressLint("WrongViewCast") RelativeLayoutThatDetectsSoftKeyboard chatLayout = (RelativeLayoutThatDetectsSoftKeyboard) findViewById(R.id.chat_bottm);
-//        chatLayout.setListener(this);
     }
 
     @Override
@@ -133,7 +127,7 @@ public class ChatActivity extends BaseActivity
         filter.addAction(ACTION_FILTER);
         this.registerReceiver(receiver, filter);
 
-        chatHelper = new ChatMessageDataHelper(this);
+
         mChatAdapter = new ChatAdapter(this);
         chatView.setLayoutManager(new LinearLayoutManager(this));
         chatView.setAdapter(mChatAdapter);
@@ -144,17 +138,15 @@ public class ChatActivity extends BaseActivity
 //                ToastUtils.showLong(vh.getLayoutPosition()+"");
             }
         });
-        chatContent.setOnFocusChangeListener(this);
+        mChatContent.setOnFocusChangeListener(this);
 
         getLoaderManager().initLoader(0, null, this);
 
         voice_button.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                // 获得x轴坐标
-                int x = (int) event.getX();
-                // 获得y轴坐标
-                int y = (int) event.getY();
+                int x = (int) event.getX();// 获得x轴坐标
+                int y = (int) event.getY();// 获得y轴坐标
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         //mVoicePop.showAtLocation(v, Gravity.CENTER, 0, 0);
@@ -183,14 +175,13 @@ public class ChatActivity extends BaseActivity
                         }
                         voice_button.setText("按住说话");
                         voice_button.setTag("3");
-                        // mVoiceText.setVisibility(View.GONE);
-                        // mEditText.setVisibility(View.VISIBLE);
                         break;
                 }
                 return true;
             }
         });
     }
+
     private boolean wantToCancle(int x, int y) {
         // 超过按钮的宽度
         if (x < 0 || x > voice_button.getWidth()) {
@@ -216,7 +207,7 @@ public class ChatActivity extends BaseActivity
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-        if (event.getAction() == MotionEvent.ACTION_DOWN && isKeyboardShown(chatContent.getRootView()))
+        if (event.getAction() == MotionEvent.ACTION_DOWN && isKeyboardShown(mChatContent.getRootView()))
             manager.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
         return false;
     }
@@ -228,7 +219,7 @@ public class ChatActivity extends BaseActivity
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        return chatHelper.getCursorLoader(chatRoomID);
+        return mChatPresenter.creatLoader(mChatRoomID);
     }
 
     @Override
@@ -243,48 +234,48 @@ public class ChatActivity extends BaseActivity
         mChatAdapter.changeCursor(null);
     }
 
+
     @Override
-    public void loadUserInfo(String regId, String number, String userName, int unReadNum) {
-        App.mRegId = regId;
-        App.mNumber = number;
-        this.unReadNum = unReadNum;
+    public void onInitDataEnd(Cursor data) {
+
     }
 
+    @Override
+    public void onInitDataBegin() {
+
+    }
 
     private class ChatBroadCastReceiver extends BroadcastReceiver {
-
         @Override
         public void onReceive(Context context, Intent intent) {
-            mChatPresenter.receiveData(intent, chatHelper);
+            mChatPresenter.receiveData(intent);
         }
     }
 
     @OnClick(R.id.chat_send)
     public void onClick() {
-        mChatContent = chatContent.getText().toString();
-        ChatMessageInfo chatMessageInfo=new ChatMessageInfo();
-        if (mChatContent.trim().length() > 0) {
-            mChatPresenter.sendData(chatMessageInfo, chatHelper);
+        String chatContent = mChatContent.getText().toString();
+        if (chatContent.trim().length() > 0) {
+            ChatMessageInfo chatMessageInfo = new ChatMessageInfo();
+            chatMessageInfo.setMessageContent(chatContent);
+            chatMessageInfo.setChatRoomID(mChatRoomID);
+            mChatPresenter.sendData(chatMessageInfo);
         }
-        chatContent.setText("");
+        mChatContent.setText("");
     }
 
     @OnClick(R.id.voice_swith)
     public void onVoice_swithClick() {
-        relativeLayout.setVisibility(relativeLayout.getVisibility()==View.VISIBLE?View.GONE:View.VISIBLE);
-        voice_button.setVisibility(voice_button.getVisibility()==View.VISIBLE?View.GONE:View.VISIBLE);
+        relativeLayout.setVisibility(relativeLayout.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
+        voice_button.setVisibility(voice_button.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
     }
-
-
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         //更新数据
-        mChatPresenter.updateLasterContent(this, App.mRegId, App.mNumber);
+        mChatPresenter.updateLasterContent("","");
         //重置数据
-        App.mNumber = "-1";
-        App.mRegId = "-1";
         VolleyUtils.cancelAll("chatRequest");
         this.unregisterReceiver(receiver);
         ButterKnife.reset(this);

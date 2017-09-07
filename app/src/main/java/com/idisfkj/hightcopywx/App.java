@@ -32,7 +32,7 @@ public class App extends Application{
     public static final int CHAT_TYPE_CHINESETOENGLISH=2;
     public static final int CHAT_TYPE_ENGLISH_STUDY=3;
     public static String mNumber = "-1";
-    public static String mRegId = "-1";
+    public static String ownMobile = "-1";
     public static SharedPreferences sp;
     public static SharedPreferences.Editor editor;
 

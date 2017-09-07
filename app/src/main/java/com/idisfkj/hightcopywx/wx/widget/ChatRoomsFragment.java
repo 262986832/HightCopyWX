@@ -97,13 +97,13 @@ public class ChatRoomsFragment extends Fragment implements ChatRoomsView, Loader
     }
 
     @Override
-    public void onInitDataComplete( Cursor data) {
+    public void onInitDataEnd( Cursor data) {
         chatRoomsAdapter.changeCursor(data);
         ToastUtils.showShort("初始化课程信息完成");
     }
 
     @Override
-    public void onInitDataing() {
+    public void onInitDataBegin() {
         ToastUtils.showShort("正在初始化课程信息...");
     }
 }

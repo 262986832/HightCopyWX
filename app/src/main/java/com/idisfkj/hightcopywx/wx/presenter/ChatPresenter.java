@@ -1,31 +1,24 @@
 package com.idisfkj.hightcopywx.wx.presenter;
 
-import android.content.Context;
+import android.content.CursorLoader;
 import android.content.Intent;
 
 import com.idisfkj.hightcopywx.beans.ChatMessageInfo;
-import com.idisfkj.hightcopywx.dao.ChatMessageDataHelper;
 
 /**
  * Created by idisfkj on 16/4/26.
  * Email : idisfkj@qq.com.
  */
 public interface ChatPresenter {
-    void sendData(ChatMessageInfo chatMessageInfo, ChatMessageDataHelper helper);
+    CursorLoader creatLoader(String ownMobile);
+    void initData();
 
-    void receiveData(Intent intent, ChatMessageDataHelper helper);
+    void sendData(ChatMessageInfo chatMessageInfo);
 
-    void initData(ChatMessageDataHelper helper, String mRegId, String mNumber, String userName);
+    void receiveData(Intent intent);
 
-    /**
-     * 加载当前聊天用户状态信息
-     * @param context
-     * @param _id
-     */
-    void loadData(Context context, int _id);
+    void cleanUnReadNum(String ownMobile,String chatRoomId);
 
-    void cleanUnReadNum(Context context, String regId, String number, int unReadNum);
-
-    void updateLasterContent(Context context,String regId,String number);
+    void updateLasterContent(String ownMobile,String chatRoomId);
 
 }

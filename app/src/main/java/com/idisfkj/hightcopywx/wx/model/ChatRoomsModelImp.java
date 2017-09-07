@@ -16,7 +16,7 @@ import com.idisfkj.hightcopywx.wx.view.ChatRoomsView;
 public class ChatRoomsModelImp implements ChatRoomsModel {
     @Override
     public void initData(ChatRoomsDataHelper mHelper, ChatRoomsView chatRoomsView) {
-        chatRoomsView.onInitDataing();
+        chatRoomsView.onInitDataBegin();
         Cursor cursor=mHelper.query("EnglishToChinese");
         int count=cursor.getCount();
         //String chartRoomid=CursorUtils.formatString(cursor, ChatRoomsDataHelper.WXItemDataInfo.chatRoomID);
@@ -46,7 +46,7 @@ public class ChatRoomsModelImp implements ChatRoomsModel {
             chatRoomItemInfo.setChatType(App.CHAT_TYPE_ENGLISHTOCHINESE);
             mHelper.insert(chatRoomItemInfo);
         }
-        chatRoomsView.onInitDataComplete(cursor);
+        chatRoomsView.onInitDataEnd(cursor);
     }
 
 }

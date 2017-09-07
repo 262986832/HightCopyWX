@@ -238,7 +238,7 @@ public class XiaoMiMessageReceiver extends PushMessageReceiver {
 
         ChatMessageInfo chatMessageInfo = new ChatMessageInfo();
 
-        if (App.mNumber.equals(sendNumber) && App.mRegId.equals(regId)) {
+        if (App.mNumber.equals(sendNumber) ) {
             //在当前聊天界面
             intent.setAction("com.idisfkj.hightcopywx.chat");
             Bundle bundle = new Bundle();
