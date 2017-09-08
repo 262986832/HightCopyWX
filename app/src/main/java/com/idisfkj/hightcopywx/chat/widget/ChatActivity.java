@@ -4,8 +4,6 @@ import android.app.LoaderManager;
 import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.Loader;
 import android.database.Cursor;
 import android.graphics.Rect;
@@ -28,12 +26,11 @@ import com.idisfkj.hightcopywx.R;
 import com.idisfkj.hightcopywx.adapters.ChatAdapter;
 import com.idisfkj.hightcopywx.adapters.OnItemTouchListener;
 import com.idisfkj.hightcopywx.beans.ChatMessageInfo;
-import com.idisfkj.hightcopywx.registerLogin.BaseActivity;
-import com.idisfkj.hightcopywx.util.SharedPreferencesManager;
-import com.idisfkj.hightcopywx.util.VolleyUtils;
 import com.idisfkj.hightcopywx.chat.presenter.ChatPresenter;
 import com.idisfkj.hightcopywx.chat.presenter.ChatPresenterImp;
 import com.idisfkj.hightcopywx.chat.view.ChatView;
+import com.idisfkj.hightcopywx.registerLogin.BaseActivity;
+import com.idisfkj.hightcopywx.util.VolleyUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -116,12 +113,7 @@ public class ChatActivity extends BaseActivity
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void handleMessage(ChatMessageInfo chatMessageInfo) {
-        String ownMobile=SharedPreferencesManager.getString("userPhone","");
-        if (ownMobile.equals(chatMessageInfo.getSendMobile())){
-            chatMessageInfo.setSendOrReciveFlag(App.SEND_FLAG);
-        }else{
-            chatMessageInfo.setSendOrReciveFlag(App.RECEIVE_FLAG);
-        }
+        mChatPresenter.receiveData(chatMessageInfo);
     }
 
     @Override
@@ -138,13 +130,6 @@ public class ChatActivity extends BaseActivity
     }
 
     public void init() {
-        manager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-        receiver = new ChatBroadCastReceiver();
-        IntentFilter filter = new IntentFilter();
-        filter.addAction(ACTION_FILTER);
-        this.registerReceiver(receiver, filter);
-
-
         mChatAdapter = new ChatAdapter(this);
         chatView.setLayoutManager(new LinearLayoutManager(this));
         chatView.setAdapter(mChatAdapter);
@@ -200,14 +185,10 @@ public class ChatActivity extends BaseActivity
     }
 
     private boolean wantToCancle(int x, int y) {
-        // 超过按钮的宽度
-        if (x < 0 || x > voice_button.getWidth()) {
+        if (x < 0 || x > voice_button.getWidth()) // 超过按钮的宽度
             return true;
-        }
-        // 超过按钮的高度
-        if (y < -50 || y > voice_button.getHeight() + 50) {
+        if (y < -50 || y > voice_button.getHeight() + 50)// 超过按钮的高度
             return true;
-        }
         return false;
     }
 
@@ -260,13 +241,6 @@ public class ChatActivity extends BaseActivity
     @Override
     public void onInitDataBegin() {
 
-    }
-
-    private class ChatBroadCastReceiver extends BroadcastReceiver {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            mChatPresenter.receiveData(intent);
-        }
     }
 
     @OnClick(R.id.chat_send)

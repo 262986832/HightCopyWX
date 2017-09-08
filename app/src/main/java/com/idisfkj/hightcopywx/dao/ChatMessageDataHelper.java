@@ -34,6 +34,7 @@ public class ChatMessageDataHelper extends BaseDataHelper {
         values.put(ChatMessageDataInfo.chatRoomID, info.getChatRoomID());
         values.put(ChatMessageDataInfo.sendOrReciveFlag, info.getSendOrReciveFlag());
         values.put(ChatMessageDataInfo.messageType, info.getMessageType());
+        values.put(ChatMessageDataInfo.status, info.getStatus());
         values.put(ChatMessageDataInfo.messageTitle, info.getMessageTitle());
         values.put(ChatMessageDataInfo.messageContent, info.getMessageContent());
         values.put(ChatMessageDataInfo.messageImgUrl, info.getMessageImgUrl());
@@ -50,6 +51,7 @@ public class ChatMessageDataHelper extends BaseDataHelper {
         public static final String chatRoomID = "chatRoomID";
         public static final String sendOrReciveFlag = "sendOrReciveFlag";
         public static final String messageType = "messageType";
+        public static final String status = "status";
         public static final String messageTitle = "messageTitle";
         public static final String messageContent = "messageContent";
         public static final String messageImgUrl = "messageImgUrl";
@@ -62,6 +64,7 @@ public class ChatMessageDataHelper extends BaseDataHelper {
                 .addColumn(chatRoomID, Column.DataType.TEXT)
                 .addColumn(sendOrReciveFlag, Column.DataType.INTEGER)
                 .addColumn(messageType, Column.DataType.INTEGER)
+                .addColumn(status, Column.DataType.INTEGER)
                 .addColumn(messageTitle, Column.DataType.TEXT)
                 .addColumn(messageContent, Column.DataType.TEXT)
                 .addColumn(messageImgUrl, Column.DataType.TEXT)
@@ -81,6 +84,14 @@ public class ChatMessageDataHelper extends BaseDataHelper {
     public void insert(ChatMessageInfo info) {
         ContentValues values = getContentValues(info);
         insert(values);
+    }
+
+    public int updateStatus(int status, String messageID) {
+        ContentValues values = new ContentValues();
+        values.put(ChatMessageDataInfo.status, status);
+        int row = update(values, ChatMessageDataInfo.messageID + "=?"
+                , new String[]{messageID});
+        return row;
     }
 
     public void bulkInser(ArrayList<ChatMessageInfo> list) {

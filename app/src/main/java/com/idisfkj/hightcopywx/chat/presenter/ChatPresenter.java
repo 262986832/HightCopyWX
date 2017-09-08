@@ -1,7 +1,6 @@
 package com.idisfkj.hightcopywx.chat.presenter;
 
 import android.content.CursorLoader;
-import android.content.Intent;
 
 import com.idisfkj.hightcopywx.beans.ChatMessageInfo;
 
@@ -15,7 +14,7 @@ public interface ChatPresenter {
 
     void sendData(ChatMessageInfo chatMessageInfo);
 
-    void receiveData(Intent intent);
+    void receiveData(ChatMessageInfo chatMessageInfo);
 
     void cleanUnReadNum(String ownMobile,String chatRoomId);
 

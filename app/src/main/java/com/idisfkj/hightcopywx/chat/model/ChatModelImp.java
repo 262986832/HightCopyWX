@@ -68,6 +68,7 @@ public class ChatModelImp implements ChatModel {
 
     }
 
+
     @Override
     public void updateUnReadNum(Context context, String regId, String number, int unReadNum) {
 

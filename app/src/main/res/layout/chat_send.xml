@@ -21,10 +21,10 @@
         android:layout_margin="10dp">
 
         <ImageView
-            android:layout_alignParentRight="true"
             android:id="@+id/chat_send_picture"
             android:layout_width="40dp"
             android:layout_height="40dp"
+            android:layout_alignParentRight="true"
             android:background="@drawable/icon"
             android:scaleType="centerCrop" />
 
@@ -32,20 +32,23 @@
             android:id="@+id/chat_send_english_card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="10dp"
             android:layout_toLeftOf="@id/chat_send_picture"
             android:background="@drawable/chat_tv_send"
-            android:visibility="gone"
-            android:layout_margin="10dp">
+            android:visibility="gone">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
+
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
                     android:scaleType="centerCrop"
                     android:src="@drawable/search" />
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -66,16 +69,29 @@
             android:id="@+id/chat_send_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="50dp"
+            android:layout_marginLeft="5dp"
             android:layout_marginRight="10dp"
             android:layout_toLeftOf="@id/chat_send_picture"
             android:background="@drawable/chat_tv_send"
-            android:gravity="center_vertical"
-            android:drawableRight="@mipmap/icon_voice_right3"
             android:drawablePadding="10dp"
+            android:drawableRight="@mipmap/icon_voice_right3"
+            android:gravity="center_vertical"
             android:paddingLeft="10dp"
-            android:textSize="16sp"
-            android:text="hello" />
+            android:text="hello"
+            android:textSize="16sp" />
+
+        <ImageView
+            android:id="@+id/chat_item_fail"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="0dp"
+            android:paddingLeft="5dp"
+            android:layout_toLeftOf="@+id/chat_send_content"
+            android:focusable="false"
+            android:src="@drawable/msg_state_fail_resend"
+
+            android:visibility="visible" />
     </RelativeLayout>
 
 </LinearLayout>

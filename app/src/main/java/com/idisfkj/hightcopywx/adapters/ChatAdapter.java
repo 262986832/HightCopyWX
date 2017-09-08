@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.idisfkj.hightcopywx.App;
 import com.idisfkj.hightcopywx.R;
 import com.idisfkj.hightcopywx.dao.ChatMessageDataHelper;
 import com.idisfkj.hightcopywx.registerLogin.widget.RegisterActivity;
@@ -80,17 +81,16 @@ public class ChatAdapter extends RecyclerViewCursorBaseAdapter<RecyclerView.View
 //            ((ChatReceiveViewHolder) holder).chatReceivePicture.setImageBitmap();
             ((ChatReceiveViewHolder) holder).chatReceiveContent.setText(CursorUtils.formatString(cursor, ChatMessageDataHelper.ChatMessageDataInfo.messageContent));
         } else if (holder instanceof ChatSendViewHolder) {
-            try {
-                if (CursorUtils.isShowSystem(cursor, ChatMessageDataHelper.ChatMessageDataInfo.time))
-                    ((ChatSendViewHolder) holder).chatSendTime.setVisibility(View.GONE);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
+            //隐藏发送失败图标
+            if (CursorUtils.formatInt(cursor, ChatMessageDataHelper.ChatMessageDataInfo.status) == App.MESSAGE_STATUS_SUCCESS)
+                ((ChatSendViewHolder) holder).chat_item_fail.setVisibility(View.GONE);
+
             ((ChatSendViewHolder) holder).chatSendTime.setText(CursorUtils.formatString(cursor, ChatMessageDataHelper.ChatMessageDataInfo.time));
             if (sendBitmap != null)
                 ((ChatSendViewHolder) holder).chatSendPicture.setImageBitmap(sendBitmap);
             ((ChatSendViewHolder) holder).content = CursorUtils.formatString(cursor, ChatMessageDataHelper.ChatMessageDataInfo.messageContent);
-            ((ChatSendViewHolder) holder).chatSendContent.setText(CursorUtils.formatString(cursor, ChatMessageDataHelper.ChatMessageDataInfo.messageContent));
+            ((ChatSendViewHolder) holder).chatSendContent.setText
+                    (CursorUtils.formatString(cursor, ChatMessageDataHelper.ChatMessageDataInfo.messageContent));
             ((ChatSendViewHolder) holder).chatSendContent.setVisibility(View.VISIBLE);
         } else {
             ((ChatSystemViewHolder) holder).chatSystemTime.setText(CursorUtils.formatString(cursor, ChatMessageDataHelper.ChatMessageDataInfo.time));
@@ -120,6 +120,8 @@ public class ChatAdapter extends RecyclerViewCursorBaseAdapter<RecyclerView.View
         ImageView chatSendPicture;
         @InjectView(R.id.chat_send_content)
         TextView chatSendContent;
+        @InjectView(R.id.chat_item_fail)
+        ImageView chat_item_fail;
         String content;
 
         ChatSendViewHolder(View view) {
@@ -145,6 +147,7 @@ public class ChatAdapter extends RecyclerViewCursorBaseAdapter<RecyclerView.View
         ImageView chatReceivePicture;
         @InjectView(R.id.chat_receive_content)
         TextView chatReceiveContent;
+
 
         ChatReceiveViewHolder(View view) {
             super(view);

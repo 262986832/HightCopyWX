@@ -7,6 +7,8 @@ import com.idisfkj.hightcopywx.util.SharedPreferencesManager;
 import java.io.Serializable;
 import java.util.UUID;
 
+import static com.idisfkj.hightcopywx.App.MESSAGE_STATUS_SENDING;
+
 /**
  * Created by idisfkj on 16/4/25.
  * Email : idisfkj@qq.com.
@@ -16,6 +18,7 @@ public class ChatMessageInfo implements Serializable {
     private String ownMobile;
     private String chatRoomID;
     private int sendOrReciveFlag;
+    private int status;
     private int messageType;
     private String messageTitle;
     private String messageContent;
@@ -42,6 +45,15 @@ public class ChatMessageInfo implements Serializable {
         this.messageType=App.MESSAGE_TYPE_TEXT;
         this.time= CalendarUtils.getCurrentDate();
         this.sendMobile=this.ownMobile;
+        this.status=App.MESSAGE_STATUS_SENDING;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 
     public ChatMessageInfo(String ownMobile, String chatRoomID, int sendOrReciveFlag, int messageType, String messageTitle, String messageContent, String messageImgUrl, String messageVoiceUrl, String time, String sendMobile) {

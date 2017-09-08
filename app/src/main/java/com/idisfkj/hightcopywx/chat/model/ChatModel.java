@@ -13,12 +13,9 @@ import com.idisfkj.hightcopywx.chat.view.ChatView;
 public interface ChatModel {
     void initData(ChatMessageDataHelper helper, ChatView chatView);
 
-
     void requestData(requestListener listener, ChatMessageInfo chatMessageInfo, ChatMessageDataHelper helper);
 
     void insertData(ChatMessageInfo info, ChatMessageDataHelper helper);
-
-
 
     void updateUnReadNum(Context context, String regId, String number, int unReadNum);
 

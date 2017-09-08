@@ -2,18 +2,17 @@ package com.idisfkj.hightcopywx.chat.presenter;
 
 import android.content.Context;
 import android.content.CursorLoader;
-import android.content.Intent;
-import android.os.Bundle;
 
 import com.idisfkj.hightcopywx.App;
 import com.idisfkj.hightcopywx.beans.ChatMessageInfo;
-import com.idisfkj.hightcopywx.dao.ChatMessageDataHelper;
-import com.idisfkj.hightcopywx.util.ToastUtils;
-import com.idisfkj.hightcopywx.util.UrlUtils;
 import com.idisfkj.hightcopywx.chat.model.ChatModel;
 import com.idisfkj.hightcopywx.chat.model.ChatModelImp;
 import com.idisfkj.hightcopywx.chat.model.ChatModelTranslateImp;
 import com.idisfkj.hightcopywx.chat.view.ChatView;
+import com.idisfkj.hightcopywx.dao.ChatMessageDataHelper;
+import com.idisfkj.hightcopywx.util.SharedPreferencesManager;
+import com.idisfkj.hightcopywx.util.ToastUtils;
+import com.idisfkj.hightcopywx.util.UrlUtils;
 
 /**
  * Created by idisfkj on 16/4/26.
@@ -55,10 +54,16 @@ public class ChatPresenterImp implements ChatPresenter, ChatModel.requestListene
     }
 
     @Override
-    public void receiveData(Intent intent) {
-        Bundle bundle = intent.getExtras();
-        ChatMessageInfo info = (ChatMessageInfo) bundle.getSerializable("chatMessageInfo");
-        mChatModel.insertData(info, mHelper);
+    public void receiveData(ChatMessageInfo chatMessageInfo) {
+        String ownMobile= SharedPreferencesManager.getString("userPhone","");
+        if (ownMobile.equals(chatMessageInfo.getSendMobile())){
+            chatMessageInfo.setSendOrReciveFlag(App.SEND_FLAG);
+            mHelper.updateStatus(App.MESSAGE_STATUS_SUCCESS,chatMessageInfo.getMessageID());
+        }else{
+            chatMessageInfo.setSendOrReciveFlag(App.RECEIVE_FLAG);
+            mChatModel.insertData(chatMessageInfo, mHelper);
+        }
+
     }
 
     @Override
