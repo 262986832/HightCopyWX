@@ -29,6 +29,7 @@ public class ChatMessageDataHelper extends BaseDataHelper {
 
     public ContentValues getContentValues(ChatMessageInfo info) {
         ContentValues values = new ContentValues();
+        values.put(ChatMessageDataInfo.messageID, info.getMessageID());
         values.put(ChatMessageDataInfo.ownMobile, info.getOwnMobile());
         values.put(ChatMessageDataInfo.chatRoomID, info.getChatRoomID());
         values.put(ChatMessageDataInfo.sendOrReciveFlag, info.getSendOrReciveFlag());
@@ -44,6 +45,7 @@ public class ChatMessageDataHelper extends BaseDataHelper {
 
     public static final class ChatMessageDataInfo implements BaseColumns {
         public static final String TABLE_NAME = "chatMessages";
+        public static final String messageID = "messageID";
         public static final String ownMobile = "ownMobile";
         public static final String chatRoomID = "chatRoomID";
         public static final String sendOrReciveFlag = "sendOrReciveFlag";
@@ -55,6 +57,7 @@ public class ChatMessageDataHelper extends BaseDataHelper {
         public static final String time = "time";
         public static final String sendMobile = "sendMobile";
         public static final SQLiteTable TABLE = new SQLiteTable(TABLE_NAME)
+                .addColumn(messageID, Column.DataType.TEXT)
                 .addColumn(ownMobile, Column.DataType.TEXT)
                 .addColumn(chatRoomID, Column.DataType.TEXT)
                 .addColumn(sendOrReciveFlag, Column.DataType.INTEGER)

@@ -14,14 +14,14 @@ import android.widget.TextView;
 
 import com.idisfkj.hightcopywx.App;
 import com.idisfkj.hightcopywx.R;
-import com.idisfkj.hightcopywx.adapter.FragmentAdapter;
+import com.idisfkj.hightcopywx.adapters.FragmentAdapter;
 import com.idisfkj.hightcopywx.main.presenter.MainPresenter;
 import com.idisfkj.hightcopywx.main.presenter.MainPresenterImp;
 import com.idisfkj.hightcopywx.main.view.MainView;
-import com.idisfkj.hightcopywx.ui.BaseActivity;
+import com.idisfkj.hightcopywx.registerLogin.BaseActivity;
 import com.idisfkj.hightcopywx.util.BadgeViewUtils;
 import com.idisfkj.hightcopywx.util.SharedPreferencesManager;
-import com.idisfkj.hightcopywx.wx.widget.ChatActivity;
+import com.idisfkj.hightcopywx.chat.widget.ChatActivity;
 import com.readystatesoftware.viewbadger.BadgeView;
 
 import java.util.ArrayList;

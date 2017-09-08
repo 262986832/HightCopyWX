@@ -14,7 +14,7 @@ import com.idisfkj.hightcopywx.dao.RegisterDataHelper;
 import com.idisfkj.hightcopywx.main.presenter.AddFriendsPresenter;
 import com.idisfkj.hightcopywx.main.presenter.AddFriendsPresenterImp;
 import com.idisfkj.hightcopywx.main.view.AddFriendsView;
-import com.idisfkj.hightcopywx.ui.BaseActivity;
+import com.idisfkj.hightcopywx.registerLogin.BaseActivity;
 import com.idisfkj.hightcopywx.util.ToastUtils;
 
 import butterknife.ButterKnife;

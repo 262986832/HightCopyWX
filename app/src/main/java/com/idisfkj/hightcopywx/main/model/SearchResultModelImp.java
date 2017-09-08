@@ -14,7 +14,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.idisfkj.hightcopywx.App;
 import com.idisfkj.hightcopywx.R;
-import com.idisfkj.hightcopywx.adapter.SearchResultAdapter;
+import com.idisfkj.hightcopywx.adapters.SearchResultAdapter;
 import com.idisfkj.hightcopywx.dao.ChatRoomsDataHelper;
 import com.idisfkj.hightcopywx.dao.RegisterDataHelper;
 import com.idisfkj.hightcopywx.util.CursorUtils;

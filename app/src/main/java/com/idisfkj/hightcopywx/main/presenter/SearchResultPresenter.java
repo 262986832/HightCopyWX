@@ -3,7 +3,7 @@ package com.idisfkj.hightcopywx.main.presenter;
 import android.content.Context;
 import android.view.View;
 
-import com.idisfkj.hightcopywx.adapter.SearchResultAdapter;
+import com.idisfkj.hightcopywx.adapters.SearchResultAdapter;
 
 /**
  * Created by idisfkj on 16/5/7.

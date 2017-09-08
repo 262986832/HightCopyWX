@@ -6,7 +6,7 @@ import android.database.Cursor;
 import android.view.View;
 
 import com.idisfkj.hightcopywx.App;
-import com.idisfkj.hightcopywx.adapter.SearchResultAdapter;
+import com.idisfkj.hightcopywx.adapters.SearchResultAdapter;
 import com.idisfkj.hightcopywx.beans.ChatRoomItemInfo;
 import com.idisfkj.hightcopywx.dao.ChatMessageDataHelper;
 import com.idisfkj.hightcopywx.dao.ChatRoomsDataHelper;

@@ -31,7 +31,7 @@ public class UrlUtils {
     public static final int ZHTOEN = 0;
     public static final int ENTOGH = 1;
     //服务端
-    private static final String SERVER_REGISTER = "http://10.16.66.93:8001/api/";
+    private static final String SERVER_REGISTER = "http://10.16.66.31:8001/api/";
 
 
     public UrlUtils() {
@@ -107,14 +107,14 @@ public class UrlUtils {
                 NOTIFY_ID;
         return url;
     }
-    public static String chatTopicUrl(String message, String chatToMobile) {
-        return  chatTopicUrl(message,chatToMobile,SharedPreferencesManager.getString("userPhone") );
-    }
 
-    public static String chatTopicUrl(String message, String chatToMobile, String topic) {
-
+    public static String chatTopicUrl(String message, String topic) {
         String content = null;
-        content = URLEncoder.encode(message);
+        try {
+            content = URLEncoder.encode(message,"utf-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
         String url = TOPIC_API +
                 PAYLOAD + content +
                 RESTRICTED_PACKAGE_NAME + PACKAGE_NAME +

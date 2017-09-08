@@ -5,7 +5,7 @@ import android.support.v4.app.Fragment;
 import com.idisfkj.hightcopywx.contact.ContactFragment;
 import com.idisfkj.hightcopywx.find.FindFragment;
 import com.idisfkj.hightcopywx.me.MeFragment;
-import com.idisfkj.hightcopywx.wx.widget.ChatRoomsFragment;
+import com.idisfkj.hightcopywx.chat.widget.ChatRoomsFragment;
 
 /**
  * Fragment工厂

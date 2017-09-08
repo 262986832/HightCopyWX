@@ -10,14 +10,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.idisfkj.hightcopywx.R;
-import com.idisfkj.hightcopywx.adapter.SearchResultAdapter;
+import com.idisfkj.hightcopywx.adapters.SearchResultAdapter;
 import com.idisfkj.hightcopywx.dao.RegisterDataHelper;
 import com.idisfkj.hightcopywx.main.presenter.SearchResultPresenter;
 import com.idisfkj.hightcopywx.main.presenter.SearchResultPresenterImp;
 import com.idisfkj.hightcopywx.main.view.SearchResultView;
-import com.idisfkj.hightcopywx.ui.BaseActivity;
+import com.idisfkj.hightcopywx.registerLogin.BaseActivity;
 import com.idisfkj.hightcopywx.util.ToastUtils;
-import com.idisfkj.hightcopywx.wx.WXItemDecoration;
+import com.idisfkj.hightcopywx.chat.WXItemDecoration;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;

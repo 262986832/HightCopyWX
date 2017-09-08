@@ -1,12 +1,18 @@
 package com.idisfkj.hightcopywx.beans;
 
+import com.idisfkj.hightcopywx.App;
+import com.idisfkj.hightcopywx.util.CalendarUtils;
+import com.idisfkj.hightcopywx.util.SharedPreferencesManager;
+
 import java.io.Serializable;
+import java.util.UUID;
 
 /**
  * Created by idisfkj on 16/4/25.
  * Email : idisfkj@qq.com.
  */
 public class ChatMessageInfo implements Serializable {
+    private String messageID;
     private String ownMobile;
     private String chatRoomID;
     private int sendOrReciveFlag;
@@ -19,7 +25,23 @@ public class ChatMessageInfo implements Serializable {
     private String sendMobile;
 
     public ChatMessageInfo() {
+        this.messageID= UUID.randomUUID().toString();
+    }
 
+    public String getMessageID() {
+        return messageID;
+    }
+
+    public void setMessageID(String messageID) {
+        this.messageID = messageID;
+    }
+
+    public void setSender() {
+        this.ownMobile= SharedPreferencesManager.getString("userPhone", "");
+        this.sendOrReciveFlag= App.SEND_FLAG;
+        this.messageType=App.MESSAGE_TYPE_TEXT;
+        this.time= CalendarUtils.getCurrentDate();
+        this.sendMobile=this.ownMobile;
     }
 
     public ChatMessageInfo(String ownMobile, String chatRoomID, int sendOrReciveFlag, int messageType, String messageTitle, String messageContent, String messageImgUrl, String messageVoiceUrl, String time, String sendMobile) {
