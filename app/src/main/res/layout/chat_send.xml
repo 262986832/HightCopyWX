@@ -5,35 +5,52 @@
     android:orientation="vertical">
 
     <TextView
-        android:textSize="12sp"
-        android:padding="4dp"
-        android:textColor="@android:color/white"
-        android:background="@drawable/chat_time_bg"
         android:id="@+id/chat_send_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="4月12日 早上07:51" />
+        android:background="@drawable/chat_time_bg"
+        android:padding="4dp"
+        android:text="4月12日 早上07:51"
+        android:textColor="@android:color/white"
+        android:textSize="12sp" />
 
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="10dp">
 
-        <ImageView
-            android:id="@+id/chat_send_picture"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+        <LinearLayout
+            android:id="@+id/chat_send_man"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:background="@drawable/icon"
-            android:scaleType="centerCrop" />
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/chat_send_man_picture"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/icon"
+                android:scaleType="centerCrop" />
+
+            <TextView
+                android:id="@+id/chat_send_man_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scaleType="centerCrop"
+                android:text="行动"
+                android:textColor="#FF4F4F4F"
+                android:textSize="10sp" />
+        </LinearLayout>
 
         <android.support.v7.widget.CardView
             android:id="@+id/chat_send_english_card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:layout_toLeftOf="@id/chat_send_picture"
+            android:layout_toLeftOf="@id/chat_send_man"
             android:background="@drawable/chat_tv_send"
             android:visibility="gone">
 
@@ -71,7 +88,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="10dp"
-            android:layout_toLeftOf="@id/chat_send_picture"
+            android:layout_toLeftOf="@id/chat_send_man"
             android:background="@drawable/chat_tv_send"
             android:drawablePadding="10dp"
             android:drawableRight="@mipmap/icon_voice_right3"
@@ -86,9 +103,9 @@
             android:layout_height="18dp"
             android:layout_centerVertical="true"
             android:layout_marginRight="0dp"
-            android:paddingLeft="5dp"
             android:layout_toLeftOf="@+id/chat_send_content"
             android:focusable="false"
+            android:paddingLeft="5dp"
             android:src="@drawable/msg_state_fail_resend"
 
             android:visibility="visible" />

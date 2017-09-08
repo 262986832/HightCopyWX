@@ -16,10 +16,10 @@ import com.idisfkj.hightcopywx.R;
 import com.idisfkj.hightcopywx.dao.ChatMessageDataHelper;
 import com.idisfkj.hightcopywx.registerLogin.widget.RegisterActivity;
 import com.idisfkj.hightcopywx.util.CursorUtils;
+import com.idisfkj.hightcopywx.util.SharedPreferencesManager;
 import com.idisfkj.hightcopywx.util.ToastUtils;
 
 import java.io.File;
-import java.text.ParseException;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -71,30 +71,38 @@ public class ChatAdapter extends RecyclerViewCursorBaseAdapter<RecyclerView.View
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, Cursor cursor) {
         if (holder instanceof ChatReceiveViewHolder) {
-            try {
-                if (CursorUtils.isShowSystem(cursor, ChatMessageDataHelper.ChatMessageDataInfo.time))
-                    ((ChatReceiveViewHolder) holder).chatReceiveTime.setVisibility(View.GONE);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            ((ChatReceiveViewHolder) holder).chatReceiveTime.setText(CursorUtils.formatString(cursor, ChatMessageDataHelper.ChatMessageDataInfo.time));
-//            ((ChatReceiveViewHolder) holder).chatReceivePicture.setImageBitmap();
-            ((ChatReceiveViewHolder) holder).chatReceiveContent.setText(CursorUtils.formatString(cursor, ChatMessageDataHelper.ChatMessageDataInfo.messageContent));
+
+            ((ChatReceiveViewHolder) holder).chatReceiveTime.
+                    setText(CursorUtils.formatString(cursor, ChatMessageDataHelper.ChatMessageDataInfo.time));
+
+            ((ChatReceiveViewHolder) holder).chatReceiveContent.
+                    setText(CursorUtils.formatString(cursor, ChatMessageDataHelper.ChatMessageDataInfo.messageContent));
         } else if (holder instanceof ChatSendViewHolder) {
             //隐藏发送失败图标
             if (CursorUtils.formatInt(cursor, ChatMessageDataHelper.ChatMessageDataInfo.status) == App.MESSAGE_STATUS_SUCCESS)
                 ((ChatSendViewHolder) holder).chat_item_fail.setVisibility(View.GONE);
 
-            ((ChatSendViewHolder) holder).chatSendTime.setText(CursorUtils.formatString(cursor, ChatMessageDataHelper.ChatMessageDataInfo.time));
+            ((ChatSendViewHolder) holder).chatSendTime.
+                    setText(CursorUtils.formatString(cursor, ChatMessageDataHelper.ChatMessageDataInfo.time));
+
+            String name= SharedPreferencesManager.getString("","哈哈");
+            ((ChatSendViewHolder) holder).chat_send_man_name.setText(name);
+
             if (sendBitmap != null)
-                ((ChatSendViewHolder) holder).chatSendPicture.setImageBitmap(sendBitmap);
-            ((ChatSendViewHolder) holder).content = CursorUtils.formatString(cursor, ChatMessageDataHelper.ChatMessageDataInfo.messageContent);
+                ((ChatSendViewHolder) holder).chat_send_man_picture.setImageBitmap(sendBitmap);
+
+            ((ChatSendViewHolder) holder).content =
+                    CursorUtils.formatString(cursor, ChatMessageDataHelper.ChatMessageDataInfo.messageContent);
+
             ((ChatSendViewHolder) holder).chatSendContent.setText
                     (CursorUtils.formatString(cursor, ChatMessageDataHelper.ChatMessageDataInfo.messageContent));
+
             ((ChatSendViewHolder) holder).chatSendContent.setVisibility(View.VISIBLE);
         } else {
-            ((ChatSystemViewHolder) holder).chatSystemTime.setText(CursorUtils.formatString(cursor, ChatMessageDataHelper.ChatMessageDataInfo.time));
-            ((ChatSystemViewHolder) holder).chatSystemContent.setText(CursorUtils.formatString(cursor, ChatMessageDataHelper.ChatMessageDataInfo.messageContent));
+            ((ChatSystemViewHolder) holder).chatSystemTime.
+                    setText(CursorUtils.formatString(cursor, ChatMessageDataHelper.ChatMessageDataInfo.time));
+            ((ChatSystemViewHolder) holder).chatSystemContent.
+                    setText(CursorUtils.formatString(cursor, ChatMessageDataHelper.ChatMessageDataInfo.messageContent));
         }
 
     }
@@ -112,16 +120,20 @@ public class ChatAdapter extends RecyclerViewCursorBaseAdapter<RecyclerView.View
         }
         return 0;
     }
-
+    //发送
     public static class ChatSendViewHolder extends RecyclerView.ViewHolder {
         @InjectView(R.id.chat_send_time)
         TextView chatSendTime;
-        @InjectView(R.id.chat_send_picture)
-        ImageView chatSendPicture;
+        @InjectView(R.id.chat_send_man_picture)
+        ImageView chat_send_man_picture;
+        @InjectView(R.id.chat_send_man_name)
+        TextView chat_send_man_name;
+
         @InjectView(R.id.chat_send_content)
         TextView chatSendContent;
         @InjectView(R.id.chat_item_fail)
         ImageView chat_item_fail;
+
         String content;
 
         ChatSendViewHolder(View view) {
@@ -129,7 +141,7 @@ public class ChatAdapter extends RecyclerViewCursorBaseAdapter<RecyclerView.View
             ButterKnife.inject(this, view);
         }
 
-        @OnClick(R.id.chat_send_picture)
+        @OnClick(R.id.chat_send_man_picture)
         public void onHeadClick() {
             ToastUtils.showShort(content);
         }
