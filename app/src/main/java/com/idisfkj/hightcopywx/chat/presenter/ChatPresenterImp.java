@@ -1,18 +1,21 @@
 package com.idisfkj.hightcopywx.chat.presenter;
 
-import android.content.Context;
 import android.content.CursorLoader;
 
 import com.idisfkj.hightcopywx.App;
 import com.idisfkj.hightcopywx.beans.ChatMessageInfo;
+import com.idisfkj.hightcopywx.beans.UnReadNumber;
 import com.idisfkj.hightcopywx.chat.model.ChatModel;
 import com.idisfkj.hightcopywx.chat.model.ChatModelImp;
 import com.idisfkj.hightcopywx.chat.model.ChatModelTranslateImp;
 import com.idisfkj.hightcopywx.chat.view.ChatView;
 import com.idisfkj.hightcopywx.dao.ChatMessageDataHelper;
+import com.idisfkj.hightcopywx.dao.ChatRoomsDataHelper;
 import com.idisfkj.hightcopywx.util.SharedPreferencesManager;
 import com.idisfkj.hightcopywx.util.ToastUtils;
 import com.idisfkj.hightcopywx.util.UrlUtils;
+
+import org.greenrobot.eventbus.EventBus;
 
 /**
  * Created by idisfkj on 16/4/26.
@@ -22,10 +25,15 @@ public class ChatPresenterImp implements ChatPresenter, ChatModel.requestListene
     private ChatView mChatView;
     private ChatModel mChatModel;
     private ChatMessageDataHelper mHelper;
+    private ChatRoomsDataHelper mChatRoomsDataHelper;
 
-    public ChatPresenterImp(ChatView chatView, int chatType,Context context) {
+    public ChatPresenterImp() {
+    }
+
+    public ChatPresenterImp(ChatView chatView, int chatType) {
         mChatView = chatView;
-        mHelper = new ChatMessageDataHelper(context);
+        mHelper = new ChatMessageDataHelper(App.getAppContext());
+        mChatRoomsDataHelper = new ChatRoomsDataHelper(App.getAppContext());
         if (chatType == App.CHAT_TYPE_CHINESETOENGLISH)
             mChatModel = new ChatModelTranslateImp(UrlUtils.ZHTOEN);
         else if (chatType == App.CHAT_TYPE_ENGLISHTOCHINESE)
@@ -33,13 +41,13 @@ public class ChatPresenterImp implements ChatPresenter, ChatModel.requestListene
         else if (chatType == App.CHAT_TYPE_ENGLISH_STUDY)
             mChatModel = new ChatModelImp();
         else
-            mChatModel=new ChatModelImp();
+            mChatModel = new ChatModelImp();
     }
 
 
     @Override
     public CursorLoader creatLoader(String charRoomid) {
-        return  mHelper.getCursorLoader(charRoomid);
+        return mHelper.getCursorLoader(charRoomid);
     }
 
     @Override
@@ -55,24 +63,31 @@ public class ChatPresenterImp implements ChatPresenter, ChatModel.requestListene
 
     @Override
     public void receiveData(ChatMessageInfo chatMessageInfo) {
-        String ownMobile= SharedPreferencesManager.getString("userPhone","");
-        if (ownMobile.equals(chatMessageInfo.getSendMobile())){
-            chatMessageInfo.setSendOrReciveFlag(App.SEND_FLAG);
-            mHelper.updateStatus(App.MESSAGE_STATUS_SUCCESS,chatMessageInfo.getMessageID());
-        }else{
-            chatMessageInfo.setSendOrReciveFlag(App.RECEIVE_FLAG);
-            mChatModel.insertData(chatMessageInfo, mHelper);
-        }
+        String ownMobile = SharedPreferencesManager.getString("userPhone", "");
 
     }
 
     @Override
-    public void cleanUnReadNum(String ownMobile, String chatRoomId) {
+    public void cleanUnReadNum(String chatRoomId) {
+        SharedPreferencesManager.putInt("unReadNumber" + chatRoomId, 0).commit();
+        mChatRoomsDataHelper.update(0, chatRoomId);
 
+        updateAllReadNumber(chatRoomId);
+    }
+    private void updateAllReadNumber(String chatRoomId){
+        int count = SharedPreferencesManager.getInt("unReadNumber" + chatRoomId, 0);
+        int allCount = SharedPreferencesManager.getInt("unAllReadNumber" + chatRoomId, 0);
+        int nowCount=allCount-count;
+        SharedPreferencesManager.putInt("unAllReadNumber" , nowCount).commit();
+
+        //设置main气泡
+        UnReadNumber unread=new UnReadNumber();
+        unread.setUnReadNumber(nowCount);
+        EventBus.getDefault().post(unread);
     }
 
     @Override
-    public void updateLasterContent(String ownMobile, String chatRoomId) {
+    public void updateLasterContent(String chatRoomId) {
 
     }
 

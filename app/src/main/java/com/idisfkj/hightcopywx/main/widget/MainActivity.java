@@ -1,9 +1,6 @@
 package com.idisfkj.hightcopywx.main.widget;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
@@ -12,17 +9,20 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.idisfkj.hightcopywx.App;
 import com.idisfkj.hightcopywx.R;
 import com.idisfkj.hightcopywx.adapters.FragmentAdapter;
+import com.idisfkj.hightcopywx.beans.ChatMessageInfo;
+import com.idisfkj.hightcopywx.beans.UnReadNumber;
+import com.idisfkj.hightcopywx.chat.widget.ChatActivity;
 import com.idisfkj.hightcopywx.main.presenter.MainPresenter;
 import com.idisfkj.hightcopywx.main.presenter.MainPresenterImp;
 import com.idisfkj.hightcopywx.main.view.MainView;
 import com.idisfkj.hightcopywx.registerLogin.BaseActivity;
-import com.idisfkj.hightcopywx.util.BadgeViewUtils;
-import com.idisfkj.hightcopywx.util.SharedPreferencesManager;
-import com.idisfkj.hightcopywx.chat.widget.ChatActivity;
 import com.readystatesoftware.viewbadger.BadgeView;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,20 +56,45 @@ public class MainActivity extends BaseActivity implements MainView {
     private List<TextView> mListText = new ArrayList<>();
     private int[] viewId;
     private Bundle bundle;
-    private int unReadNum;
     private BadgeView badgeView;
-    private final String ACTION_FILTER = "com.idisfkj.hightcopywx.main";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.inject(this);
+        //订阅总线消息
+        EventBus.getDefault().register(this);
+
         init();
+
+
+
         //是否是点击通知跳转
         bundle = getIntent().getExtras();
         if (bundle != null) {
             mMainPresenter.switchActivity();
+        }
+        badgeView = new BadgeView(this, weiXinS);
+        badgeView.setText("12");
+        badgeView.hide();
+       // badgeView.show();
+
+
+    }
+
+    @Subscribe(threadMode = ThreadMode.BACKGROUND)
+    public void handleMessage(ChatMessageInfo chatMessageInfo) {
+        mMainPresenter.receiveData(chatMessageInfo);
+    }
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void showBadge(UnReadNumber unReadNumber) {
+        int count=unReadNumber.getUnReadNumber();
+        if(count>0) {
+            badgeView.setText(""+count);
+            badgeView.show();
+        }else{
+            badgeView.hide();
         }
     }
 
@@ -82,10 +107,6 @@ public class MainActivity extends BaseActivity implements MainView {
         tabWeiXinS.setAlpha(1.0f);
         setViewPageListener();
 
-        BroadcastReceiver receiver = new MainBoradcastReceiver();
-        IntentFilter filter = new IntentFilter();
-        filter.addAction(ACTION_FILTER);
-        this.registerReceiver(receiver, filter);
 
         viewId = new int[]{R.id.ll_wx, R.id.ll_address, R.id.ll_find, R.id.ll_me};
         mListImage.add(weiXinS);
@@ -98,13 +119,6 @@ public class MainActivity extends BaseActivity implements MainView {
         mListText.add(tabMeS);
     }
 
-    public class MainBoradcastReceiver extends BroadcastReceiver {
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            mMainPresenter.callBadgeView();
-        }
-    }
 
 
     public void setViewPageListener() {
@@ -188,15 +202,6 @@ public class MainActivity extends BaseActivity implements MainView {
 
     }
 
-    @Override
-    public void createBadgeView() {
-        unReadNum = SharedPreferencesManager.getInt(App.UNREADNUM);
-        if (badgeView != null)
-            badgeView.hide();
-        if (unReadNum > 0) {
-            badgeView = BadgeViewUtils.create(this, weiXinS, String.valueOf(unReadNum));
-        }
-    }
 
     @OnClick({R.id.ll_wx, R.id.ll_address, R.id.ll_find, R.id.ll_me})
     public void onClick(View view) {
@@ -205,8 +210,15 @@ public class MainActivity extends BaseActivity implements MainView {
 
     @Override
     protected void onResume() {
-        mMainPresenter.callBadgeView();
         super.onResume();
+
+    }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        //取消注册事件
+        EventBus.getDefault().unregister(this);
+        ButterKnife.reset(this);
     }
 
 }

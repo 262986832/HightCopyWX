@@ -1,9 +1,7 @@
 package com.idisfkj.hightcopywx.chat.widget;
 
 import android.app.LoaderManager;
-import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Loader;
 import android.database.Cursor;
 import android.graphics.Rect;
@@ -21,7 +19,6 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.idisfkj.hightcopywx.App;
 import com.idisfkj.hightcopywx.R;
 import com.idisfkj.hightcopywx.adapters.ChatAdapter;
 import com.idisfkj.hightcopywx.adapters.OnItemTouchListener;
@@ -85,16 +82,9 @@ public class ChatActivity extends BaseActivity
         mChatRoomID = bundle.getString("chatRoomID");
         chatTitle = bundle.getString("chatTitle");
         int chat_type = bundle.getInt("chatType");
-        mChatPresenter = new ChatPresenterImp(this, chat_type, this);
-
-        NotificationManager manager = (NotificationManager) App.getAppContext().getSystemService(Context.NOTIFICATION_SERVICE);
-        //manager.cancel(_id);
+        mChatPresenter = new ChatPresenterImp(this, chat_type);
 
         init();
-
-        if (unReadNum > 0) {
-            mChatPresenter.cleanUnReadNum("","");
-        }
         getActionBar().setTitle(chatTitle);
         getActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -267,10 +257,9 @@ public class ChatActivity extends BaseActivity
     public void onDestroy() {
         super.onDestroy();
         //更新数据
-        mChatPresenter.updateLasterContent("","");
+        mChatPresenter.cleanUnReadNum(mChatRoomID);
         //重置数据
         VolleyUtils.cancelAll("chatRequest");
-        this.unregisterReceiver(receiver);
         //取消注册事件
         EventBus.getDefault().unregister(this);
         ButterKnife.reset(this);

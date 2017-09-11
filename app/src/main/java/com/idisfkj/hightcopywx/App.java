@@ -38,10 +38,11 @@ public class App extends Application{
     public static final int MESSAGE_TYPE_VOICE=2;
     public static final int MESSAGE_TYPE_IMG=3;
     public static final int MESSAGE_TYPE_CARD=4;
+    public static final int MESSAGE_TYPE_VIDEO=5;
     public static final int MESSAGE_STATUS_SUCCESS=0;
     public static final int MESSAGE_STATUS_FAIL=1;
     public static final int MESSAGE_STATUS_SENDING=2;
-    public static String mNumber = "-1";
+    public static String mNowChatRoomID = "-1";
     public static String ownMobile = "-1";
     public static SharedPreferences sp;
     public static SharedPreferences.Editor editor;

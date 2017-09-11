@@ -16,8 +16,8 @@ public interface ChatPresenter {
 
     void receiveData(ChatMessageInfo chatMessageInfo);
 
-    void cleanUnReadNum(String ownMobile,String chatRoomId);
+    void cleanUnReadNum(String chatRoomId);
 
-    void updateLasterContent(String ownMobile,String chatRoomId);
+    void updateLasterContent(String chatRoomId);
 
 }

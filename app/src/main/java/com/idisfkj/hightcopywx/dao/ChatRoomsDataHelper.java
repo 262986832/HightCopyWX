@@ -69,6 +69,13 @@ public class ChatRoomsDataHelper extends BaseDataHelper {
         return cursor;
     }
 
+    public Cursor queryUnReadNumber(String ownMobile) {
+        Cursor cursor = query(new String[]{"count()"}, WXItemDataInfo.ownMobile + "=?"
+                , new String[]{ownMobile}, WXItemDataInfo._ID + " ASC");
+        return cursor;
+    }
+
+
 
     public void insert(ChatRoomItemInfo itemInfo) {
         ContentValues values = getContentValues(itemInfo);

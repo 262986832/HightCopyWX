@@ -34,4 +34,5 @@ dependencies {
     compile 'org.apache.commons:commons-lang3:3.5'
     debugCompile 'com.amitshekhar.android:debug-db:1.0.0'
     compile 'org.greenrobot:eventbus:3.0.0'
+    compile 'cn.bingoogolapple:bga-badgeview:1.0.0@aar'
 }

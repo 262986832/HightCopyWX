@@ -4,7 +4,6 @@ import android.app.ActivityManager;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.text.TextUtils;
 
@@ -12,11 +11,8 @@ import com.google.gson.Gson;
 import com.idisfkj.hightcopywx.App;
 import com.idisfkj.hightcopywx.beans.ChatMessageInfo;
 import com.idisfkj.hightcopywx.beans.ChatRoomItemInfo;
-import com.idisfkj.hightcopywx.beans.RegisterInfo;
 import com.idisfkj.hightcopywx.dao.ChatMessageDataHelper;
 import com.idisfkj.hightcopywx.dao.ChatRoomsDataHelper;
-import com.idisfkj.hightcopywx.dao.RegisterDataHelper;
-import com.idisfkj.hightcopywx.util.CursorUtils;
 import com.idisfkj.hightcopywx.util.SharedPreferencesManager;
 import com.xiaomi.mipush.sdk.ErrorCode;
 import com.xiaomi.mipush.sdk.MiPushClient;
@@ -68,18 +64,7 @@ public class XiaoMiMessageReceiver extends PushMessageReceiver {
         }
         //发送给聊天处理线程
         EventBus.getDefault().post(chatMessageInfo);
-/*
-        intent = new Intent();
-        chatHelper = new ChatMessageDataHelper(App.getAppContext());
 
-        if (mMessage.indexOf("^") != -1 && mMessage.indexOf("@") != -1) {
-            //user information
-            userInformation(mMessage);
-        } else if (mMessage.indexOf("&") != -1 && mMessage.indexOf("@") != -1) {
-            addFriendInformation(mMessage);
-        } else {
-            chatInformation(mMessage);
-        }*/
     }
 
     /**
@@ -114,8 +99,6 @@ public class XiaoMiMessageReceiver extends PushMessageReceiver {
         } else if (!TextUtils.isEmpty(message.getAlias())) {
             mAlias = message.getAlias();
         }
-//        Log.d("TAG", "message通知:" + mMessage);
-//        Log.d("TAG", "Alias通知:" + mAlias);
     }
 
     /**
@@ -175,56 +158,10 @@ public class XiaoMiMessageReceiver extends PushMessageReceiver {
                 mRegId = cmdArg1;
             }
         }
-//        Log.d("TAG", "register:" + mRegId);
         SharedPreferencesManager.putString("regId", mRegId).commit();
     }
 
-    public void userInformation(String message) {
-        int index1 = message.lastIndexOf("^");
-        int index2 = message.lastIndexOf("@");
 
-        String userName = message.substring(0, index1);
-        String regId = message.substring(index1 + 1, index2);
-        String number = message.substring(index2 + 1);
-
-        RegisterInfo info = new RegisterInfo(userName, number, regId);
-
-        RegisterDataHelper helper = new RegisterDataHelper(App.getAppContext());
-        Cursor cursor = helper.query(number, regId);
-        if (cursor != null && cursor.getCount() > 0) {
-            for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
-                if (CursorUtils.formatString(cursor, RegisterDataHelper.RegisterDataInfo.REGID).equals(regId)
-                        && CursorUtils.formatString(cursor, RegisterDataHelper.RegisterDataInfo.NUMBER).equals(number)) {
-                    if (!CursorUtils.formatString(cursor, RegisterDataHelper.RegisterDataInfo.USER_NAME).equals(userName))
-                        // update user information
-                        helper.update(info, number, regId);
-                    cursor.close();
-                    break;
-                }
-            }
-            cursor.close();
-        }
-
-        // insert user information
-        helper.insert(info);
-
-        if (SharedPreferencesManager.getString("regId").equals(App.DEVELOPER_ID)) {
-            ChatRoomsDataHelper wxHelper = new ChatRoomsDataHelper(App.getAppContext());
-            ChatRoomItemInfo itemInfo = new ChatRoomItemInfo();
-//            itemInfo.setRegId(regId);
-//            itemInfo.setTitle(userName);
-//            itemInfo.setMobile(number);
-//            itemInfo.setContent(String.format(App.HELLO_MESSAGE, userName));
-//            itemInfo.setChattomobile(SharedPreferencesManager.getString("userPhone"));
-//            itemInfo.setTime(CalendarUtils.getCurrentDate());
-//            wxHelper.insert(itemInfo);
-
-            //insert system information
-//            ChatMessageInfo chatInfo = new ChatMessageInfo(String.format(App.HELLO_MESSAGE, userName), 2, CalendarUtils.getCurrentDate()
-//                    , SharedPreferencesManager.getString("userPhone"), regId, number);
-//            chatHelper.insert(chatInfo);
-        }
-    }
 
     public void chatInformation(String message) {
         // chat information
@@ -242,7 +179,7 @@ public class XiaoMiMessageReceiver extends PushMessageReceiver {
 
         ChatMessageInfo chatMessageInfo = new ChatMessageInfo();
 
-        if (App.mNumber.equals(sendNumber) ) {
+        if (App.mNowChatRoomID.equals(sendNumber) ) {
             //在当前聊天界面
             intent.setAction("com.idisfkj.hightcopywx.chat");
             Bundle bundle = new Bundle();
