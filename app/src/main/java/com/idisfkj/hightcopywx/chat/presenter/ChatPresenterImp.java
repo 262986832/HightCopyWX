@@ -45,10 +45,6 @@ public class ChatPresenterImp extends BasePresenter<ChatView> implements ChatPre
         return mChatModel.initData(charRoomid);
     }
 
-    @Override
-    public void initData() {
-
-    }
 
     @Override
     public void sendData(ChatMessageInfo chatMessageInfo) {
@@ -56,11 +52,6 @@ public class ChatPresenterImp extends BasePresenter<ChatView> implements ChatPre
         mChatModel.requestData(this, chatMessageInfo);
     }
 
-    @Override
-    public void receiveData(ChatMessageInfo chatMessageInfo) {
-        String ownMobile = SharedPreferencesManager.getString("userPhone", "");
-
-    }
 
     @Override
     public void cleanUnReadNum(String chatRoomId) {

@@ -27,10 +27,6 @@ import com.idisfkj.hightcopywx.chat.presenter.ChatPresenterImp;
 import com.idisfkj.hightcopywx.chat.view.ChatView;
 import com.idisfkj.hightcopywx.util.VolleyUtils;
 
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
-
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
@@ -69,8 +65,7 @@ public class ChatActivity extends BaseActivity<ChatView,ChatPresenterImp>
         super.onCreate(savedInstanceState);
         setContentView(R.layout.chat_layout);
         ButterKnife.inject(this);
-        //订阅总线消息
-        EventBus.getDefault().register(this);
+
 
         Bundle bundle = getIntent().getExtras();
         mChatRoomID = bundle.getString("chatRoomID");
@@ -94,11 +89,7 @@ public class ChatActivity extends BaseActivity<ChatView,ChatPresenterImp>
         });
 
     }
-    //后台处理收到的消息
-    @Subscribe(threadMode = ThreadMode.BACKGROUND)
-    public void handleMessage(ChatMessageInfo chatMessageInfo) {
-        mPresenter.receiveData(chatMessageInfo);
-    }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -254,8 +245,7 @@ public class ChatActivity extends BaseActivity<ChatView,ChatPresenterImp>
         mPresenter.cleanUnReadNum(mChatRoomID);
         //重置数据
         VolleyUtils.cancelAll("chatRequest");
-        //取消注册事件
-        EventBus.getDefault().unregister(this);
+
         ButterKnife.reset(this);
     }
 

@@ -10,11 +10,9 @@ import com.idisfkj.hightcopywx.beans.ChatMessageInfo;
  */
 public interface ChatPresenter  {
     CursorLoader creatLoader(String ownMobile);
-    void initData();
 
     void sendData(ChatMessageInfo chatMessageInfo);
 
-    void receiveData(ChatMessageInfo chatMessageInfo);
 
     void cleanUnReadNum(String chatRoomId);
 
