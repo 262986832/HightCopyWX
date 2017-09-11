@@ -2,6 +2,7 @@ package com.idisfkj.hightcopywx.main.presenter;
 
 import com.idisfkj.hightcopywx.App;
 import com.idisfkj.hightcopywx.R;
+import com.idisfkj.hightcopywx.base.presenter.BasePresenter;
 import com.idisfkj.hightcopywx.beans.ChatMessageInfo;
 import com.idisfkj.hightcopywx.beans.UnReadNumber;
 import com.idisfkj.hightcopywx.dao.ChatMessageDataHelper;
@@ -17,15 +18,13 @@ import org.greenrobot.eventbus.EventBus;
  * Created by idisfkj on 16/4/19.
  * Email : idisfkj@qq.com.
  */
-public class MainPresenterImp implements MainPresenter {
+public class MainPresenterImp extends BasePresenter<MainView> implements MainPresenter {
 
-    private MainView mMianViw;
     private MainModel mMainModel;
     private ChatMessageDataHelper mChatMessageDataHelper;
     private ChatRoomsDataHelper mChatRoomsDataHelper;
 
-    public MainPresenterImp(MainView mainView) {
-        mMianViw = mainView;
+    public MainPresenterImp() {
         mMainModel = new MainModelImp();
         mChatMessageDataHelper = new ChatMessageDataHelper(App.getAppContext());
         mChatRoomsDataHelper =new ChatRoomsDataHelper(App.getAppContext());
@@ -35,24 +34,24 @@ public class MainPresenterImp implements MainPresenter {
     public void switchNavigation(int id) {
         switch (id) {
             case R.id.ll_wx:
-                mMianViw.switchWX();
+                mViewRef.get().switchWX();
                 break;
             case R.id.ll_address:
-                mMianViw.switchAddressBook();
+                mViewRef.get().switchAddressBook();
                 break;
             case R.id.ll_find:
-                mMianViw.switchFind();
+                mViewRef.get().switchFind();
                 break;
             case R.id.ll_me:
-                mMianViw.switchMe();
+                mViewRef.get().switchMe();
                 break;
         }
-        mMianViw.switchAlpha(id);
+        mViewRef.get().switchAlpha(id);
     }
 
     @Override
     public void switchActivity() {
-        mMianViw.jumpChatActivity();
+        mViewRef.get().jumpChatActivity();
     }
 
 

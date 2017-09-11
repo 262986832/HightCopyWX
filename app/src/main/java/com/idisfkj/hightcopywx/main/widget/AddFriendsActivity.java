@@ -14,7 +14,7 @@ import com.idisfkj.hightcopywx.dao.RegisterDataHelper;
 import com.idisfkj.hightcopywx.main.presenter.AddFriendsPresenter;
 import com.idisfkj.hightcopywx.main.presenter.AddFriendsPresenterImp;
 import com.idisfkj.hightcopywx.main.view.AddFriendsView;
-import com.idisfkj.hightcopywx.registerLogin.BaseActivity;
+import com.idisfkj.hightcopywx.base.widget.BaseActivity;
 import com.idisfkj.hightcopywx.util.ToastUtils;
 
 import butterknife.ButterKnife;
@@ -26,7 +26,7 @@ import butterknife.OnClick;
  * Created by idisfkj on 16/5/6.
  * Email : idisfkj@qq.com.
  */
-public class AddFriendsActivity extends BaseActivity implements TextWatcher, AddFriendsView {
+public class AddFriendsActivity extends BaseActivity<AddFriendsView,AddFriendsPresenterImp> implements TextWatcher, AddFriendsView {
 
     @InjectView(R.id.search_friends)
     EditText searchFriends;
@@ -45,6 +45,11 @@ public class AddFriendsActivity extends BaseActivity implements TextWatcher, Add
         ButterKnife.inject(this);
         getActionBar().setTitle(R.string.add_friends);
         init();
+    }
+
+    @Override
+    protected AddFriendsPresenterImp createPresenter() {
+        return null;
     }
 
     public void init() {

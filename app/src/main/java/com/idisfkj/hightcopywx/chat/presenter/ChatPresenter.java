@@ -8,7 +8,7 @@ import com.idisfkj.hightcopywx.beans.ChatMessageInfo;
  * Created by idisfkj on 16/4/26.
  * Email : idisfkj@qq.com.
  */
-public interface ChatPresenter {
+public interface ChatPresenter  {
     CursorLoader creatLoader(String ownMobile);
     void initData();
 

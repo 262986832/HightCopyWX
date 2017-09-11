@@ -15,7 +15,7 @@ import com.idisfkj.hightcopywx.dao.RegisterDataHelper;
 import com.idisfkj.hightcopywx.main.presenter.SearchResultPresenter;
 import com.idisfkj.hightcopywx.main.presenter.SearchResultPresenterImp;
 import com.idisfkj.hightcopywx.main.view.SearchResultView;
-import com.idisfkj.hightcopywx.registerLogin.BaseActivity;
+import com.idisfkj.hightcopywx.base.widget.BaseActivity;
 import com.idisfkj.hightcopywx.util.ToastUtils;
 import com.idisfkj.hightcopywx.chat.WXItemDecoration;
 
@@ -27,7 +27,7 @@ import butterknife.InjectView;
  * Created by idisfkj on 16/5/7.
  * Email : idisfkj@qq.com.
  */
-public class SearchResultActivity extends BaseActivity implements LoaderManager.LoaderCallbacks<Cursor>, SearchResultAdapter.SearchItemClickListener, SearchResultView{
+public class SearchResultActivity extends BaseActivity<SearchResultView,SearchResultPresenterImp> implements LoaderManager.LoaderCallbacks<Cursor>, SearchResultAdapter.SearchItemClickListener, SearchResultView{
 
     @InjectView(R.id.search_result)
     RecyclerView searchResult;
@@ -52,6 +52,11 @@ public class SearchResultActivity extends BaseActivity implements LoaderManager.
         searchResult.setLayoutManager(new LinearLayoutManager(this));
         searchResult.addItemDecoration(new WXItemDecoration(this));
         getLoaderManager().initLoader(0, null, this);
+    }
+
+    @Override
+    protected SearchResultPresenterImp createPresenter() {
+        return null;
     }
 
     @Override

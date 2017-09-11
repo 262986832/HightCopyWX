@@ -26,14 +26,15 @@ public class ChatRoomsModelImp implements ChatRoomsModel {
 
         ChatRoomItemInfo chatRoomItemInfo = new ChatRoomItemInfo();
         if (count==0) {
-            chatRoomItemInfo.setTitle(App.COMPLAIN_PROPOSE);
-            chatRoomItemInfo.setContent(App.COMPLAIN_PROPOSE_MESSAGE);
+            String chatRoomIDStudyEnglish=ownMoible+"004";
+            chatRoomItemInfo.setTitle("英语学习");
+            chatRoomItemInfo.setContent("让我们来开心的学习英语吧。");
             chatRoomItemInfo.setTime(CalendarUtils.getCurrentDate());
-            chatRoomItemInfo.setChatRoomID(chatRoomIDPropose);
+            chatRoomItemInfo.setChatRoomID(chatRoomIDStudyEnglish);
             chatRoomItemInfo.setOwnMobile(ownMoible);
-            chatRoomItemInfo.setChatType(App.CHAT_TYPE_CHAT);
+            chatRoomItemInfo.setChatType(App.CHAT_TYPE_ENGLISH_STUDY);
             mHelper.insert(chatRoomItemInfo);
-            MiPushClient.subscribe(App.getAppContext(),chatRoomIDPropose,ownMoible);
+            MiPushClient.subscribe(App.getAppContext(),chatRoomIDStudyEnglish,ownMoible);
 
             String chatRoomIDChineseToEnglish=ownMoible+"002";
             chatRoomItemInfo.setTitle("汉英翻译");
@@ -54,6 +55,15 @@ public class ChatRoomsModelImp implements ChatRoomsModel {
             chatRoomItemInfo.setChatType(App.CHAT_TYPE_ENGLISHTOCHINESE);
             mHelper.insert(chatRoomItemInfo);
             MiPushClient.subscribe(App.getAppContext(),chatRoomIDEnglishToChinese,ownMoible);
+
+            chatRoomItemInfo.setTitle(App.COMPLAIN_PROPOSE);
+            chatRoomItemInfo.setContent(App.COMPLAIN_PROPOSE_MESSAGE);
+            chatRoomItemInfo.setTime(CalendarUtils.getCurrentDate());
+            chatRoomItemInfo.setChatRoomID(chatRoomIDPropose);
+            chatRoomItemInfo.setOwnMobile(ownMoible);
+            chatRoomItemInfo.setChatType(App.CHAT_TYPE_CHAT);
+            mHelper.insert(chatRoomItemInfo);
+            MiPushClient.subscribe(App.getAppContext(),chatRoomIDPropose,ownMoible);
         }
         chatRoomsView.onInitDataEnd(cursor);
     }

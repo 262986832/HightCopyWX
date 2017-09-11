@@ -1,7 +1,6 @@
 package com.idisfkj.hightcopywx.chat.widget;
 
 import android.app.LoaderManager;
-import android.content.BroadcastReceiver;
 import android.content.Loader;
 import android.database.Cursor;
 import android.graphics.Rect;
@@ -22,11 +21,10 @@ import android.widget.TextView;
 import com.idisfkj.hightcopywx.R;
 import com.idisfkj.hightcopywx.adapters.ChatAdapter;
 import com.idisfkj.hightcopywx.adapters.OnItemTouchListener;
+import com.idisfkj.hightcopywx.base.widget.BaseActivity;
 import com.idisfkj.hightcopywx.beans.ChatMessageInfo;
-import com.idisfkj.hightcopywx.chat.presenter.ChatPresenter;
 import com.idisfkj.hightcopywx.chat.presenter.ChatPresenterImp;
 import com.idisfkj.hightcopywx.chat.view.ChatView;
-import com.idisfkj.hightcopywx.registerLogin.BaseActivity;
 import com.idisfkj.hightcopywx.util.VolleyUtils;
 
 import org.greenrobot.eventbus.EventBus;
@@ -42,7 +40,7 @@ import butterknife.OnClick;
  * Created by idisfkj on 16/4/25.
  * Email : idisfkj@qq.com.
  */
-public class ChatActivity extends BaseActivity
+public class ChatActivity extends BaseActivity<ChatView,ChatPresenterImp>
         implements ChatView, View.OnTouchListener,
         View.OnFocusChangeListener, LoaderManager.LoaderCallbacks<Cursor> {
 
@@ -60,15 +58,12 @@ public class ChatActivity extends BaseActivity
     RelativeLayout relativeLayout;
 
     private static final String ACTION_FILTER = "com.idisfkj.hightcopywx.chat";
-    private ChatPresenter mChatPresenter;
     private ChatAdapter mChatAdapter;
-    private BroadcastReceiver receiver;
     private InputMethodManager manager;
 
     private String chatTitle;
-    private int unReadNum;
     private String mChatRoomID;
-
+    private int mChat_type;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,8 +76,8 @@ public class ChatActivity extends BaseActivity
         Bundle bundle = getIntent().getExtras();
         mChatRoomID = bundle.getString("chatRoomID");
         chatTitle = bundle.getString("chatTitle");
-        int chat_type = bundle.getInt("chatType");
-        mChatPresenter = new ChatPresenterImp(this, chat_type);
+        mChat_type = bundle.getInt("chatType");
+
 
         init();
         getActionBar().setTitle(chatTitle);
@@ -100,10 +95,10 @@ public class ChatActivity extends BaseActivity
         });
 
     }
-
+    //后台处理收到的消息
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void handleMessage(ChatMessageInfo chatMessageInfo) {
-        mChatPresenter.receiveData(chatMessageInfo);
+        mPresenter.receiveData(chatMessageInfo);
     }
 
     @Override
@@ -207,7 +202,7 @@ public class ChatActivity extends BaseActivity
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        return mChatPresenter.creatLoader(mChatRoomID);
+        return mPresenter.creatLoader(mChatRoomID);
     }
 
     @Override
@@ -242,7 +237,7 @@ public class ChatActivity extends BaseActivity
             chatMessageInfo.setMessageContent(chatContent);
             chatMessageInfo.setChatRoomID(mChatRoomID);
 
-            mChatPresenter.sendData(chatMessageInfo);
+            mPresenter.sendData(chatMessageInfo);
         }
         mChatContent.setText("");
     }
@@ -257,11 +252,16 @@ public class ChatActivity extends BaseActivity
     public void onDestroy() {
         super.onDestroy();
         //更新数据
-        mChatPresenter.cleanUnReadNum(mChatRoomID);
+        mPresenter.cleanUnReadNum(mChatRoomID);
         //重置数据
         VolleyUtils.cancelAll("chatRequest");
         //取消注册事件
         EventBus.getDefault().unregister(this);
         ButterKnife.reset(this);
+    }
+
+    @Override
+    protected ChatPresenterImp createPresenter() {
+        return new ChatPresenterImp(mChat_type);
     }
 }

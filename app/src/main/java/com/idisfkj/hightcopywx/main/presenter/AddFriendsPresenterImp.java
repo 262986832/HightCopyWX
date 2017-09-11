@@ -3,6 +3,7 @@ package com.idisfkj.hightcopywx.main.presenter;
 import android.database.Cursor;
 import android.widget.TextView;
 
+import com.idisfkj.hightcopywx.base.presenter.BasePresenter;
 import com.idisfkj.hightcopywx.dao.RegisterDataHelper;
 import com.idisfkj.hightcopywx.main.view.AddFriendsView;
 
@@ -10,7 +11,7 @@ import com.idisfkj.hightcopywx.main.view.AddFriendsView;
  * Created by idisfkj on 16/5/7.
  * Email : idisfkj@qq.com.
  */
-public class AddFriendsPresenterImp implements AddFriendsPresenter {
+public class AddFriendsPresenterImp extends BasePresenter<AddFriendsView> implements AddFriendsPresenter {
 
     private AddFriendsView mAddFriendsView;
 

@@ -7,6 +7,7 @@ import android.view.View;
 
 import com.idisfkj.hightcopywx.App;
 import com.idisfkj.hightcopywx.adapters.SearchResultAdapter;
+import com.idisfkj.hightcopywx.base.presenter.BasePresenter;
 import com.idisfkj.hightcopywx.beans.ChatRoomItemInfo;
 import com.idisfkj.hightcopywx.dao.ChatMessageDataHelper;
 import com.idisfkj.hightcopywx.dao.ChatRoomsDataHelper;
@@ -20,7 +21,7 @@ import com.idisfkj.hightcopywx.util.VolleyUtils;
  * Created by idisfkj on 16/5/7.
  * Email : idisfkj@qq.com.
  */
-public class SearchResultPresenterImp implements SearchResultPresenter, SearchResultModelImp.requestListener {
+public class SearchResultPresenterImp extends BasePresenter<SearchResultView> implements SearchResultPresenter, SearchResultModelImp.requestListener {
     private SearchResultModel mModel;
     private SearchResultView mView;
     private ChatRoomsDataHelper wxHelper;

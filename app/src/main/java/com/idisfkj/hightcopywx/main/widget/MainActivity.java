@@ -11,13 +11,12 @@ import android.widget.TextView;
 
 import com.idisfkj.hightcopywx.R;
 import com.idisfkj.hightcopywx.adapters.FragmentAdapter;
+import com.idisfkj.hightcopywx.base.widget.BaseActivity;
 import com.idisfkj.hightcopywx.beans.ChatMessageInfo;
 import com.idisfkj.hightcopywx.beans.UnReadNumber;
 import com.idisfkj.hightcopywx.chat.widget.ChatActivity;
-import com.idisfkj.hightcopywx.main.presenter.MainPresenter;
 import com.idisfkj.hightcopywx.main.presenter.MainPresenterImp;
 import com.idisfkj.hightcopywx.main.view.MainView;
-import com.idisfkj.hightcopywx.registerLogin.BaseActivity;
 import com.readystatesoftware.viewbadger.BadgeView;
 
 import org.greenrobot.eventbus.EventBus;
@@ -31,7 +30,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
-public class MainActivity extends BaseActivity implements MainView {
+public class MainActivity extends BaseActivity<MainView,MainPresenterImp> implements MainView {
 
     @InjectView(R.id.viewPage)
     ViewPager viewPage;
@@ -51,7 +50,7 @@ public class MainActivity extends BaseActivity implements MainView {
     TextView tabFindS;
     @InjectView(R.id.tab_me_s)
     TextView tabMeS;
-    private MainPresenter mMainPresenter;
+
     private List<ImageView> mListImage = new ArrayList<>();
     private List<TextView> mListText = new ArrayList<>();
     private int[] viewId;
@@ -63,50 +62,42 @@ public class MainActivity extends BaseActivity implements MainView {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.inject(this);
-        //订阅总线消息
-        EventBus.getDefault().register(this);
+        EventBus.getDefault().register(this);//订阅总线消息
 
         init();
-
-
 
         //是否是点击通知跳转
         bundle = getIntent().getExtras();
         if (bundle != null) {
-            mMainPresenter.switchActivity();
+            mPresenter.switchActivity();
         }
-        badgeView = new BadgeView(this, weiXinS);
-        badgeView.setText("12");
-        badgeView.hide();
-       // badgeView.show();
-
 
     }
 
+    //收到小米推送的消息
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void handleMessage(ChatMessageInfo chatMessageInfo) {
-        mMainPresenter.receiveData(chatMessageInfo);
+        mPresenter.receiveData(chatMessageInfo);
     }
+
+    //收到main气泡更新消息
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void showBadge(UnReadNumber unReadNumber) {
-        int count=unReadNumber.getUnReadNumber();
-        if(count>0) {
-            badgeView.setText(""+count);
+        int count = unReadNumber.getUnReadNumber();
+        if (count > 0) {
+            badgeView.setText("" + count);
             badgeView.show();
-        }else{
+        } else {
             badgeView.hide();
         }
     }
 
-
     public void init() {
-        mMainPresenter = new MainPresenterImp(this);
         FragmentAdapter adapter = new FragmentAdapter(getSupportFragmentManager());
         viewPage.setAdapter(adapter);
         weiXinS.setAlpha(1.0f);
         tabWeiXinS.setAlpha(1.0f);
         setViewPageListener();
-
 
         viewId = new int[]{R.id.ll_wx, R.id.ll_address, R.id.ll_find, R.id.ll_me};
         mListImage.add(weiXinS);
@@ -117,9 +108,12 @@ public class MainActivity extends BaseActivity implements MainView {
         mListText.add(tabAddressS);
         mListText.add(tabFindS);
         mListText.add(tabMeS);
+
+        badgeView = new BadgeView(this, weiXinS);
+        badgeView.setText("12");
+        badgeView.hide();
+
     }
-
-
 
     public void setViewPageListener() {
         viewPage.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -202,10 +196,9 @@ public class MainActivity extends BaseActivity implements MainView {
 
     }
 
-
     @OnClick({R.id.ll_wx, R.id.ll_address, R.id.ll_find, R.id.ll_me})
     public void onClick(View view) {
-        mMainPresenter.switchNavigation(view.getId());
+        mPresenter.switchNavigation(view.getId());
     }
 
     @Override
@@ -213,12 +206,18 @@ public class MainActivity extends BaseActivity implements MainView {
         super.onResume();
 
     }
+
     @Override
     public void onDestroy() {
         super.onDestroy();
         //取消注册事件
         EventBus.getDefault().unregister(this);
         ButterKnife.reset(this);
+    }
+
+    @Override
+    protected MainPresenterImp createPresenter() {
+        return new MainPresenterImp();
     }
 
 }

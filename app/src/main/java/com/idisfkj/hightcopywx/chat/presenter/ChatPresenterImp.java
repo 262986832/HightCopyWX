@@ -3,6 +3,7 @@ package com.idisfkj.hightcopywx.chat.presenter;
 import android.content.CursorLoader;
 
 import com.idisfkj.hightcopywx.App;
+import com.idisfkj.hightcopywx.base.presenter.BasePresenter;
 import com.idisfkj.hightcopywx.beans.ChatMessageInfo;
 import com.idisfkj.hightcopywx.beans.UnReadNumber;
 import com.idisfkj.hightcopywx.chat.model.ChatModel;
@@ -21,8 +22,7 @@ import org.greenrobot.eventbus.EventBus;
  * Created by idisfkj on 16/4/26.
  * Email : idisfkj@qq.com.
  */
-public class ChatPresenterImp implements ChatPresenter, ChatModel.requestListener, ChatModel.cursorListener {
-    private ChatView mChatView;
+public class ChatPresenterImp extends BasePresenter<ChatView> implements ChatPresenter, ChatModel.requestListener, ChatModel.cursorListener {
     private ChatModel mChatModel;
     private ChatMessageDataHelper mHelper;
     private ChatRoomsDataHelper mChatRoomsDataHelper;
@@ -30,8 +30,7 @@ public class ChatPresenterImp implements ChatPresenter, ChatModel.requestListene
     public ChatPresenterImp() {
     }
 
-    public ChatPresenterImp(ChatView chatView, int chatType) {
-        mChatView = chatView;
+    public ChatPresenterImp(int chatType) {
         mHelper = new ChatMessageDataHelper(App.getAppContext());
         mChatRoomsDataHelper = new ChatRoomsDataHelper(App.getAppContext());
         if (chatType == App.CHAT_TYPE_CHINESETOENGLISH)
