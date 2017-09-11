@@ -1,28 +1,27 @@
 package com.idisfkj.hightcopywx.chat.model;
 
 import android.content.Context;
+import android.content.CursorLoader;
 
 import com.idisfkj.hightcopywx.beans.ChatMessageInfo;
-import com.idisfkj.hightcopywx.dao.ChatMessageDataHelper;
-import com.idisfkj.hightcopywx.chat.view.ChatView;
 
 /**
  * Created by idisfkj on 16/4/25.
  * Email : idisfkj@qq.com.
  */
 public interface ChatModel {
-    void initData(ChatMessageDataHelper helper, ChatView chatView);
+    CursorLoader initData(String chatRoomID);
 
-    void requestData(requestListener listener, ChatMessageInfo chatMessageInfo, ChatMessageDataHelper helper);
+    void requestData(requestListener listener, ChatMessageInfo chatMessageInfo);
 
-    void insertData(ChatMessageInfo info, ChatMessageDataHelper helper);
+    void insertData(ChatMessageInfo info);
 
     void updateUnReadNum(Context context, String regId, String number, int unReadNum);
 
     void updateLasterContent(Context context, String regId, String number);
 
     public interface requestListener {
-        void onSucceed(ChatMessageInfo chatMessageInfo, ChatMessageDataHelper helper);
+        void onSucceed(ChatMessageInfo chatMessageInfo);
 
         void onError(String errorMessage);
     }

@@ -1,6 +1,7 @@
 package com.idisfkj.hightcopywx.chat.model;
 
 import android.content.Context;
+import android.content.CursorLoader;
 import android.util.Log;
 
 import com.android.volley.AuthFailureError;
@@ -14,7 +15,6 @@ import com.idisfkj.hightcopywx.beans.ChatMessageInfo;
 import com.idisfkj.hightcopywx.dao.ChatMessageDataHelper;
 import com.idisfkj.hightcopywx.util.UrlUtils;
 import com.idisfkj.hightcopywx.util.VolleyUtils;
-import com.idisfkj.hightcopywx.chat.view.ChatView;
 
 import org.json.JSONObject;
 
@@ -26,14 +26,20 @@ import java.util.Map;
  * Email : idisfkj@qq.com.
  */
 public class ChatModelImp implements ChatModel {
+    private ChatMessageDataHelper mChatMessageDataHelper;
+
+    public ChatModelImp() {
+        this.mChatMessageDataHelper = new ChatMessageDataHelper(App.getAppContext());
+    }
+
 
     @Override
-    public void initData(ChatMessageDataHelper helper, ChatView chatView) {
-
+    public CursorLoader initData(String chatRoomID) {
+        return mChatMessageDataHelper.getCursorLoader(chatRoomID);
     }
 
     @Override
-    public void requestData(final requestListener listener, ChatMessageInfo chatMessageInfo, final ChatMessageDataHelper helper) {
+    public void requestData(final requestListener listener, ChatMessageInfo chatMessageInfo) {
         Gson gson = new Gson();
         String jsonMessage = gson.toJson(chatMessageInfo);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
@@ -63,8 +69,8 @@ public class ChatModelImp implements ChatModel {
     }
 
     @Override
-    public void insertData(ChatMessageInfo info, ChatMessageDataHelper helper) {
-        helper.insert(info);
+    public void insertData(ChatMessageInfo info) {
+        mChatMessageDataHelper.insert(info);
 
     }
 

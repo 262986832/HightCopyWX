@@ -57,7 +57,6 @@ public class ChatActivity extends BaseActivity<ChatView,ChatPresenterImp>
     @InjectView(R.id.chat_bottm)
     RelativeLayout relativeLayout;
 
-    private static final String ACTION_FILTER = "com.idisfkj.hightcopywx.chat";
     private ChatAdapter mChatAdapter;
     private InputMethodManager manager;
 

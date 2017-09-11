@@ -10,7 +10,6 @@ import com.idisfkj.hightcopywx.chat.model.ChatModel;
 import com.idisfkj.hightcopywx.chat.model.ChatModelImp;
 import com.idisfkj.hightcopywx.chat.model.ChatModelTranslateImp;
 import com.idisfkj.hightcopywx.chat.view.ChatView;
-import com.idisfkj.hightcopywx.dao.ChatMessageDataHelper;
 import com.idisfkj.hightcopywx.dao.ChatRoomsDataHelper;
 import com.idisfkj.hightcopywx.util.SharedPreferencesManager;
 import com.idisfkj.hightcopywx.util.ToastUtils;
@@ -22,16 +21,13 @@ import org.greenrobot.eventbus.EventBus;
  * Created by idisfkj on 16/4/26.
  * Email : idisfkj@qq.com.
  */
-public class ChatPresenterImp extends BasePresenter<ChatView> implements ChatPresenter, ChatModel.requestListener, ChatModel.cursorListener {
+public class ChatPresenterImp extends BasePresenter<ChatView> implements ChatPresenter,
+        ChatModel.requestListener, ChatModel.cursorListener {
     private ChatModel mChatModel;
-    private ChatMessageDataHelper mHelper;
     private ChatRoomsDataHelper mChatRoomsDataHelper;
 
-    public ChatPresenterImp() {
-    }
 
     public ChatPresenterImp(int chatType) {
-        mHelper = new ChatMessageDataHelper(App.getAppContext());
         mChatRoomsDataHelper = new ChatRoomsDataHelper(App.getAppContext());
         if (chatType == App.CHAT_TYPE_CHINESETOENGLISH)
             mChatModel = new ChatModelTranslateImp(UrlUtils.ZHTOEN);
@@ -46,7 +42,7 @@ public class ChatPresenterImp extends BasePresenter<ChatView> implements ChatPre
 
     @Override
     public CursorLoader creatLoader(String charRoomid) {
-        return mHelper.getCursorLoader(charRoomid);
+        return mChatModel.initData(charRoomid);
     }
 
     @Override
@@ -56,8 +52,8 @@ public class ChatPresenterImp extends BasePresenter<ChatView> implements ChatPre
 
     @Override
     public void sendData(ChatMessageInfo chatMessageInfo) {
-        mChatModel.insertData(chatMessageInfo, mHelper);
-        mChatModel.requestData(this, chatMessageInfo, mHelper);
+        mChatModel.insertData(chatMessageInfo);
+        mChatModel.requestData(this, chatMessageInfo);
     }
 
     @Override
@@ -92,8 +88,8 @@ public class ChatPresenterImp extends BasePresenter<ChatView> implements ChatPre
 
 
     @Override
-    public void onSucceed(ChatMessageInfo chatMessageInfo, ChatMessageDataHelper helper) {
-        mChatModel.insertData(chatMessageInfo, helper);
+    public void onSucceed(ChatMessageInfo chatMessageInfo) {
+        mChatModel.insertData(chatMessageInfo);
     }
 
     @Override
