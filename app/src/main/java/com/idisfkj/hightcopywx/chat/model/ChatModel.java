@@ -10,7 +10,7 @@ import com.idisfkj.hightcopywx.beans.ChatMessageInfo;
  * Email : idisfkj@qq.com.
  */
 public interface ChatModel {
-    CursorLoader initData(String chatRoomID);
+    CursorLoader initData(String chatRoomID,int page);
 
     void requestData(requestListener listener, ChatMessageInfo chatMessageInfo);
 

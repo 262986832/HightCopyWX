@@ -70,6 +70,7 @@ public class ChatAdapter extends RecyclerViewCursorBaseAdapter<RecyclerView.View
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, Cursor cursor) {
+
         if (holder instanceof ChatReceiveViewHolder) {
 
             ((ChatReceiveViewHolder) holder).chatReceiveTime.

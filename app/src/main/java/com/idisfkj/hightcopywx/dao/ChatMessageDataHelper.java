@@ -104,8 +104,11 @@ public class ChatMessageDataHelper extends BaseDataHelper {
         bulkInsert(valuesList.toArray(valuesArray));
     }
 
-    public CursorLoader getCursorLoader(String chatRoomId) {
+    public CursorLoader getCursorLoader(String chatRoomId,int page) {
+        int allCount=this.query(chatRoomId).getCount();
+        int showCount=page*15;
+        int first=allCount-showCount;
         return getCursorLoader(null, ChatMessageDataInfo.chatRoomID + "=?", new String[]{chatRoomId}
-                , ChatMessageDataInfo._ID + " ASC");
+                , ChatMessageDataInfo._ID + " asc limit  "+first+","+showCount );
     }
 }

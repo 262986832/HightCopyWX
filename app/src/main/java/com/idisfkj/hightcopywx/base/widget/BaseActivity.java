@@ -12,6 +12,7 @@ import com.idisfkj.hightcopywx.base.presenter.BasePresenter;
  */
 public abstract class BaseActivity<V, P extends BasePresenter<V>>  extends FragmentActivity{
     protected P mPresenter;//Presenter对象
+    protected int page = 1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

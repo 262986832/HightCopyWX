@@ -5,6 +5,7 @@ import android.content.Loader;
 import android.database.Cursor;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
@@ -52,6 +53,8 @@ public class ChatActivity extends BaseActivity<ChatView,ChatPresenterImp>
     TextView voice_button;
     @InjectView(R.id.chat_bottm)
     RelativeLayout relativeLayout;
+    @InjectView(R.id.layout_swipe_refresh)
+    SwipeRefreshLayout swipeRefreshLayout;
 
     private ChatAdapter mChatAdapter;
     private InputMethodManager manager;
@@ -117,6 +120,13 @@ public class ChatActivity extends BaseActivity<ChatView,ChatPresenterImp>
         });
         mChatContent.setOnFocusChangeListener(this);
 
+        //下拉刷新
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            public void onRefresh() {
+                getNewPayge();
+            }
+        });
+
         getLoaderManager().initLoader(0, null, this);
 
         voice_button.setOnTouchListener(new View.OnTouchListener() {
@@ -159,6 +169,13 @@ public class ChatActivity extends BaseActivity<ChatView,ChatPresenterImp>
         });
     }
 
+    private void getNewPayge() {
+        Bundle bundle = new Bundle();
+        bundle.putInt("page", ++page);
+        getLoaderManager().restartLoader(0, bundle, this);
+        swipeRefreshLayout.setRefreshing(false);
+    }
+
     private boolean wantToCancle(int x, int y) {
         if (x < 0 || x > voice_button.getWidth()) // 超过按钮的宽度
             return true;
@@ -180,8 +197,8 @@ public class ChatActivity extends BaseActivity<ChatView,ChatPresenterImp>
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-        if (event.getAction() == MotionEvent.ACTION_DOWN && isKeyboardShown(mChatContent.getRootView()))
-            manager.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+//        if (event.getAction() == MotionEvent.ACTION_DOWN && isKeyboardShown(mChatContent.getRootView()))
+//            manager.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
         return false;
     }
 
@@ -192,7 +209,11 @@ public class ChatActivity extends BaseActivity<ChatView,ChatPresenterImp>
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        return mPresenter.creatLoader(mChatRoomID);
+        if (args != null) {
+            int page = args.getInt("page");
+            //ToastUtils.showShort("第" + page+"页");
+        }
+        return mPresenter.creatLoader(mChatRoomID,page);
     }
 
     @Override
@@ -228,6 +249,7 @@ public class ChatActivity extends BaseActivity<ChatView,ChatPresenterImp>
             chatMessageInfo.setChatRoomID(mChatRoomID);
 
             mPresenter.sendData(chatMessageInfo);
+            getLoaderManager().restartLoader(0, null, this);
         }
         mChatContent.setText("");
     }

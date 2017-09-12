@@ -41,8 +41,8 @@ public class ChatPresenterImp extends BasePresenter<ChatView> implements ChatPre
 
 
     @Override
-    public CursorLoader creatLoader(String charRoomid) {
-        return mChatModel.initData(charRoomid);
+    public CursorLoader creatLoader(String charRoomid,int page) {
+        return mChatModel.initData(charRoomid,page);
     }
 
 

@@ -8,39 +8,41 @@
         android:id="@+id/chat_bottm_father"
         android:layout_width="match_parent"
         android:layout_height="46dp"
+        android:layout_alignParentBottom="true"
         android:background="@color/bg_content"
+        android:focusableInTouchMode="true"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingBottom="6dp"
         android:paddingLeft="8dp"
         android:paddingRight="8dp"
-        android:paddingTop="6dp"
-        android:layout_alignParentBottom="true"
-        android:focusableInTouchMode="true">
+        android:paddingTop="6dp">
+
         <ImageView
             android:id="@+id/voice_swith"
             android:layout_width="28dp"
             android:layout_height="28dp"
             android:layout_marginRight="@dimen/content_horizontal_margin"
+            android:layout_toLeftOf="@+id/voice_text"
             android:clickable="true"
             android:scaleType="centerCrop"
-            android:layout_toLeftOf="@+id/voice_text"
             android:src="@mipmap/icon_chat_voice" />
+
         <TextView
             android:id="@+id/voice_button"
             style="@style/text_subhead_black"
-            android:layout_alignParentRight="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
             android:layout_weight="1"
             android:background="@drawable/corners_edit"
             android:gravity="center"
             android:minHeight="46dp"
-            android:visibility="gone"
             android:paddingLeft="@dimen/content_horizontal_margin"
             android:paddingRight="@dimen/content_horizontal_margin"
             android:text="按住说话"
-            />
+            android:visibility="gone" />
+
         <RelativeLayout
             android:id="@+id/chat_bottm"
             android:layout_width="match_parent"
@@ -84,19 +86,26 @@
 
 
     <View
-        android:layout_above="@id/chat_bottm_father"
         android:id="@+id/disi_line"
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
+        android:layout_above="@id/chat_bottm_father"
         android:background="@color/line_color" />
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/chat_view"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/layout_swipe_refresh"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
         android:layout_above="@id/disi_line"
-        android:background="@color/decoration_color">
+        android:layout_height="match_parent">
 
-    </android.support.v7.widget.RecyclerView>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/chat_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/decoration_color">
+        </android.support.v7.widget.RecyclerView>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+
 
 </RelativeLayout>

@@ -34,8 +34,8 @@ public class ChatModelImp implements ChatModel {
 
 
     @Override
-    public CursorLoader initData(String chatRoomID) {
-        return mChatMessageDataHelper.getCursorLoader(chatRoomID);
+    public CursorLoader initData(String chatRoomID,int page) {
+        return mChatMessageDataHelper.getCursorLoader(chatRoomID,page);
     }
 
     @Override

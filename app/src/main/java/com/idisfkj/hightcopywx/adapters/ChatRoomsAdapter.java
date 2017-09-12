@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import com.idisfkj.hightcopywx.R;
 import com.idisfkj.hightcopywx.dao.ChatRoomsDataHelper;
-import com.idisfkj.hightcopywx.util.BadgeViewUtils;
 import com.idisfkj.hightcopywx.util.CursorUtils;
 import com.readystatesoftware.viewbadger.BadgeView;
 
@@ -50,17 +49,14 @@ public class ChatRoomsAdapter extends RecyclerViewCursorBaseAdapter<ChatRoomsAda
         holder.unReadNum = CursorUtils.formatInt(cursor, ChatRoomsDataHelper.WXItemDataInfo.unReadNumber);
         holder.chatType = CursorUtils.formatInt(cursor, ChatRoomsDataHelper.WXItemDataInfo.chatType);
         holder.chatRoomID=CursorUtils.formatString(cursor, ChatRoomsDataHelper.WXItemDataInfo.chatRoomID);
-
-
-        //回收 防止影响更新
-        if (holder.badgeView != null)
-            holder.badgeView.hide();
-
+        //更新气泡
         if (holder.unReadNum > 0) {
-            //显示未读信息数
-            holder.badgeView = BadgeViewUtils.create(mContext, holder.wxItemPicture, String.valueOf(holder.unReadNum));
+            holder.badgeView.setText(holder.unReadNum+"");
+            holder.badgeView.show();
+        }else {
+            holder.badgeView.hide();
         }
-//        holder.wxItemTitle.getRootView().setId(cursor.getPosition());
+
     }
 
     void test() {
@@ -86,6 +82,7 @@ public class ChatRoomsAdapter extends RecyclerViewCursorBaseAdapter<ChatRoomsAda
 
 
 
+
         public int getChatType() {
             return chatType;
         }
@@ -98,6 +95,10 @@ public class ChatRoomsAdapter extends RecyclerViewCursorBaseAdapter<ChatRoomsAda
             super(view);
             ButterKnife.inject(this, view);
             mContext = context;
+
+            badgeView = new BadgeView(mContext, wxItemPicture);
+            badgeView.setText("12");
+            badgeView.hide();
         }
     }
 }
