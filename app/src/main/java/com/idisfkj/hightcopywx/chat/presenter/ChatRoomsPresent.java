@@ -8,6 +8,6 @@ import android.support.v4.content.Loader;
  * Email : idisfkj@qq.com.
  */
 public interface ChatRoomsPresent {
-    Loader<Cursor> creatLoader(String ownMobile);
+    Loader<Cursor> creatLoader(String ownMobile,int page);
     void initData();
 }

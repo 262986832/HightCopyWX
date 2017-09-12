@@ -17,22 +17,22 @@ public class ChatRoomsPresentImp implements ChatRoomsPresent {
 
     private ChatRoomsModel mChatRoomsModel;
     private ChatRoomsView mChatRoomsView;
-    private ChatRoomsDataHelper mHelper;
+    private ChatRoomsDataHelper mChatRoomsDataHelper;
 
     public ChatRoomsPresentImp(ChatRoomsView chatRoomsView, Context context) {
         mChatRoomsView = chatRoomsView;
         mChatRoomsModel = new ChatRoomsModelImp();
-        mHelper = new ChatRoomsDataHelper(context);
+        mChatRoomsDataHelper = new ChatRoomsDataHelper(context);
     }
 
     @Override
-    public Loader<Cursor> creatLoader(String ownMobile) {
-        return  mHelper.getCursorLoader(ownMobile);
+    public Loader<Cursor> creatLoader(String ownMobile,int page) {
+        return  mChatRoomsDataHelper.getCursorLoader(ownMobile, page);
     }
 
     @Override
     public void initData() {
-        mChatRoomsModel.initData(mHelper,mChatRoomsView);
+        mChatRoomsModel.initData(mChatRoomsDataHelper,mChatRoomsView);
     }
 
 }
