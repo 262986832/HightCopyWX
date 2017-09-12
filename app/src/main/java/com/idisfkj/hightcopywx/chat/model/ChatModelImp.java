@@ -1,6 +1,5 @@
 package com.idisfkj.hightcopywx.chat.model;
 
-import android.content.Context;
 import android.content.CursorLoader;
 import android.util.Log;
 
@@ -26,7 +25,7 @@ import java.util.Map;
  * Email : idisfkj@qq.com.
  */
 public class ChatModelImp implements ChatModel {
-    private ChatMessageDataHelper mChatMessageDataHelper;
+    protected ChatMessageDataHelper mChatMessageDataHelper;
 
     public ChatModelImp() {
         this.mChatMessageDataHelper = new ChatMessageDataHelper(App.getAppContext());
@@ -34,8 +33,8 @@ public class ChatModelImp implements ChatModel {
 
 
     @Override
-    public CursorLoader initData(String chatRoomID,int page) {
-        return mChatMessageDataHelper.getCursorLoader(chatRoomID,page);
+    public CursorLoader initData(String chatRoomID, int page) {
+        return mChatMessageDataHelper.getCursorLoader(chatRoomID, page);
     }
 
     @Override
@@ -71,17 +70,6 @@ public class ChatModelImp implements ChatModel {
     @Override
     public void insertData(ChatMessageInfo info) {
         mChatMessageDataHelper.insert(info);
-
-    }
-
-
-    @Override
-    public void updateUnReadNum(Context context, String regId, String number, int unReadNum) {
-
-    }
-
-    @Override
-    public void updateLasterContent(Context context, String regId, String number) {
 
     }
 

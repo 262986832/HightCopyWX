@@ -30,27 +30,33 @@ public class ChatModelTranslateImp extends ChatModelImp {
     }
 
     @Override
-    public void requestData(final requestListener listener, ChatMessageInfo chatMessageInfo) {
+    public void requestData(final requestListener listener, final ChatMessageInfo chatMessageInfo) {
 
         GsonRequest<BaiduFanyiResponse> gsonRequest = new GsonRequest<BaiduFanyiResponse>(Request.Method.POST,
-                UrlUtils.getBaiduTranslateApiUrl(chatMessageInfo.getMessageContent(),type), BaiduFanyiResponse.class,
+                UrlUtils.getBaiduTranslateApiUrl(chatMessageInfo.getMessageContent(), type), BaiduFanyiResponse.class,
                 new Response.Listener<BaiduFanyiResponse>() {
                     @Override
                     public void onResponse(BaiduFanyiResponse baiduFanyiResponse) {
-                        if (baiduFanyiResponse.getTrans_result()!=null && baiduFanyiResponse.getTrans_result().size()>0){
-                            String result=(String) baiduFanyiResponse.getTrans_result().get(0).getDst();
-//                            ChatMessageInfo mChatMessageInfo = new ChatMessageInfo(result, 0, CalendarUtils.getCurrentDate(),
-//                                    number, regId, SharedPreferencesManager.getString("userPhone", ""));
-//                            listener.onSucceed(mChatMessageInfo, helper);
+                        if (baiduFanyiResponse.getTrans_result() != null && baiduFanyiResponse.getTrans_result().size() > 0) {
+                            String result = (String) baiduFanyiResponse.getTrans_result().get(0).getDst();
+                            ChatMessageInfo mChatMessageInfo = new ChatMessageInfo();
+                            mChatMessageInfo.setStatus(App.MESSAGE_STATUS_SUCCESS);
+                            mChatMessageInfo.setChatRoomID(chatMessageInfo.getChatRoomID());
+                            mChatMessageInfo.setMessageContent(result);
+                            mChatMessageInfo.setSendOrReciveFlag(App.RECEIVE_FLAG);
+                            mChatMessageInfo.setSendMobile(chatMessageInfo.getSendMobile());
+                            listener.onSucceed(mChatMessageInfo);
+                            //更新发送状态
+                            mChatMessageDataHelper.updateStatus(App.MESSAGE_STATUS_SUCCESS,chatMessageInfo.getMessageID());
                         }
 
                     }
                 }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.e(TAG, error.getMessage(), error);
-                    }
-        }){
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e(TAG, error.getMessage(), error);
+            }
+        }) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 HashMap<String, String> header = new HashMap<>();
@@ -60,5 +66,7 @@ public class ChatModelTranslateImp extends ChatModelImp {
         };
         VolleyUtils.addQueue(gsonRequest, "chatRequest");
     }
+
+
 
 }

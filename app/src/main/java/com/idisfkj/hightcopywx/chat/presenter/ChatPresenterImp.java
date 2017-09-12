@@ -22,13 +22,16 @@ import org.greenrobot.eventbus.EventBus;
  * Email : idisfkj@qq.com.
  */
 public class ChatPresenterImp extends BasePresenter<ChatView> implements ChatPresenter,
-        ChatModel.requestListener, ChatModel.cursorListener {
+        ChatModel.requestListener {
     private ChatModel mChatModel;
     private ChatRoomsDataHelper mChatRoomsDataHelper;
 
 
-    public ChatPresenterImp(int chatType) {
+    public ChatPresenterImp() {
         mChatRoomsDataHelper = new ChatRoomsDataHelper(App.getAppContext());
+    }
+
+    public void setChatType(int chatType){
         if (chatType == App.CHAT_TYPE_CHINESETOENGLISH)
             mChatModel = new ChatModelTranslateImp(UrlUtils.ZHTOEN);
         else if (chatType == App.CHAT_TYPE_ENGLISHTOCHINESE)
@@ -88,8 +91,5 @@ public class ChatPresenterImp extends BasePresenter<ChatView> implements ChatPre
         ToastUtils.showShort("网络异常,请检查网络");
     }
 
-    @Override
-    public void onSucceed(String regId, String number, String userName, int unReadNum) {
 
-    }
 }

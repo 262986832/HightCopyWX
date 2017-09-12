@@ -82,6 +82,7 @@ public class ChatMessageDataHelper extends BaseDataHelper {
     }
 
     public void insert(ChatMessageInfo info) {
+
         ContentValues values = getContentValues(info);
         insert(values);
     }

@@ -74,6 +74,7 @@ public class ChatActivity extends BaseActivity<ChatView,ChatPresenterImp>
         mChatRoomID = bundle.getString("chatRoomID");
         chatTitle = bundle.getString("chatTitle");
         mChat_type = bundle.getInt("chatType");
+        mPresenter.setChatType(mChat_type);
 
 
         init();
@@ -273,6 +274,6 @@ public class ChatActivity extends BaseActivity<ChatView,ChatPresenterImp>
 
     @Override
     protected ChatPresenterImp createPresenter() {
-        return new ChatPresenterImp(mChat_type);
+        return new ChatPresenterImp();
     }
 }
