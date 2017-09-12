@@ -1,9 +1,11 @@
 package com.idisfkj.hightcopywx.registerLogin.presenter;
 
+import com.idisfkj.hightcopywx.App;
 import com.idisfkj.hightcopywx.registerLogin.model.LoginModel;
 import com.idisfkj.hightcopywx.registerLogin.model.LoginModelImp;
 import com.idisfkj.hightcopywx.registerLogin.view.LoginView;
 import com.idisfkj.hightcopywx.util.ToastUtils;
+import com.xiaomi.mipush.sdk.MiPushClient;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -20,11 +22,12 @@ public class LoginPresenterImp implements LoginPresenter,LoginModel.requestLogin
     }
 
     @Override
-    public void login(String mobile, String password, String clientid) {
+    public void login(String mobile, String password, String roleID) {
         if(StringUtils.isBlank(mobile) || StringUtils.isBlank(password)){
             ToastUtils.showShort("用户名和密码不能为空");
             return;
         }
+        String clientid=MiPushClient.getRegId(App.getAppContext());
         mloginModel.requestLogin(this,mobile,password,clientid);
     }
 

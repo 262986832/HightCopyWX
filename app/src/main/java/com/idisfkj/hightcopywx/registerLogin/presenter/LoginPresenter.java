@@ -5,5 +5,5 @@ package com.idisfkj.hightcopywx.registerLogin.presenter;
  */
 
 public interface LoginPresenter {
-    void login(String mobile,String password,String clientid);
+    void login(String mobile,String password,String roleID);
 }
