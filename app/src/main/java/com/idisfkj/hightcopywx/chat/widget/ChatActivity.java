@@ -250,7 +250,7 @@ public class ChatActivity extends BaseActivity<ChatView,ChatPresenterImp>
             chatMessageInfo.setChatRoomID(mChatRoomID);
 
             mPresenter.sendData(chatMessageInfo);
-            getLoaderManager().restartLoader(0, null, this);
+
         }
         mChatContent.setText("");
     }
@@ -275,5 +275,11 @@ public class ChatActivity extends BaseActivity<ChatView,ChatPresenterImp>
     @Override
     protected ChatPresenterImp createPresenter() {
         return new ChatPresenterImp();
+    }
+
+
+    @Override
+    public void onReloadData() {
+        getLoaderManager().restartLoader(0, null, this);
     }
 }

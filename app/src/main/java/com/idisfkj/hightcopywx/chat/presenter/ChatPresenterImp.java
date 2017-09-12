@@ -52,7 +52,9 @@ public class ChatPresenterImp extends BasePresenter<ChatView> implements ChatPre
     @Override
     public void sendData(ChatMessageInfo chatMessageInfo) {
         mChatModel.insertData(chatMessageInfo);
+        mViewRef.get().onReloadData();
         mChatModel.requestData(this, chatMessageInfo);
+
     }
 
 
@@ -84,6 +86,7 @@ public class ChatPresenterImp extends BasePresenter<ChatView> implements ChatPre
     @Override
     public void onSucceed(ChatMessageInfo chatMessageInfo) {
         mChatModel.insertData(chatMessageInfo);
+        mViewRef.get().onReloadData();
     }
 
     @Override

@@ -7,5 +7,5 @@ import com.idisfkj.hightcopywx.base.views.BaseView;
  * Email : idisfkj@qq.com.
  */
 public interface ChatView extends BaseView{
-
+    void onReloadData();
 }
