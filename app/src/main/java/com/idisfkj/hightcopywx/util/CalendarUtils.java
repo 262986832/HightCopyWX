@@ -25,4 +25,9 @@ public class CalendarUtils {
         SimpleDateFormat format = new SimpleDateFormat("MM月dd日 HH:mm");
         return  format.parse(str).getTime();
     }
+
+    public static long getLongCurrentDate() throws ParseException {
+        Date date = new Date(System.currentTimeMillis());
+        return  date.getTime();
+    }
 }

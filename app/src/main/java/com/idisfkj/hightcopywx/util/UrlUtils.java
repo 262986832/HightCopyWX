@@ -31,7 +31,7 @@ public class UrlUtils {
     public static final int ZHTOEN = 0;
     public static final int ENTOGH = 1;
     //服务端
-    private static final String SERVER_REGISTER = "http://10.16.66.60:8001/api/";
+    private static final String SERVER_REGISTER = "http://10.16.66.127:8001/api/";
 
 
     public UrlUtils() {
@@ -77,6 +77,11 @@ public class UrlUtils {
         url.append(password);
         url.append("&clientid=");
         url.append(clientid);
+        return url.toString();
+    }
+    //获取本日背诵的单词
+    public static String getNowDayWordListApiUrl() {
+        StringBuilder url = new StringBuilder(SERVER_REGISTER+"englishWord");
         return url.toString();
     }
 

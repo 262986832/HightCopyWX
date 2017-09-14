@@ -25,20 +25,24 @@ public class DataProvider extends ContentProvider {
     private static final String SCHEME = "content://";
 
     private static final String PATH_REGISTERS = "/registers";
+    private static final String PATH_WORDS = "/words";
     private static final String PATH_WXS = "/wxs";
     private static final String PATH_CHAT_MESSAGES = "/chats";
 
     public static final Uri REGISTERS_CONTENT_URI = Uri.parse(SCHEME + AUTHORITY + PATH_REGISTERS);
+    public static final Uri WORDS_CONTENT_URI = Uri.parse(SCHEME + AUTHORITY + PATH_WORDS);
     public static final Uri WXS_CONTENT_URI = Uri.parse(SCHEME + AUTHORITY + PATH_WXS);
     public static final Uri CHAT_MESSAGES_CONTENT_URI = Uri.parse(SCHEME + AUTHORITY + PATH_CHAT_MESSAGES);
 
     private static final int REGISTERS = 0;
     private static final int WXS = 1;
     private static final int CHAT_MESSAGES = 2;
+    private static final int WORDS = 3;
 
     private static final String REGISTERS_CONTENT_TYPE = "vnd.android.cursor.dir/vnd.com.idisfkj.hightcopywx.register";
     private static final String WXS_CONTENT_TYPE = "vnd.android.cursor.dir/vnd.com.idisfkj.hightcopywx.wx";
     private static final String CHAT_MESSAGES_CONTENT_TYPE = "vnd.android.cursor.dir/vnd.com.idisfkj.hightcopywx.chat";
+    private static final String WORDS_CONTENT_TYPE = "vnd.android.cursor.dir/vnd.com.idisfkj.hightcopywx.words";
 
     private static final UriMatcher sUriMatcher;
     private static DBHelper mDBHelper;
@@ -48,6 +52,7 @@ public class DataProvider extends ContentProvider {
         sUriMatcher.addURI(AUTHORITY, "registers", REGISTERS);
         sUriMatcher.addURI(AUTHORITY, "wxs", WXS);
         sUriMatcher.addURI(AUTHORITY, "chats", CHAT_MESSAGES);
+        sUriMatcher.addURI(AUTHORITY, "words", WORDS);
     }
 
     public static DBHelper getDBHelper() {
@@ -87,6 +92,8 @@ public class DataProvider extends ContentProvider {
                 return WXS_CONTENT_TYPE;
             case CHAT_MESSAGES:
                 return CHAT_MESSAGES_CONTENT_TYPE;
+            case WORDS:
+                return WORDS_CONTENT_TYPE;
             default:
                 throw new IllegalArgumentException("Unknow Uri " + uri);
         }
@@ -168,6 +175,9 @@ public class DataProvider extends ContentProvider {
                 break;
             case CHAT_MESSAGES:
                 table = ChatMessageDataHelper.ChatMessageDataInfo.TABLE_NAME;
+                break;
+            case WORDS:
+                table = WordDataHelper.WordDataInfo.TABLE_NAME;
                 break;
             default:
                 throw new IllegalArgumentException("Unkonw Uri" + uri);

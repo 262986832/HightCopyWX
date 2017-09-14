@@ -8,6 +8,7 @@ import com.idisfkj.hightcopywx.beans.ChatMessageInfo;
 import com.idisfkj.hightcopywx.beans.UnReadNumber;
 import com.idisfkj.hightcopywx.chat.model.ChatModel;
 import com.idisfkj.hightcopywx.chat.model.ChatModelImp;
+import com.idisfkj.hightcopywx.chat.model.ChatModelStudyImp;
 import com.idisfkj.hightcopywx.chat.model.ChatModelTranslateImp;
 import com.idisfkj.hightcopywx.chat.view.ChatView;
 import com.idisfkj.hightcopywx.dao.ChatRoomsDataHelper;
@@ -25,7 +26,8 @@ public class ChatPresenterImp extends BasePresenter<ChatView> implements ChatPre
         ChatModel.requestListener {
     private ChatModel mChatModel;
     private ChatRoomsDataHelper mChatRoomsDataHelper;
-
+    private int page;
+    private int limit;
 
     public ChatPresenterImp() {
         mChatRoomsDataHelper = new ChatRoomsDataHelper(App.getAppContext());
@@ -36,8 +38,11 @@ public class ChatPresenterImp extends BasePresenter<ChatView> implements ChatPre
             mChatModel = new ChatModelTranslateImp(UrlUtils.ZHTOEN);
         else if (chatType == App.CHAT_TYPE_ENGLISHTOCHINESE)
             mChatModel = new ChatModelTranslateImp(UrlUtils.ENTOGH);
-        else if (chatType == App.CHAT_TYPE_ENGLISH_STUDY)
-            mChatModel = new ChatModelImp();
+        else if (chatType == App.CHAT_TYPE_ENGLISH_STUDY){
+            mChatModel = new ChatModelStudyImp();
+            ChatModelStudyImp chatModelStudyImp =(ChatModelStudyImp) mChatModel;
+            chatModelStudyImp.initStudyData();
+        }
         else
             mChatModel = new ChatModelImp();
     }

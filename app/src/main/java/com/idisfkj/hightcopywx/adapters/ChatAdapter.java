@@ -16,7 +16,6 @@ import com.idisfkj.hightcopywx.R;
 import com.idisfkj.hightcopywx.dao.ChatMessageDataHelper;
 import com.idisfkj.hightcopywx.registerLogin.widget.RegisterActivity;
 import com.idisfkj.hightcopywx.util.CursorUtils;
-import com.idisfkj.hightcopywx.util.SharedPreferencesManager;
 import com.idisfkj.hightcopywx.util.ToastUtils;
 
 import java.io.File;
@@ -86,7 +85,7 @@ public class ChatAdapter extends RecyclerViewCursorBaseAdapter<RecyclerView.View
             ((ChatSendViewHolder) holder).chatSendTime.
                     setText(CursorUtils.formatString(cursor, ChatMessageDataHelper.ChatMessageDataInfo.time));
 
-            String name= SharedPreferencesManager.getString("","哈哈");
+            String name= App.userName;
             ((ChatSendViewHolder) holder).chat_send_man_name.setText(name);
 
             if (sendBitmap != null)

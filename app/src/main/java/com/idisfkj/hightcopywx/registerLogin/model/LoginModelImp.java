@@ -35,7 +35,10 @@ public class LoginModelImp implements LoginModel {
                                 if (respondLogin.getCode() == 0) {
                                     SharedPreferencesManager.putString("userPhone",mobile).commit();
                                     SharedPreferencesManager.putString("password",password).commit();
-                                    SharedPreferencesManager.putString("token",respondLogin.getToken()).commit();
+                                    //SharedPreferencesManager.putString("token",respondLogin.getToken()).commit();
+                                    App.token=respondLogin.getToken();
+                                    //SharedPreferencesManager.putString("userName",respondLogin.getUserName()).commit();
+                                    App.userName=respondLogin.getUserName();
                                     listener.onLoginSucceed();
                                 } else {
                                     listener.onError(respondLogin.getMsg());
