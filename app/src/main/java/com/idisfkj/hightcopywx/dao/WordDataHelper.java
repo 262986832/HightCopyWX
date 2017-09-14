@@ -3,6 +3,7 @@ package com.idisfkj.hightcopywx.dao;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.CursorLoader;
+import android.database.Cursor;
 import android.net.Uri;
 import android.provider.BaseColumns;
 
@@ -77,6 +78,12 @@ public class WordDataHelper extends BaseDataHelper {
     public void insert(WordsEntity info) {
         ContentValues values = getContentValues(info);
         insert(values);
+    }
+
+    public Cursor query(String ownMobile) {
+        Cursor cursor = query(null, WordDataInfo.ownmobile + "=?"
+                , new String[]{ownMobile}, WordDataInfo._ID + " ASC");
+        return cursor;
     }
 
 

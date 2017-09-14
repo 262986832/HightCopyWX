@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.idisfkj.hightcopywx.App;
 import com.idisfkj.hightcopywx.R;
 import com.idisfkj.hightcopywx.main.widget.MainActivity;
 import com.idisfkj.hightcopywx.registerLogin.model.LoginModel;
@@ -51,6 +52,7 @@ public class WelcomeActivity extends Activity implements LoginModel.requestLogin
     }
 
     private void startLogin() {
+        App.ownMobile = SharedPreferencesManager.getString("userPhone", "");
         mloginModel.requestLogin(this, SharedPreferencesManager.getString("userPhone", ""),
                 SharedPreferencesManager.getString("password", ""), SharedPreferencesManager.getString("regId", ""));
     }

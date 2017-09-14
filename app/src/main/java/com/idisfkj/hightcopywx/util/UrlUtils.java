@@ -78,10 +78,17 @@ public class UrlUtils {
         url.append("&clientid=");
         url.append(clientid);
         return url.toString();
-    }
+    } 
     //获取本日背诵的单词
     public static String getNowDayWordListApiUrl() {
-        StringBuilder url = new StringBuilder(SERVER_REGISTER+"englishWord");
+        int limit=SharedPreferencesManager.getInt("limit",10);
+        int page=SharedPreferencesManager.getInt("page",1);
+        StringBuilder url = new StringBuilder(SERVER_REGISTER+"englishWord?");
+        url.append("limit=");
+        url.append(limit);
+        url.append("&page=");
+        url.append(page);
+        url.append("&sidx=id&order=asc");
         return url.toString();
     }
 

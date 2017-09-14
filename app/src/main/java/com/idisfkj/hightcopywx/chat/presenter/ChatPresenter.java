@@ -16,6 +16,8 @@ public interface ChatPresenter  {
 
     void cleanUnReadNum(String chatRoomId);
 
+    void startStudy(String chatRoomId);
+
     void updateLasterContent(String chatRoomId);
 
 }

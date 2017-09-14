@@ -1,7 +1,5 @@
 package com.idisfkj.hightcopywx.chat.model;
 
-import android.content.CursorLoader;
-
 import com.idisfkj.hightcopywx.beans.ChatMessageInfo;
 
 /**
@@ -10,17 +8,22 @@ import com.idisfkj.hightcopywx.beans.ChatMessageInfo;
  */
 public interface ChatModel {
 
-    CursorLoader initData(String chatRoomID, int page);
+    void initData(initListener listener);
+
+    interface initListener{
+
+        void onInitSucceed();
+
+        void onInitError(String errorMessage);
+    }
 
     void requestData(requestListener listener, ChatMessageInfo chatMessageInfo);
 
-    void insertData(ChatMessageInfo info);
-
     interface requestListener {
 
-        void onSucceed(ChatMessageInfo chatMessageInfo);
+        void onRequestSucceed(ChatMessageInfo requestChatMessageInfo,ChatMessageInfo respondChatMessageInfo);
 
-        void onError(String errorMessage);
+        void onRequestError(String errorMessage);
     }
 
 }

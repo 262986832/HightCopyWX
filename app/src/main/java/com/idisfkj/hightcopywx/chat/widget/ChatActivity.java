@@ -93,22 +93,8 @@ public class ChatActivity extends BaseActivity<ChatView,ChatPresenterImp>
         });
 
     }
-
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                onBackPressed();
-                break;
-            default:
-
-                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
     public void init() {
+
         mChatAdapter = new ChatAdapter(this);
         chatView.setLayoutManager(new LinearLayoutManager(this));
         chatView.setAdapter(mChatAdapter);
@@ -169,6 +155,21 @@ public class ChatActivity extends BaseActivity<ChatView,ChatPresenterImp>
             }
         });
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                break;
+            default:
+
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+
 
     private void getNewPayge() {
         Bundle bundle = new Bundle();
@@ -281,5 +282,10 @@ public class ChatActivity extends BaseActivity<ChatView,ChatPresenterImp>
     @Override
     public void onReloadData() {
         getLoaderManager().restartLoader(0, null, this);
+    }
+
+    @Override
+    public void onInitDataComplete() {
+            mPresenter.startStudy(mChatRoomID);
     }
 }

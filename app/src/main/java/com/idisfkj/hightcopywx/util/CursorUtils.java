@@ -14,7 +14,8 @@ public class CursorUtils {
     }
 
     public static String formatString(Cursor cursor, String columnName) {
-        String result = cursor.getString(cursor.getColumnIndex(columnName));
+        int columid=cursor.getColumnIndex(columnName);
+        String result = cursor.getString(columid);
         return result;
     }
 

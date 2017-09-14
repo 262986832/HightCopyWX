@@ -21,6 +21,13 @@ public class CalendarUtils {
         return time;
     }
 
+    public static String getCurrentDay(){
+        SimpleDateFormat format = new SimpleDateFormat("YYYYMMdd");
+        Date date = new Date(System.currentTimeMillis());
+        String time = format.format(date);
+        return time;
+    }
+
     public static long getLongDate(String str) throws ParseException {
         SimpleDateFormat format = new SimpleDateFormat("MM月dd日 HH:mm");
         return  format.parse(str).getTime();

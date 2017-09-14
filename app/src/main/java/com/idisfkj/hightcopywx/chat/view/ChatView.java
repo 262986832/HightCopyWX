@@ -8,4 +8,5 @@ import com.idisfkj.hightcopywx.base.views.BaseView;
  */
 public interface ChatView extends BaseView{
     void onReloadData();
+    void onInitDataComplete();
 }

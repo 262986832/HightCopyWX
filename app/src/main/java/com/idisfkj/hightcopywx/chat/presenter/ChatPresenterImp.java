@@ -10,8 +10,11 @@ import com.idisfkj.hightcopywx.chat.model.ChatModel;
 import com.idisfkj.hightcopywx.chat.model.ChatModelImp;
 import com.idisfkj.hightcopywx.chat.model.ChatModelStudyImp;
 import com.idisfkj.hightcopywx.chat.model.ChatModelTranslateImp;
+import com.idisfkj.hightcopywx.chat.model.StudyModel;
 import com.idisfkj.hightcopywx.chat.view.ChatView;
+import com.idisfkj.hightcopywx.dao.ChatMessageDataHelper;
 import com.idisfkj.hightcopywx.dao.ChatRoomsDataHelper;
+import com.idisfkj.hightcopywx.util.CalendarUtils;
 import com.idisfkj.hightcopywx.util.SharedPreferencesManager;
 import com.idisfkj.hightcopywx.util.ToastUtils;
 import com.idisfkj.hightcopywx.util.UrlUtils;
@@ -23,40 +26,49 @@ import org.greenrobot.eventbus.EventBus;
  * Email : idisfkj@qq.com.
  */
 public class ChatPresenterImp extends BasePresenter<ChatView> implements ChatPresenter,
-        ChatModel.requestListener {
+        ChatModel.requestListener, ChatModel.initListener {
     private ChatModel mChatModel;
+    private StudyModel mStudyModel;
     private ChatRoomsDataHelper mChatRoomsDataHelper;
+    private ChatMessageDataHelper mChatMessageDataHelper;
     private int page;
     private int limit;
 
     public ChatPresenterImp() {
         mChatRoomsDataHelper = new ChatRoomsDataHelper(App.getAppContext());
+        mChatMessageDataHelper = new ChatMessageDataHelper(App.getAppContext());
     }
 
-    public void setChatType(int chatType){
+    public void setChatType(int chatType) {
         if (chatType == App.CHAT_TYPE_CHINESETOENGLISH)
             mChatModel = new ChatModelTranslateImp(UrlUtils.ZHTOEN);
         else if (chatType == App.CHAT_TYPE_ENGLISHTOCHINESE)
             mChatModel = new ChatModelTranslateImp(UrlUtils.ENTOGH);
-        else if (chatType == App.CHAT_TYPE_ENGLISH_STUDY){
+        else if (chatType == App.CHAT_TYPE_ENGLISH_STUDY) {
             mChatModel = new ChatModelStudyImp();
-            ChatModelStudyImp chatModelStudyImp =(ChatModelStudyImp) mChatModel;
-            chatModelStudyImp.initStudyData();
-        }
-        else
+            mStudyModel = (ChatModelStudyImp) mChatModel;
+            String nowDate = CalendarUtils.getCurrentDay();
+            String lastGetStudyData = SharedPreferencesManager.getString("getStudyDataDate", "");
+            if (!nowDate.equals(lastGetStudyData))
+                mChatModel.initData(this);
+            else {
+                mViewRef.get().onInitDataComplete();
+            }
+
+        } else
             mChatModel = new ChatModelImp();
     }
 
 
     @Override
-    public CursorLoader creatLoader(String charRoomid,int page) {
-        return mChatModel.initData(charRoomid,page);
+    public CursorLoader creatLoader(String charRoomid, int page) {
+        return mChatMessageDataHelper.getCursorLoader(charRoomid, page);
     }
 
 
     @Override
     public void sendData(ChatMessageInfo chatMessageInfo) {
-        mChatModel.insertData(chatMessageInfo);
+        mChatMessageDataHelper.insert(chatMessageInfo);
         mViewRef.get().onReloadData();
         mChatModel.requestData(this, chatMessageInfo);
 
@@ -70,14 +82,21 @@ public class ChatPresenterImp extends BasePresenter<ChatView> implements ChatPre
 
         updateAllReadNumber(chatRoomId);
     }
-    private void updateAllReadNumber(String chatRoomId){
+
+    @Override
+    public void startStudy(String chatRoomId) {
+        ChatMessageInfo chatMessageInfo=mStudyModel.getStudyMessage(chatRoomId);
+        mChatMessageDataHelper.insert(chatMessageInfo);
+    }
+
+    private void updateAllReadNumber(String chatRoomId) {
         int count = SharedPreferencesManager.getInt("unReadNumber" + chatRoomId, 0);
         int allCount = SharedPreferencesManager.getInt("unAllReadNumber" + chatRoomId, 0);
-        int nowCount=allCount-count;
-        SharedPreferencesManager.putInt("unAllReadNumber" , nowCount).commit();
+        int nowCount = allCount - count;
+        SharedPreferencesManager.putInt("unAllReadNumber", nowCount).commit();
 
         //设置main气泡
-        UnReadNumber unread=new UnReadNumber();
+        UnReadNumber unread = new UnReadNumber();
         unread.setUnReadNumber(nowCount);
         EventBus.getDefault().post(unread);
     }
@@ -87,17 +106,26 @@ public class ChatPresenterImp extends BasePresenter<ChatView> implements ChatPre
 
     }
 
-
     @Override
-    public void onSucceed(ChatMessageInfo chatMessageInfo) {
-        mChatModel.insertData(chatMessageInfo);
+    public void onRequestSucceed(ChatMessageInfo requestChatMessageInfo, ChatMessageInfo respondChatMessageInfo) {
+        mChatMessageDataHelper.updateStatus(App.MESSAGE_STATUS_SUCCESS, requestChatMessageInfo.getMessageID());
+        mChatMessageDataHelper.insert(respondChatMessageInfo);
         mViewRef.get().onReloadData();
     }
 
     @Override
-    public void onError(String errorMessage) {
+    public void onRequestError(String errorMessage) {
         ToastUtils.showShort("网络异常,请检查网络");
     }
 
 
+    @Override
+    public void onInitSucceed() {
+        mViewRef.get().onInitDataComplete();
+    }
+
+    @Override
+    public void onInitError(String errorMessage) {
+
+    }
 }

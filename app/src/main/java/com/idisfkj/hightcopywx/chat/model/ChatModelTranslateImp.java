@@ -22,11 +22,16 @@ import static android.content.ContentValues.TAG;
  * Created by fvelement on 2017/9/4.
  */
 
-public class ChatModelTranslateImp extends ChatModelImp {
+public class ChatModelTranslateImp implements ChatModel {
     private int type;
 
     public ChatModelTranslateImp(int type) {
         this.type = type;
+    }
+
+    @Override
+    public void initData(initListener listener) {
+
     }
 
     @Override
@@ -45,9 +50,7 @@ public class ChatModelTranslateImp extends ChatModelImp {
                             mChatMessageInfo.setMessageContent(result);
                             mChatMessageInfo.setSendOrReciveFlag(App.RECEIVE_FLAG);
                             mChatMessageInfo.setSendMobile(chatMessageInfo.getSendMobile());
-                            listener.onSucceed(mChatMessageInfo);
-                            //更新发送状态
-                            mChatMessageDataHelper.updateStatus(App.MESSAGE_STATUS_SUCCESS,chatMessageInfo.getMessageID());
+                            listener.onRequestSucceed(chatMessageInfo,mChatMessageInfo);
                         }
 
                     }
@@ -55,6 +58,7 @@ public class ChatModelTranslateImp extends ChatModelImp {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e(TAG, error.getMessage(), error);
+                listener.onRequestError(error.getMessage());
             }
         }) {
             @Override
