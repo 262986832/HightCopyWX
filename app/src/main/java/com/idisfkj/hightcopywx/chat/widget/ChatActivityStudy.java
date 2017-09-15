@@ -7,7 +7,7 @@ import com.idisfkj.hightcopywx.chat.presenter.ChatPresenterStudy;
  * Created by fvelement on 2017/9/15.
  */
 
-public class ChatStudyActivity extends ChatActivity{
+public class ChatActivityStudy extends ChatActivity{
     private ChatPresenterStudy mChatPresenterStudyImp;
     @Override
     protected ChatPresenterBase createPresenter() {

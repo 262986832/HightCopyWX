@@ -7,7 +7,7 @@ import com.idisfkj.hightcopywx.chat.presenter.ChatPresenterTranslateEnToZh;
  * Created by fvelement on 2017/9/15.
  */
 
-public class ChatTranslateEnToZhActivity extends ChatActivity {
+public class ChatActivityTranslateEnToZh extends ChatActivity {
     @Override
     protected ChatPresenterBase createPresenter() {
         return new ChatPresenterTranslateEnToZh();
