@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.idisfkj.hightcopywx.App;
 import com.idisfkj.hightcopywx.R;
 import com.idisfkj.hightcopywx.dao.ChatMessageDataHelper;
@@ -75,8 +77,28 @@ public class ChatAdapter extends RecyclerViewCursorBaseAdapter<RecyclerView.View
             ((ChatReceiveViewHolder) holder).chatReceiveTime.
                     setText(CursorUtils.formatString(cursor, ChatMessageDataHelper.ChatMessageDataInfo.time));
 
-            ((ChatReceiveViewHolder) holder).chatReceiveContent.
-                    setText(CursorUtils.formatString(cursor, ChatMessageDataHelper.ChatMessageDataInfo.messageContent));
+            int messageType = CursorUtils.formatInt(cursor, ChatMessageDataHelper.ChatMessageDataInfo.messageType);
+            if ( messageType == App.MESSAGE_TYPE_CARD) {
+                ((ChatReceiveViewHolder) holder).chat_receive_card.setVisibility(View.VISIBLE);
+                ((ChatReceiveViewHolder) holder).chatReceiveContent.setVisibility(View.GONE);
+                Glide.with(App.getAppContext()).
+                        load(CursorUtils.formatString(cursor, ChatMessageDataHelper.ChatMessageDataInfo.messageImgUrl))
+                        .crossFade(5000)
+                        .placeholder(R.mipmap.ic_launcher)
+                        .error(R.mipmap.ic_launcher)
+                        .into( ((ChatReceiveViewHolder) holder).chat_receive_card_imgurl);
+                ((ChatReceiveViewHolder) holder).chat_receive_card_title.
+                        setText(CursorUtils.formatString(cursor, ChatMessageDataHelper.ChatMessageDataInfo.messageTitle));
+                ((ChatReceiveViewHolder) holder).chat_receive_card_text.
+                        setText(CursorUtils.formatString(cursor, ChatMessageDataHelper.ChatMessageDataInfo.messageContent));
+            } else {
+                ((ChatReceiveViewHolder) holder).chat_receive_card.setVisibility(View.GONE);
+                ((ChatReceiveViewHolder) holder).chatReceiveContent.setVisibility(View.VISIBLE);
+                ((ChatReceiveViewHolder) holder).chatReceiveContent.
+                        setText(CursorUtils.formatString(cursor, ChatMessageDataHelper.ChatMessageDataInfo.messageContent));
+            }
+
+
         } else if (holder instanceof ChatSendViewHolder) {
             //隐藏发送失败图标
             if (CursorUtils.formatInt(cursor, ChatMessageDataHelper.ChatMessageDataInfo.status) == App.MESSAGE_STATUS_SUCCESS)
@@ -85,7 +107,7 @@ public class ChatAdapter extends RecyclerViewCursorBaseAdapter<RecyclerView.View
             ((ChatSendViewHolder) holder).chatSendTime.
                     setText(CursorUtils.formatString(cursor, ChatMessageDataHelper.ChatMessageDataInfo.time));
 
-            String name= App.userName;
+            String name = App.userName;
             ((ChatSendViewHolder) holder).chat_send_man_name.setText(name);
 
             if (sendBitmap != null)
@@ -120,7 +142,8 @@ public class ChatAdapter extends RecyclerViewCursorBaseAdapter<RecyclerView.View
         }
         return 0;
     }
-    //发送
+
+    //发送信息
     public static class ChatSendViewHolder extends RecyclerView.ViewHolder {
         @InjectView(R.id.chat_send_time)
         TextView chatSendTime;
@@ -152,6 +175,7 @@ public class ChatAdapter extends RecyclerViewCursorBaseAdapter<RecyclerView.View
         }
     }
 
+    //收到信息
     public static class ChatReceiveViewHolder extends RecyclerView.ViewHolder {
         @InjectView(R.id.chat_receive_time)
         TextView chatReceiveTime;
@@ -159,6 +183,18 @@ public class ChatAdapter extends RecyclerViewCursorBaseAdapter<RecyclerView.View
         ImageView chatReceivePicture;
         @InjectView(R.id.chat_receive_content)
         TextView chatReceiveContent;
+
+        @InjectView(R.id.chat_receive_man_name)
+        TextView chat_receive_man_name;
+
+        @InjectView(R.id.chat_receive_card_title)
+        TextView chat_receive_card_title;
+        @InjectView(R.id.chat_receive_card_text)
+        TextView chat_receive_card_text;
+        @InjectView(R.id.chat_receive_card_imgurl)
+        ImageView chat_receive_card_imgurl;
+        @InjectView(R.id.chat_receive_card)
+        CardView chat_receive_card;
 
 
         ChatReceiveViewHolder(View view) {

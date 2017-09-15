@@ -9,6 +9,8 @@ import com.idisfkj.hightcopywx.beans.ChatMessageInfo;
 public interface ChatModelStudy {
     ChatMessageInfo getStudyMessage(String chatRoomID);
 
+    boolean isLast();
+
     void initData(initListener listener);
 
     interface initListener{

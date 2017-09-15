@@ -15,7 +15,6 @@ import com.idisfkj.hightcopywx.util.CalendarUtils;
 import com.idisfkj.hightcopywx.util.CursorUtils;
 import com.idisfkj.hightcopywx.util.GsonRequest;
 import com.idisfkj.hightcopywx.util.SharedPreferencesManager;
-import com.idisfkj.hightcopywx.util.ToastUtils;
 import com.idisfkj.hightcopywx.util.UrlUtils;
 import com.idisfkj.hightcopywx.util.VolleyUtils;
 
@@ -32,7 +31,7 @@ import static android.content.ContentValues.TAG;
 
 public class ChatModelStudyImp extends ChatModelBase implements ChatModelStudy,ChatModelStudy.initListener {
     private WordDataHelper mWordDataHelper;
-    private Cursor mCursor;
+    public Cursor mCursor;
 
     public ChatModelStudyImp() {
         mWordDataHelper = new WordDataHelper(App.getAppContext());
@@ -42,7 +41,7 @@ public class ChatModelStudyImp extends ChatModelBase implements ChatModelStudy,C
 
     @Override
     public void initData(final initListener listener) {
-        ToastUtils.showShort("正在初始化");
+        //ToastUtils.showShort("正在初始化");
         GsonRequest<RespondStudy> gsonRequest = new GsonRequest<RespondStudy>(Request.Method.POST,
                 UrlUtils.getNowDayWordListApiUrl(), RespondStudy.class,
                 new Response.Listener<RespondStudy>() {
@@ -51,7 +50,7 @@ public class ChatModelStudyImp extends ChatModelBase implements ChatModelStudy,C
                         if (respondStudy.getCode() == 0) {
                             List<WordsEntity> listWords = respondStudy.getListWords();
                             insert(listWords);
-                            ToastUtils.showShort("开始学习");
+                            //ToastUtils.showShort("开始学习");
                             listener.onInitSucceed();
                         }
 
@@ -88,20 +87,26 @@ public class ChatModelStudyImp extends ChatModelBase implements ChatModelStudy,C
 
     @Override
     public ChatMessageInfo getStudyMessage(String chatRoomID) {
+        ChatMessageInfo chatMessageInfo = new ChatMessageInfo();
         if (mCursor.moveToNext()) {
-            ChatMessageInfo chatMessageInfo = new ChatMessageInfo();
+
             chatMessageInfo.setStatus(App.MESSAGE_STATUS_SUCCESS);
             chatMessageInfo.setChatRoomID(chatRoomID);
+            chatMessageInfo.setMessageType(App.MESSAGE_TYPE_CARD);
             chatMessageInfo.setMessageTitle(CursorUtils.formatString(mCursor, WordDataHelper.WordDataInfo.english));
             chatMessageInfo.setMessageContent(CursorUtils.formatString(mCursor, WordDataHelper.WordDataInfo.chinese));
             chatMessageInfo.setMessageImgUrl(CursorUtils.formatString(mCursor, WordDataHelper.WordDataInfo.imgurl));
             chatMessageInfo.setSendOrReciveFlag(App.RECEIVE_FLAG);
             chatMessageInfo.setSendMobile(chatRoomID);
             return chatMessageInfo;
-        } else {
-            return null;
         }
+        return chatMessageInfo;
 
+    }
+
+    @Override
+    public boolean isLast() {
+        return mCursor.isLast();
     }
 
     @Override
