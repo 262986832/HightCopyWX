@@ -40,6 +40,8 @@ public class MainActivity extends BaseActivity<MainView,MainPresenterImp> implem
     ImageView addressBookS;
     @InjectView(R.id.find_s)
     ImageView findS;
+    @InjectView(R.id.find)
+    ImageView find;
     @InjectView(R.id.me_s)
     ImageView meS;
     @InjectView(R.id.tab_weiXin_s)
@@ -155,6 +157,7 @@ public class MainActivity extends BaseActivity<MainView,MainPresenterImp> implem
         viewPage.setCurrentItem(0, false);
         weiXinS.setAlpha(1.0f);
         tabWeiXinS.setAlpha(1.0f);
+        find.setAlpha(1.0f);
     }
 
     @Override
@@ -162,12 +165,14 @@ public class MainActivity extends BaseActivity<MainView,MainPresenterImp> implem
         viewPage.setCurrentItem(1, false);
         addressBookS.setAlpha(1.0f);
         tabAddressS.setAlpha(1.0f);
+        find.setAlpha(1.0f);
     }
 
     @Override
     public void switchFind() {
         viewPage.setCurrentItem(2, false);
         findS.setAlpha(1.0f);
+        find.setAlpha(0f);
         tabFindS.setAlpha(1.0f);
     }
 
@@ -176,6 +181,7 @@ public class MainActivity extends BaseActivity<MainView,MainPresenterImp> implem
         viewPage.setCurrentItem(3, false);
         meS.setAlpha(1.0f);
         tabMeS.setAlpha(1.0f);
+        find.setAlpha(1.0f);
     }
 
     @Override

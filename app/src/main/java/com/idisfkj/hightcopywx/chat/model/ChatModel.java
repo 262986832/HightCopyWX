@@ -8,15 +8,6 @@ import com.idisfkj.hightcopywx.beans.ChatMessageInfo;
  */
 public interface ChatModel {
 
-    void initData(initListener listener);
-
-    interface initListener{
-
-        void onInitSucceed();
-
-        void onInitError(String errorMessage);
-    }
-
     void requestData(requestListener listener, ChatMessageInfo chatMessageInfo);
 
     interface requestListener {

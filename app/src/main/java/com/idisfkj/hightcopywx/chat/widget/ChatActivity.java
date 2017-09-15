@@ -24,7 +24,7 @@ import com.idisfkj.hightcopywx.adapters.ChatAdapter;
 import com.idisfkj.hightcopywx.adapters.OnItemTouchListener;
 import com.idisfkj.hightcopywx.base.widget.BaseActivity;
 import com.idisfkj.hightcopywx.beans.ChatMessageInfo;
-import com.idisfkj.hightcopywx.chat.presenter.ChatPresenterImp;
+import com.idisfkj.hightcopywx.chat.presenter.ChatPresenterBase;
 import com.idisfkj.hightcopywx.chat.view.ChatView;
 import com.idisfkj.hightcopywx.util.VolleyUtils;
 
@@ -37,7 +37,7 @@ import butterknife.OnClick;
  * Created by idisfkj on 16/4/25.
  * Email : idisfkj@qq.com.
  */
-public class ChatActivity extends BaseActivity<ChatView,ChatPresenterImp>
+public class ChatActivity extends BaseActivity<ChatView,ChatPresenterBase>
         implements ChatView, View.OnTouchListener,
         View.OnFocusChangeListener, LoaderManager.LoaderCallbacks<Cursor> {
 
@@ -60,8 +60,8 @@ public class ChatActivity extends BaseActivity<ChatView,ChatPresenterImp>
     private InputMethodManager manager;
 
     private String chatTitle;
-    private String mChatRoomID;
-    private int mChat_type;
+    protected String mChatRoomID;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,8 +73,7 @@ public class ChatActivity extends BaseActivity<ChatView,ChatPresenterImp>
         Bundle bundle = getIntent().getExtras();
         mChatRoomID = bundle.getString("chatRoomID");
         chatTitle = bundle.getString("chatTitle");
-        mChat_type = bundle.getInt("chatType");
-        mPresenter.setChatType(mChat_type);
+
 
 
         init();
@@ -274,8 +273,8 @@ public class ChatActivity extends BaseActivity<ChatView,ChatPresenterImp>
     }
 
     @Override
-    protected ChatPresenterImp createPresenter() {
-        return new ChatPresenterImp();
+    protected ChatPresenterBase createPresenter() {
+        return new ChatPresenterBase();
     }
 
 
@@ -286,6 +285,6 @@ public class ChatActivity extends BaseActivity<ChatView,ChatPresenterImp>
 
     @Override
     public void onInitDataComplete() {
-            mPresenter.startStudy(mChatRoomID);
+            //mPresenter.startStudy(mChatRoomID);
     }
 }

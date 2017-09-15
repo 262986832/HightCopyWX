@@ -30,11 +30,6 @@ public class ChatModelTranslateImp implements ChatModel {
     }
 
     @Override
-    public void initData(initListener listener) {
-
-    }
-
-    @Override
     public void requestData(final requestListener listener, final ChatMessageInfo chatMessageInfo) {
 
         GsonRequest<BaiduFanyiResponse> gsonRequest = new GsonRequest<BaiduFanyiResponse>(Request.Method.POST,

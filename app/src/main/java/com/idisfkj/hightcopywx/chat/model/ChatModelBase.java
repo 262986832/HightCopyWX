@@ -22,14 +22,9 @@ import java.util.Map;
  * Created by idisfkj on 16/4/26.
  * Email : idisfkj@qq.com.
  */
-public class ChatModelImp implements ChatModel {
+public class ChatModelBase implements ChatModel {
 
-    public ChatModelImp() {
-
-    }
-
-    @Override
-    public void initData(initListener listener) {
+    public ChatModelBase() {
 
     }
 
@@ -62,8 +57,6 @@ public class ChatModelImp implements ChatModel {
         };
         VolleyUtils.addQueue(jsonObjectRequest, "chatRequest");
     }
-
-
 
 
 }

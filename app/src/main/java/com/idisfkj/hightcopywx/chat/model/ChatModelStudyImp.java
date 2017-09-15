@@ -30,7 +30,7 @@ import static android.content.ContentValues.TAG;
  * Created by fvelement on 2017/9/13.
  */
 
-public class ChatModelStudyImp implements ChatModel, StudyModel {
+public class ChatModelStudyImp extends ChatModelBase implements ChatModelStudy,ChatModelStudy.initListener {
     private WordDataHelper mWordDataHelper;
     private Cursor mCursor;
 
@@ -42,7 +42,7 @@ public class ChatModelStudyImp implements ChatModel, StudyModel {
 
     @Override
     public void initData(final initListener listener) {
-        ToastUtils.showShort("正在初始化学习单词。。。");
+        ToastUtils.showShort("正在初始化");
         GsonRequest<RespondStudy> gsonRequest = new GsonRequest<RespondStudy>(Request.Method.POST,
                 UrlUtils.getNowDayWordListApiUrl(), RespondStudy.class,
                 new Response.Listener<RespondStudy>() {
@@ -51,7 +51,7 @@ public class ChatModelStudyImp implements ChatModel, StudyModel {
                         if (respondStudy.getCode() == 0) {
                             List<WordsEntity> listWords = respondStudy.getListWords();
                             insert(listWords);
-                            ToastUtils.showShort("初始化完成，开始学习");
+                            ToastUtils.showShort("开始学习");
                             listener.onInitSucceed();
                         }
 
@@ -85,11 +85,6 @@ public class ChatModelStudyImp implements ChatModel, StudyModel {
 
     }
 
-    @Override
-    public void requestData(final requestListener listener, final ChatMessageInfo chatMessageInfo) {
-
-
-    }
 
     @Override
     public ChatMessageInfo getStudyMessage(String chatRoomID) {
@@ -106,6 +101,16 @@ public class ChatModelStudyImp implements ChatModel, StudyModel {
         } else {
             return null;
         }
+
+    }
+
+    @Override
+    public void onInitSucceed() {
+
+    }
+
+    @Override
+    public void onInitError(String errorMessage) {
 
     }
 }

@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.idisfkj.hightcopywx.App;
 import com.idisfkj.hightcopywx.R;
 import com.idisfkj.hightcopywx.adapters.ChatRoomsAdapter;
 import com.idisfkj.hightcopywx.adapters.OnItemTouchListener;
@@ -22,7 +23,6 @@ import com.idisfkj.hightcopywx.chat.presenter.ChatRoomsPresent;
 import com.idisfkj.hightcopywx.chat.presenter.ChatRoomsPresentImp;
 import com.idisfkj.hightcopywx.chat.view.ChatRoomsView;
 import com.idisfkj.hightcopywx.util.SharedPreferencesManager;
-import com.idisfkj.hightcopywx.util.ToastUtils;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -62,11 +62,27 @@ public class ChatRoomsFragment extends Fragment implements ChatRoomsView, Loader
             public void onItemListener(RecyclerView.ViewHolder vh) {
                 ChatRoomsAdapter.ViewHolder wxhd = (ChatRoomsAdapter.ViewHolder) vh;
                 int chatType = wxhd.getChatType();
-                Intent intent = new Intent(getActivity(), ChatActivity.class);
+                Intent intent;
+                switch (chatType){
+                    case App.CHAT_TYPE_ENGLISHTOCHINESE:
+                        intent = new Intent(getActivity(), ChatTranslateEnToZhActivity.class);
+                        break;
+                    case App.CHAT_TYPE_CHINESETOENGLISH:
+                        intent = new Intent(getActivity(), ChatTranslateZhToEnActivity.class);
+                        break;
+                    case App.CHAT_TYPE_ENGLISH_STUDY:
+                        intent = new Intent(getActivity(), ChatStudyActivity.class);
+                        break;
+                    case App.CHAT_TYPE_CHAT:
+                        intent = new Intent(getActivity(), ChatTranslateEnToZhActivity.class);
+                        break;
+                    default:
+                        intent = new Intent(getActivity(), ChatTranslateEnToZhActivity.class);
+                }
+
                 Bundle bundle = new Bundle();
                 bundle.putString("chatRoomID", ((ChatRoomsAdapter.ViewHolder) vh).chatRoomID);
                 bundle.putString("chatTitle", ((ChatRoomsAdapter.ViewHolder) vh).chatTitle);
-                bundle.putInt("chatType", chatType);
                 intent.putExtras(bundle);
                 startActivity(intent);
             }

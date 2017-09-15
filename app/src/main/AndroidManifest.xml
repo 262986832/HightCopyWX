@@ -36,6 +36,9 @@
         </activity>
         <activity android:name=".main.widget.MainActivity" />
         <activity android:name=".chat.widget.ChatActivity" />
+        <activity android:name=".chat.widget.ChatTranslateEnToZhActivity" />
+        <activity android:name=".chat.widget.ChatTranslateZhToEnActivity" />
+        <activity android:name=".chat.widget.ChatStudyActivity" />
         <activity android:name=".registerLogin.widget.RegisterActivity" />
         <activity android:name=".registerLogin.widget.LoginActivity" />
         <activity android:name=".main.widget.AddFriendsActivity" />

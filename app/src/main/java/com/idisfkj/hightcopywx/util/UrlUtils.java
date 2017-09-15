@@ -29,7 +29,7 @@ public class UrlUtils {
     //百度翻译
     private static final String BAIDU_TRANSLATE_API = "http://api.fanyi.baidu.com/api/trans/vip/translate?";
     public static final int ZHTOEN = 0;
-    public static final int ENTOGH = 1;
+    public static final int ENTOZH = 1;
     //服务端
     private static final String SERVER_REGISTER = "http://10.16.66.127:8001/api/";
 

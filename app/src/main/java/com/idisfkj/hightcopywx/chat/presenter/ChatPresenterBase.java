@@ -7,17 +7,11 @@ import com.idisfkj.hightcopywx.base.presenter.BasePresenter;
 import com.idisfkj.hightcopywx.beans.ChatMessageInfo;
 import com.idisfkj.hightcopywx.beans.UnReadNumber;
 import com.idisfkj.hightcopywx.chat.model.ChatModel;
-import com.idisfkj.hightcopywx.chat.model.ChatModelImp;
-import com.idisfkj.hightcopywx.chat.model.ChatModelStudyImp;
-import com.idisfkj.hightcopywx.chat.model.ChatModelTranslateImp;
-import com.idisfkj.hightcopywx.chat.model.StudyModel;
 import com.idisfkj.hightcopywx.chat.view.ChatView;
 import com.idisfkj.hightcopywx.dao.ChatMessageDataHelper;
 import com.idisfkj.hightcopywx.dao.ChatRoomsDataHelper;
-import com.idisfkj.hightcopywx.util.CalendarUtils;
 import com.idisfkj.hightcopywx.util.SharedPreferencesManager;
 import com.idisfkj.hightcopywx.util.ToastUtils;
-import com.idisfkj.hightcopywx.util.UrlUtils;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -25,38 +19,17 @@ import org.greenrobot.eventbus.EventBus;
  * Created by idisfkj on 16/4/26.
  * Email : idisfkj@qq.com.
  */
-public class ChatPresenterImp extends BasePresenter<ChatView> implements ChatPresenter,
-        ChatModel.requestListener, ChatModel.initListener {
-    private ChatModel mChatModel;
-    private StudyModel mStudyModel;
-    private ChatRoomsDataHelper mChatRoomsDataHelper;
-    private ChatMessageDataHelper mChatMessageDataHelper;
+public class ChatPresenterBase extends BasePresenter<ChatView> implements ChatPresenter,
+        ChatModel.requestListener {
+    protected ChatModel mChatModel;
+    protected ChatRoomsDataHelper mChatRoomsDataHelper;
+    protected ChatMessageDataHelper mChatMessageDataHelper;
     private int page;
     private int limit;
 
-    public ChatPresenterImp() {
+    public ChatPresenterBase() {
         mChatRoomsDataHelper = new ChatRoomsDataHelper(App.getAppContext());
         mChatMessageDataHelper = new ChatMessageDataHelper(App.getAppContext());
-    }
-
-    public void setChatType(int chatType) {
-        if (chatType == App.CHAT_TYPE_CHINESETOENGLISH)
-            mChatModel = new ChatModelTranslateImp(UrlUtils.ZHTOEN);
-        else if (chatType == App.CHAT_TYPE_ENGLISHTOCHINESE)
-            mChatModel = new ChatModelTranslateImp(UrlUtils.ENTOGH);
-        else if (chatType == App.CHAT_TYPE_ENGLISH_STUDY) {
-            mChatModel = new ChatModelStudyImp();
-            mStudyModel = (ChatModelStudyImp) mChatModel;
-            String nowDate = CalendarUtils.getCurrentDay();
-            String lastGetStudyData = SharedPreferencesManager.getString("getStudyDataDate", "");
-            if (!nowDate.equals(lastGetStudyData))
-                mChatModel.initData(this);
-            else {
-                mViewRef.get().onInitDataComplete();
-            }
-
-        } else
-            mChatModel = new ChatModelImp();
     }
 
 
@@ -81,12 +54,6 @@ public class ChatPresenterImp extends BasePresenter<ChatView> implements ChatPre
         mChatRoomsDataHelper.update(0, chatRoomId);
 
         updateAllReadNumber(chatRoomId);
-    }
-
-    @Override
-    public void startStudy(String chatRoomId) {
-        ChatMessageInfo chatMessageInfo=mStudyModel.getStudyMessage(chatRoomId);
-        mChatMessageDataHelper.insert(chatMessageInfo);
     }
 
     private void updateAllReadNumber(String chatRoomId) {
@@ -119,13 +86,5 @@ public class ChatPresenterImp extends BasePresenter<ChatView> implements ChatPre
     }
 
 
-    @Override
-    public void onInitSucceed() {
-        mViewRef.get().onInitDataComplete();
-    }
 
-    @Override
-    public void onInitError(String errorMessage) {
-
-    }
 }
