@@ -40,6 +40,7 @@ public class ChatMessageDataHelper extends BaseDataHelper {
         values.put(ChatMessageDataInfo.messageImgUrl, info.getMessageImgUrl());
         values.put(ChatMessageDataInfo.messageVoiceUrl, info.getMessageVoiceUrl());
         values.put(ChatMessageDataInfo.time, info.getTime());
+        values.put(ChatMessageDataInfo.sendName, info.getSendName());
         values.put(ChatMessageDataInfo.sendMobile, info.getSendMobile());
         return values;
     }
@@ -57,6 +58,7 @@ public class ChatMessageDataHelper extends BaseDataHelper {
         public static final String messageImgUrl = "messageImgUrl";
         public static final String messageVoiceUrl = "messageVoiceUrl";
         public static final String time = "time";
+        public static final String sendName = "sendName";
         public static final String sendMobile = "sendMobile";
         public static final SQLiteTable TABLE = new SQLiteTable(TABLE_NAME)
                 .addColumn(messageID, Column.DataType.TEXT)
@@ -70,6 +72,7 @@ public class ChatMessageDataHelper extends BaseDataHelper {
                 .addColumn(messageImgUrl, Column.DataType.TEXT)
                 .addColumn(messageVoiceUrl, Column.DataType.TEXT)
                 .addColumn(time, Column.DataType.TEXT)
+                .addColumn(sendName, Column.DataType.TEXT)
                 .addColumn(sendMobile, Column.DataType.TEXT);
     }
 

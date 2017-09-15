@@ -24,6 +24,15 @@ public class ChatMessageInfo implements Serializable {
     private String messageVoiceUrl;
     private String time;
     private String sendMobile;
+    private String sendName;
+
+    public String getSendName() {
+        return sendName;
+    }
+
+    public void setSendName(String sendName) {
+        this.sendName = sendName;
+    }
 
     public ChatMessageInfo() {
         this.messageID= UUID.randomUUID().toString();

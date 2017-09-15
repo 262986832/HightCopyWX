@@ -29,14 +29,14 @@ import static android.content.ContentValues.TAG;
  * Created by fvelement on 2017/9/13.
  */
 
-public class ChatModelStudyImp extends ChatModelBase implements ChatModelStudy,ChatModelStudy.initListener {
+public class ChatModelStudyImp extends ChatModelBase implements ChatModelStudy {
     private WordDataHelper mWordDataHelper;
     public Cursor mCursor;
 
     public ChatModelStudyImp() {
         mWordDataHelper = new WordDataHelper(App.getAppContext());
         mCursor = mWordDataHelper.query(App.ownMobile);
-        //mCursor.moveToFirst();
+
     }
 
     @Override
@@ -76,6 +76,7 @@ public class ChatModelStudyImp extends ChatModelBase implements ChatModelStudy,C
         while (iterator.hasNext()) {
             mWordDataHelper.insert((WordsEntity) iterator.next());
         }
+        mCursor = mWordDataHelper.query(App.ownMobile);
         //存储
         int page = SharedPreferencesManager.getInt("page", 1);
         SharedPreferencesManager.putInt("page", ++page).commit();
@@ -89,7 +90,6 @@ public class ChatModelStudyImp extends ChatModelBase implements ChatModelStudy,C
     public ChatMessageInfo getStudyMessage(String chatRoomID) {
         ChatMessageInfo chatMessageInfo = new ChatMessageInfo();
         if (mCursor.moveToNext()) {
-
             chatMessageInfo.setStatus(App.MESSAGE_STATUS_SUCCESS);
             chatMessageInfo.setChatRoomID(chatRoomID);
             chatMessageInfo.setMessageType(App.MESSAGE_TYPE_CARD);
@@ -98,6 +98,7 @@ public class ChatModelStudyImp extends ChatModelBase implements ChatModelStudy,C
             chatMessageInfo.setMessageImgUrl(CursorUtils.formatString(mCursor, WordDataHelper.WordDataInfo.imgurl));
             chatMessageInfo.setSendOrReciveFlag(App.RECEIVE_FLAG);
             chatMessageInfo.setSendMobile(chatRoomID);
+            //chatMessageInfo.setSendName("贝贝");
             return chatMessageInfo;
         }
         return chatMessageInfo;
@@ -109,13 +110,4 @@ public class ChatModelStudyImp extends ChatModelBase implements ChatModelStudy,C
         return mCursor.isLast();
     }
 
-    @Override
-    public void onInitSucceed() {
-
-    }
-
-    @Override
-    public void onInitError(String errorMessage) {
-
-    }
 }

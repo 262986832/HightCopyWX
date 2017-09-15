@@ -45,6 +45,7 @@ public class ChatModelTranslateImp implements ChatModel {
                             mChatMessageInfo.setMessageContent(result);
                             mChatMessageInfo.setSendOrReciveFlag(App.RECEIVE_FLAG);
                             mChatMessageInfo.setSendMobile(chatMessageInfo.getSendMobile());
+                            mChatMessageInfo.setSendName("贝贝翻译");
                             listener.onRequestSucceed(chatMessageInfo,mChatMessageInfo);
                         }
 

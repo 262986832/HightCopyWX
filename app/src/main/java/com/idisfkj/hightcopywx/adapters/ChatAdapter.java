@@ -77,6 +77,9 @@ public class ChatAdapter extends RecyclerViewCursorBaseAdapter<RecyclerView.View
             ((ChatReceiveViewHolder) holder).chatReceiveTime.
                     setText(CursorUtils.formatString(cursor, ChatMessageDataHelper.ChatMessageDataInfo.time));
 
+            ((ChatReceiveViewHolder) holder).chat_receive_man_name
+                    .setText(CursorUtils.formatString(cursor, ChatMessageDataHelper.ChatMessageDataInfo.sendName));
+
             int messageType = CursorUtils.formatInt(cursor, ChatMessageDataHelper.ChatMessageDataInfo.messageType);
             if ( messageType == App.MESSAGE_TYPE_CARD) {
                 ((ChatReceiveViewHolder) holder).chat_receive_card.setVisibility(View.VISIBLE);
