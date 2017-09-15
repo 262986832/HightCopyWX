@@ -7,6 +7,7 @@ import com.idisfkj.hightcopywx.base.presenter.BasePresenter;
 import com.idisfkj.hightcopywx.beans.ChatMessageInfo;
 import com.idisfkj.hightcopywx.beans.UnReadNumber;
 import com.idisfkj.hightcopywx.chat.model.ChatModel;
+import com.idisfkj.hightcopywx.chat.model.ChatModelBase;
 import com.idisfkj.hightcopywx.chat.view.ChatView;
 import com.idisfkj.hightcopywx.dao.ChatMessageDataHelper;
 import com.idisfkj.hightcopywx.dao.ChatRoomsDataHelper;
@@ -28,6 +29,7 @@ public class ChatPresenterBase extends BasePresenter<ChatView> implements ChatPr
     private int limit;
 
     public ChatPresenterBase() {
+        mChatModel=new ChatModelBase();
         mChatRoomsDataHelper = new ChatRoomsDataHelper(App.getAppContext());
         mChatMessageDataHelper = new ChatMessageDataHelper(App.getAppContext());
     }

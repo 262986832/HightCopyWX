@@ -63,7 +63,7 @@ public class ChatRoomsFragment extends Fragment implements ChatRoomsView, Loader
                 ChatRoomsAdapter.ViewHolder wxhd = (ChatRoomsAdapter.ViewHolder) vh;
                 int chatType = wxhd.getChatType();
                 Intent intent;
-                switch (chatType){
+                switch (chatType) {
                     case App.CHAT_TYPE_ENGLISHTOCHINESE:
                         intent = new Intent(getActivity(), ChatActivityTranslateEnToZh.class);
                         break;
@@ -74,12 +74,11 @@ public class ChatRoomsFragment extends Fragment implements ChatRoomsView, Loader
                         intent = new Intent(getActivity(), ChatActivityStudy.class);
                         break;
                     case App.CHAT_TYPE_CHAT:
-                        intent = new Intent(getActivity(), ChatActivityTranslateEnToZh.class);
+                        intent = new Intent(getActivity(), ChatActivity.class);
                         break;
                     default:
-                        intent = new Intent(getActivity(), ChatActivityTranslateEnToZh.class);
+                        intent = new Intent(getActivity(), ChatActivity.class);
                 }
-
                 Bundle bundle = new Bundle();
                 bundle.putString("chatRoomID", ((ChatRoomsAdapter.ViewHolder) vh).chatRoomID);
                 bundle.putString("chatTitle", ((ChatRoomsAdapter.ViewHolder) vh).chatTitle);
