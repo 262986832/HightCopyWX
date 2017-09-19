@@ -89,7 +89,9 @@ public class WordDataHelper extends BaseDataHelper {
     }
 
     public Cursor query(String ownMobile) {
-        Cursor cursor = query(null, WordDataInfo.ownmobile + "=?"
+        StringBuilder stringBuilder=new StringBuilder(WordDataInfo.ownmobile);
+        stringBuilder.append("=? and firstcorrect<3");
+        Cursor cursor = query(null,  stringBuilder.toString()
                 , new String[]{ownMobile}, WordDataInfo._ID + " ASC");
         return cursor;
     }

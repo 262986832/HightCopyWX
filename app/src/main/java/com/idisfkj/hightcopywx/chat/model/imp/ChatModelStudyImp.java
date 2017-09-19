@@ -93,6 +93,7 @@ public class ChatModelStudyImp extends ChatModelBase implements ChatModelStudy {
     @Override
     public ChatMessageInfo getStudyMessage(String chatRoomID) {
         ChatMessageInfo chatMessageInfo = new ChatMessageInfo();
+        mCursor.getPosition();
         if (mCursor.moveToNext()) {
             chatMessageInfo.setStatus(App.MESSAGE_STATUS_SENDING);
             chatMessageInfo.setChatRoomID(chatRoomID);
