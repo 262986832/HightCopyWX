@@ -5,6 +5,7 @@ import com.idisfkj.hightcopywx.R;
 import com.idisfkj.hightcopywx.base.presenter.BasePresenter;
 import com.idisfkj.hightcopywx.beans.ChatMessageInfo;
 import com.idisfkj.hightcopywx.beans.UnReadNumber;
+import com.idisfkj.hightcopywx.beans.eventbus.RestartLoader;
 import com.idisfkj.hightcopywx.dao.ChatMessageDataHelper;
 import com.idisfkj.hightcopywx.dao.ChatRoomsDataHelper;
 import com.idisfkj.hightcopywx.main.model.MainModel;
@@ -27,7 +28,7 @@ public class MainPresenterImp extends BasePresenter<MainView> implements MainPre
     public MainPresenterImp() {
         mMainModel = new MainModelImp();
         mChatMessageDataHelper = new ChatMessageDataHelper(App.getAppContext());
-        mChatRoomsDataHelper =new ChatRoomsDataHelper(App.getAppContext());
+        mChatRoomsDataHelper = new ChatRoomsDataHelper(App.getAppContext());
     }
 
     @Override
@@ -57,36 +58,39 @@ public class MainPresenterImp extends BasePresenter<MainView> implements MainPre
 
     @Override
     public void receiveData(ChatMessageInfo chatMessageInfo) {
-        String ownMobile= SharedPreferencesManager.getString("userPhone","");
-        if (ownMobile.equals(chatMessageInfo.getSendMobile())){
+        RestartLoader restartLoader = new RestartLoader();
+        String ownMobile = SharedPreferencesManager.getString("userPhone", "");
+        if (ownMobile.equals(chatMessageInfo.getSendMobile())) {
             chatMessageInfo.setSendOrReciveFlag(App.SEND_FLAG);
-            int i=mChatMessageDataHelper.updateStatus(App.MESSAGE_STATUS_SUCCESS,chatMessageInfo.getMessageID());
-            if(i==0){
-                chatMessageInfo.setStatus(App.MESSAGE_STATUS_SUCCESS);
-                mChatMessageDataHelper.insert(chatMessageInfo);
-            }
-        }else{
+        } else {
             chatMessageInfo.setSendOrReciveFlag(App.RECEIVE_FLAG);
-            chatMessageInfo.setStatus(App.MESSAGE_STATUS_SUCCESS);
-            mChatMessageDataHelper.insert(chatMessageInfo);
         }
-        String chatRoomID=chatMessageInfo.getChatRoomID();
-        int unReadNumber=SharedPreferencesManager.getInt("unReadNumber"+chatRoomID,0);
-        unReadNumber=unReadNumber+1;
-        SharedPreferencesManager.putInt("unReadNumber"+chatRoomID,unReadNumber).commit();
-        mChatRoomsDataHelper.update(unReadNumber,chatRoomID);
+        chatMessageInfo.setStatus(App.MESSAGE_STATUS_SUCCESS);
+        int i = mChatMessageDataHelper.updateStatus(App.MESSAGE_STATUS_SUCCESS, chatMessageInfo.getMessageID());
+        if (i == 0) {
+            mChatMessageDataHelper.insert(chatMessageInfo);
+            //发送刷新数据通知
+            EventBus.getDefault().post(restartLoader);
+        }
+        String chatRoomID = chatMessageInfo.getChatRoomID();
+        int unReadNumber = SharedPreferencesManager.getInt("unReadNumber" + chatRoomID, 0);
+        unReadNumber = unReadNumber + 1;
+        SharedPreferencesManager.putInt("unReadNumber" + chatRoomID, unReadNumber).commit();
+        mChatRoomsDataHelper.update(unReadNumber, chatRoomID);
         //更新总的未读
         setAllUnReadNumber();
 
     }
-    private void setAllUnReadNumber(){
-        int oldCount=SharedPreferencesManager.getInt("unAllReadNumber",0);
-        int unAllReadNumber=oldCount+1;
-        SharedPreferencesManager.putInt("unAllReadNumber",unAllReadNumber).commit();
+
+    private void setAllUnReadNumber() {
+        int oldCount = SharedPreferencesManager.getInt("unAllReadNumber", 0);
+        int unAllReadNumber = oldCount + 1;
+        SharedPreferencesManager.putInt("unAllReadNumber", unAllReadNumber).commit();
 
         //设置main气泡
-        UnReadNumber unread=new UnReadNumber();
+        UnReadNumber unread = new UnReadNumber();
         unread.setUnReadNumber(unAllReadNumber);
         EventBus.getDefault().post(unread);
     }
+
 }

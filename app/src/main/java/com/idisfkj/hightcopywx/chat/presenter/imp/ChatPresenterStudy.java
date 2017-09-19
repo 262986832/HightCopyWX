@@ -14,8 +14,7 @@ public class ChatPresenterStudy extends ChatPresenterBase implements ChatModelSt
     private ChatMessageInfo mChatMessageInfo;
     private String mChatRoomID;
 
-    public ChatPresenterStudy(String chatRoomID) {
-        this.mChatRoomID=chatRoomID;
+    public ChatPresenterStudy() {
         mChatModel = new ChatModelStudyImp();
         mStudyModel = (ChatModelStudyImp) mChatModel;
         mStudyModel.initData(this);
@@ -28,8 +27,6 @@ public class ChatPresenterStudy extends ChatPresenterBase implements ChatModelSt
         } else {
             mChatMessageInfo = mStudyModel.getStudyMessage(chatRoomId);
             super.sendData(mChatMessageInfo);
-//            mChatMessageDataHelper.insert(mChatMessageInfo);
-//            mViewRef.get().onReloadData();
         }
 
     }
@@ -37,9 +34,9 @@ public class ChatPresenterStudy extends ChatPresenterBase implements ChatModelSt
     @Override
     public void sendData(ChatMessageInfo chatMessageInfo) {
         super.sendData(chatMessageInfo);
-//        if (chatMessageInfo.getMessageContent().equals(mChatMessageInfo.getMessageTitle())) {
-//            this.startStudy(mChatRoomID);
-//        }
+        if (mChatMessageInfo!=null && chatMessageInfo.getMessageContent().equals(mChatMessageInfo.getMessageTitle())) {
+            this.startStudy(mChatRoomID);
+        }
     }
 
     @Override

@@ -10,7 +10,7 @@ import com.idisfkj.hightcopywx.chat.presenter.imp.ChatPresenterStudy;
 public class ChatActivityStudy extends ChatActivity{
     @Override
     protected ChatPresenterBase createPresenter() {
-        return new ChatPresenterStudy(mChatRoomID);
+        return new ChatPresenterStudy();
     }
 
     @Override

@@ -85,7 +85,6 @@ public class ChatMessageDataHelper extends BaseDataHelper {
     }
 
     public void insert(ChatMessageInfo info) {
-
         ContentValues values = getContentValues(info);
         insert(values);
     }
@@ -115,4 +114,5 @@ public class ChatMessageDataHelper extends BaseDataHelper {
         return getCursorLoader(null, ChatMessageDataInfo.chatRoomID + "=?", new String[]{chatRoomId}
                 , ChatMessageDataInfo._ID + " asc limit  "+first+","+showCount );
     }
+
 }

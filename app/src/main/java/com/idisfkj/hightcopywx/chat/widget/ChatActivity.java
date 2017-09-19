@@ -24,9 +24,15 @@ import com.idisfkj.hightcopywx.adapters.ChatAdapter;
 import com.idisfkj.hightcopywx.adapters.OnItemTouchListener;
 import com.idisfkj.hightcopywx.base.widget.BaseActivity;
 import com.idisfkj.hightcopywx.beans.ChatMessageInfo;
+import com.idisfkj.hightcopywx.beans.eventbus.RestartLoader;
 import com.idisfkj.hightcopywx.chat.presenter.imp.ChatPresenterBase;
 import com.idisfkj.hightcopywx.chat.view.ChatView;
+import com.idisfkj.hightcopywx.util.ToastUtils;
 import com.idisfkj.hightcopywx.util.VolleyUtils;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -68,13 +74,11 @@ public class ChatActivity extends BaseActivity<ChatView,ChatPresenterBase>
         super.onCreate(savedInstanceState);
         setContentView(R.layout.chat_layout);
         ButterKnife.inject(this);
-
+        EventBus.getDefault().register(this);//订阅总线消息
 
         Bundle bundle = getIntent().getExtras();
         mChatRoomID = bundle.getString("chatRoomID");
         chatTitle = bundle.getString("chatTitle");
-
-
 
         init();
         getActionBar().setTitle(chatTitle);
@@ -105,13 +109,6 @@ public class ChatActivity extends BaseActivity<ChatView,ChatPresenterBase>
             }
         });
         mChatContent.setOnFocusChangeListener(this);
-
-        //下拉刷新
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            public void onRefresh() {
-                getNewPayge();
-            }
-        });
 
         getLoaderManager().initLoader(0, null, this);
 
@@ -153,8 +150,23 @@ public class ChatActivity extends BaseActivity<ChatView,ChatPresenterBase>
                 return true;
             }
         });
-    }
 
+        //下拉刷新
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            public void onRefresh() {
+                ToastUtils.showShort("开始加载更多数据");
+                getNewPayge();
+            }
+        });
+
+
+    }
+    private void getNewPayge() {
+        Bundle bundle = new Bundle();
+        bundle.putInt("page", ++page);
+        getLoaderManager().restartLoader(0, bundle, this);
+        swipeRefreshLayout.setRefreshing(false);
+    }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -168,14 +180,6 @@ public class ChatActivity extends BaseActivity<ChatView,ChatPresenterBase>
         return super.onOptionsItemSelected(item);
     }
 
-
-
-    private void getNewPayge() {
-        Bundle bundle = new Bundle();
-        bundle.putInt("page", ++page);
-        getLoaderManager().restartLoader(0, bundle, this);
-        swipeRefreshLayout.setRefreshing(false);
-    }
 
     private boolean wantToCancle(int x, int y) {
         if (x < 0 || x > voice_button.getWidth()) // 超过按钮的宽度
@@ -268,7 +272,8 @@ public class ChatActivity extends BaseActivity<ChatView,ChatPresenterBase>
         mPresenter.cleanUnReadNum(mChatRoomID);
         //重置数据
         VolleyUtils.cancelAll("chatRequest");
-
+        //取消注册事件
+        EventBus.getDefault().unregister(this);
         ButterKnife.reset(this);
     }
 
@@ -280,6 +285,12 @@ public class ChatActivity extends BaseActivity<ChatView,ChatPresenterBase>
 
     @Override
     public void onReloadData() {
+        getLoaderManager().restartLoader(0, null, this);
+    }
+
+    //收到数据更新消息
+    @Subscribe(threadMode = ThreadMode.BACKGROUND)
+    public void handleMessage(RestartLoader restartLoader) {
         getLoaderManager().restartLoader(0, null, this);
     }
 

@@ -51,7 +51,9 @@ public class ChatModelStudyImp extends ChatModelBase implements ChatModelStudy {
                     public void onResponse(RespondStudy respondStudy) {
                         if (respondStudy.getCode() == 0) {
                             List<WordsEntity> listWords = respondStudy.getListWords();
-                            insert(listWords);
+                            if(listWords!=null && !listWords.isEmpty()){
+                                insert(listWords);
+                            }
                             //ToastUtils.showShort("开始学习");
                             listener.onInitSucceed();
                         }
@@ -92,7 +94,7 @@ public class ChatModelStudyImp extends ChatModelBase implements ChatModelStudy {
     public ChatMessageInfo getStudyMessage(String chatRoomID) {
         ChatMessageInfo chatMessageInfo = new ChatMessageInfo();
         if (mCursor.moveToNext()) {
-            chatMessageInfo.setStatus(App.MESSAGE_STATUS_SUCCESS);
+            chatMessageInfo.setStatus(App.MESSAGE_STATUS_SENDING);
             chatMessageInfo.setChatRoomID(chatRoomID);
             chatMessageInfo.setMessageType(App.MESSAGE_TYPE_CARD);
             chatMessageInfo.setMessageTitle(CursorUtils.formatString(mCursor, WordDataHelper.WordDataInfo.english));
