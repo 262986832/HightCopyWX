@@ -20,7 +20,7 @@ import com.idisfkj.hightcopywx.adapters.ChatRoomsAdapter;
 import com.idisfkj.hightcopywx.adapters.OnItemTouchListener;
 import com.idisfkj.hightcopywx.chat.WXItemDecoration;
 import com.idisfkj.hightcopywx.chat.presenter.ChatRoomsPresent;
-import com.idisfkj.hightcopywx.chat.presenter.ChatRoomsPresentImp;
+import com.idisfkj.hightcopywx.chat.presenter.imp.ChatRoomsPresentImp;
 import com.idisfkj.hightcopywx.chat.view.ChatRoomsView;
 import com.idisfkj.hightcopywx.util.SharedPreferencesManager;
 

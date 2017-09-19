@@ -18,7 +18,9 @@ public class WordsEntity implements Serializable {
     //图片地址
     private String imgurl;
     //班级
-    private Integer classes;
+    private Integer bookid;
+
+    private Integer wordid;
 
     /**
      * 设置：
@@ -68,16 +70,20 @@ public class WordsEntity implements Serializable {
     public String getImgurl() {
         return imgurl;
     }
-    /**
-     * 设置：班级
-     */
-    public void setClasses(Integer classes) {
-        this.classes = classes;
+
+    public Integer getBookid() {
+        return bookid;
     }
-    /**
-     * 获取：班级
-     */
-    public Integer getClasses() {
-        return classes;
+
+    public void setBookid(Integer bookid) {
+        this.bookid = bookid;
+    }
+
+    public Integer getWordid() {
+        return wordid;
+    }
+
+    public void setWordid(Integer wordid) {
+        this.wordid = wordid;
     }
 }

@@ -1,4 +1,4 @@
-package com.idisfkj.hightcopywx.chat.model;
+package com.idisfkj.hightcopywx.chat.model.imp;
 
 import android.util.Log;
 
@@ -10,6 +10,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.gson.Gson;
 import com.idisfkj.hightcopywx.App;
 import com.idisfkj.hightcopywx.beans.ChatMessageInfo;
+import com.idisfkj.hightcopywx.chat.model.ChatModel;
 import com.idisfkj.hightcopywx.util.UrlUtils;
 import com.idisfkj.hightcopywx.util.VolleyUtils;
 

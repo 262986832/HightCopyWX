@@ -24,7 +24,7 @@ import com.idisfkj.hightcopywx.adapters.ChatAdapter;
 import com.idisfkj.hightcopywx.adapters.OnItemTouchListener;
 import com.idisfkj.hightcopywx.base.widget.BaseActivity;
 import com.idisfkj.hightcopywx.beans.ChatMessageInfo;
-import com.idisfkj.hightcopywx.chat.presenter.ChatPresenterBase;
+import com.idisfkj.hightcopywx.chat.presenter.imp.ChatPresenterBase;
 import com.idisfkj.hightcopywx.chat.view.ChatView;
 import com.idisfkj.hightcopywx.util.VolleyUtils;
 

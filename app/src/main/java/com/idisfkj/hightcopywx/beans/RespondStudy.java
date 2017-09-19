@@ -1,6 +1,4 @@
-package com.idisfkj.hightcopywx.chat.model;
-
-import com.idisfkj.hightcopywx.beans.WordsEntity;
+package com.idisfkj.hightcopywx.beans;
 
 import java.util.List;
 

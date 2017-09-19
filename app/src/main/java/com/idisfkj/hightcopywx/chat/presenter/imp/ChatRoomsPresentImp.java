@@ -1,12 +1,13 @@
-package com.idisfkj.hightcopywx.chat.presenter;
+package com.idisfkj.hightcopywx.chat.presenter.imp;
 
 import android.content.Context;
 import android.database.Cursor;
 import android.support.v4.content.Loader;
 
+import com.idisfkj.hightcopywx.chat.presenter.ChatRoomsPresent;
 import com.idisfkj.hightcopywx.dao.ChatRoomsDataHelper;
 import com.idisfkj.hightcopywx.chat.model.ChatRoomsModel;
-import com.idisfkj.hightcopywx.chat.model.ChatRoomsModelImp;
+import com.idisfkj.hightcopywx.chat.model.imp.ChatRoomsModelImp;
 import com.idisfkj.hightcopywx.chat.view.ChatRoomsView;
 
 /**

@@ -1,4 +1,4 @@
-package com.idisfkj.hightcopywx.chat.model;
+package com.idisfkj.hightcopywx.chat.model.imp;
 
 import android.database.Cursor;
 import android.util.Log;
@@ -10,6 +10,8 @@ import com.android.volley.VolleyError;
 import com.idisfkj.hightcopywx.App;
 import com.idisfkj.hightcopywx.beans.ChatMessageInfo;
 import com.idisfkj.hightcopywx.beans.WordsEntity;
+import com.idisfkj.hightcopywx.chat.model.ChatModelStudy;
+import com.idisfkj.hightcopywx.beans.RespondStudy;
 import com.idisfkj.hightcopywx.dao.WordDataHelper;
 import com.idisfkj.hightcopywx.util.CalendarUtils;
 import com.idisfkj.hightcopywx.util.CursorUtils;

@@ -1,6 +1,6 @@
-package com.idisfkj.hightcopywx.chat.presenter;
+package com.idisfkj.hightcopywx.chat.presenter.imp;
 
-import com.idisfkj.hightcopywx.chat.model.ChatModelTranslateImp;
+import com.idisfkj.hightcopywx.chat.model.imp.ChatModelTranslateImp;
 import com.idisfkj.hightcopywx.util.UrlUtils;
 
 /**

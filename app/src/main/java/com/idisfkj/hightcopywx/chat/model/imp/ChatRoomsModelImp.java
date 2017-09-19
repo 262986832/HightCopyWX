@@ -1,9 +1,10 @@
-package com.idisfkj.hightcopywx.chat.model;
+package com.idisfkj.hightcopywx.chat.model.imp;
 
 import android.database.Cursor;
 
 import com.idisfkj.hightcopywx.App;
 import com.idisfkj.hightcopywx.beans.ChatRoomItemInfo;
+import com.idisfkj.hightcopywx.chat.model.ChatRoomsModel;
 import com.idisfkj.hightcopywx.dao.ChatRoomsDataHelper;
 import com.idisfkj.hightcopywx.util.CalendarUtils;
 import com.idisfkj.hightcopywx.util.SharedPreferencesManager;

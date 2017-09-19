@@ -15,10 +15,12 @@ import com.idisfkj.hightcopywx.util.database.SQLiteTable;
 
 import java.text.ParseException;
 
+import static com.idisfkj.hightcopywx.dao.WordDataHelper.WordDataInfo.bookid;
 import static com.idisfkj.hightcopywx.dao.WordDataHelper.WordDataInfo.firstcorrect;
 import static com.idisfkj.hightcopywx.dao.WordDataHelper.WordDataInfo.firstfinishtime;
 import static com.idisfkj.hightcopywx.dao.WordDataHelper.WordDataInfo.firstwrong;
 import static com.idisfkj.hightcopywx.dao.WordDataHelper.WordDataInfo.ownmobile;
+import static com.idisfkj.hightcopywx.dao.WordDataHelper.WordDataInfo.wordid;
 
 /**
  * Created by fvelement on 2017/9/13.
@@ -37,6 +39,8 @@ public class WordDataHelper extends BaseDataHelper {
         String userPhone= SharedPreferencesManager.getString("userPhone");
         ContentValues values = new ContentValues();
         values.put(ownmobile, userPhone);
+        values.put(wordid, info.getWordid());
+        values.put(bookid, info.getBookid());
         values.put(WordDataInfo.english, info.getEnglish());
         values.put(WordDataInfo.chinese, info.getChinese());
         values.put(WordDataInfo.imgurl, info.getImgurl());
@@ -57,6 +61,8 @@ public class WordDataHelper extends BaseDataHelper {
 
         public static final String TABLE_NAME = "words";
         public static final String ownmobile = "ownmobile";
+        public static final String wordid = "wordid";
+        public static final String bookid = "bookid";
         public static final String english = "english";
         public static final String chinese = "chinese";
         public static final String imgurl = "imgurl";
@@ -65,6 +71,8 @@ public class WordDataHelper extends BaseDataHelper {
         public static final String firstfinishtime = "firstfinishtime";
         public static final SQLiteTable TABLE = new SQLiteTable(TABLE_NAME)
                 .addColumn(ownmobile, Column.DataType.TEXT)
+                .addColumn(wordid, Column.DataType.TEXT)
+                .addColumn(bookid, Column.DataType.TEXT)
                 .addColumn(english, Column.DataType.TEXT)
                 .addColumn(chinese, Column.DataType.TEXT)
                 .addColumn(imgurl, Column.DataType.TEXT)

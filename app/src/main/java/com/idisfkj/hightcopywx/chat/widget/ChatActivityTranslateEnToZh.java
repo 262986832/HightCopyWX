@@ -1,7 +1,7 @@
 package com.idisfkj.hightcopywx.chat.widget;
 
-import com.idisfkj.hightcopywx.chat.presenter.ChatPresenterBase;
-import com.idisfkj.hightcopywx.chat.presenter.ChatPresenterTranslateEnToZh;
+import com.idisfkj.hightcopywx.chat.presenter.imp.ChatPresenterBase;
+import com.idisfkj.hightcopywx.chat.presenter.imp.ChatPresenterTranslateEnToZh;
 
 /**
  * Created by fvelement on 2017/9/15.

@@ -1,4 +1,4 @@
-package com.idisfkj.hightcopywx.chat.presenter;
+package com.idisfkj.hightcopywx.chat.presenter.imp;
 
 import android.content.CursorLoader;
 
@@ -7,7 +7,8 @@ import com.idisfkj.hightcopywx.base.presenter.BasePresenter;
 import com.idisfkj.hightcopywx.beans.ChatMessageInfo;
 import com.idisfkj.hightcopywx.beans.UnReadNumber;
 import com.idisfkj.hightcopywx.chat.model.ChatModel;
-import com.idisfkj.hightcopywx.chat.model.ChatModelBase;
+import com.idisfkj.hightcopywx.chat.model.imp.ChatModelBase;
+import com.idisfkj.hightcopywx.chat.presenter.ChatPresenter;
 import com.idisfkj.hightcopywx.chat.view.ChatView;
 import com.idisfkj.hightcopywx.dao.ChatMessageDataHelper;
 import com.idisfkj.hightcopywx.dao.ChatRoomsDataHelper;

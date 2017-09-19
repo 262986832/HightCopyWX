@@ -31,11 +31,12 @@ public class UrlUtils {
     public static final int ZHTOEN = 0;
     public static final int ENTOZH = 1;
     //服务端
-    private static final String SERVER_REGISTER = "http://10.16.66.127:8001/api/";
+    private static final String SERVER_REGISTER = "http://10.16.66.216:8001/api/";
 
 
     public UrlUtils() {
     }
+
     //百度翻译
     //http://api.fanyi.baidu.com/api/trans/vip/translate?
     // q=apple&from=en&to=zh&appid=2015063000000001&salt=1435660288&sign=f89f9594663708c1605f3d736d01d2d4
@@ -57,9 +58,10 @@ public class UrlUtils {
         String urlStr = url.toString();
         return urlStr;
     }
+
     //注册请求
-    public static String getRegisterApiUrl(String userName, String mobile,String password) {
-        StringBuilder url = new StringBuilder(SERVER_REGISTER+"register?");
+    public static String getRegisterApiUrl(String userName, String mobile, String password) {
+        StringBuilder url = new StringBuilder(SERVER_REGISTER + "register?");
         url.append("mobile=");
         url.append(mobile);
         url.append("&password=");
@@ -68,9 +70,10 @@ public class UrlUtils {
         url.append(userName);
         return url.toString();
     }
+
     //登录请求
-    public static String getLoginApiUrl(String mobile, String password,String clientid) {
-        StringBuilder url = new StringBuilder(SERVER_REGISTER+"login?");
+    public static String getLoginApiUrl(String mobile, String password, String clientid) {
+        StringBuilder url = new StringBuilder(SERVER_REGISTER + "login?");
         url.append("mobile=");
         url.append(mobile);
         url.append("&password=");
@@ -78,12 +81,13 @@ public class UrlUtils {
         url.append("&clientid=");
         url.append(clientid);
         return url.toString();
-    } 
+    }
+
     //获取本日背诵的单词
     public static String getNowDayWordListApiUrl() {
-        int limit=SharedPreferencesManager.getInt("limit",10);
-        int page=SharedPreferencesManager.getInt("page",1);
-        StringBuilder url = new StringBuilder(SERVER_REGISTER+"englishWord?");
+        int limit = SharedPreferencesManager.getInt("limit", 10);
+        int page = SharedPreferencesManager.getInt("page", 1);
+        StringBuilder url = new StringBuilder(SERVER_REGISTER + "getNewEnglishWord?");
         url.append("limit=");
         url.append(limit);
         url.append("&page=");
@@ -123,7 +127,7 @@ public class UrlUtils {
     public static String chatTopicUrl(String message, String topic) {
         String content = null;
         try {
-            content = URLEncoder.encode(message,"utf-8");
+            content = URLEncoder.encode(message, "utf-8");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }

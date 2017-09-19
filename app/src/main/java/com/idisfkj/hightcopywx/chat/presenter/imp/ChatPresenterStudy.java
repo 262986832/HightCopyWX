@@ -1,8 +1,8 @@
-package com.idisfkj.hightcopywx.chat.presenter;
+package com.idisfkj.hightcopywx.chat.presenter.imp;
 
 import com.idisfkj.hightcopywx.beans.ChatMessageInfo;
 import com.idisfkj.hightcopywx.chat.model.ChatModelStudy;
-import com.idisfkj.hightcopywx.chat.model.ChatModelStudyImp;
+import com.idisfkj.hightcopywx.chat.model.imp.ChatModelStudyImp;
 import com.idisfkj.hightcopywx.util.ToastUtils;
 
 /**
@@ -14,7 +14,8 @@ public class ChatPresenterStudy extends ChatPresenterBase implements ChatModelSt
     private ChatMessageInfo mChatMessageInfo;
     private String mChatRoomID;
 
-    public ChatPresenterStudy() {
+    public ChatPresenterStudy(String chatRoomID) {
+        this.mChatRoomID=chatRoomID;
         mChatModel = new ChatModelStudyImp();
         mStudyModel = (ChatModelStudyImp) mChatModel;
         mStudyModel.initData(this);
@@ -26,8 +27,9 @@ public class ChatPresenterStudy extends ChatPresenterBase implements ChatModelSt
             ToastUtils.showShort("今日学习完毕！");
         } else {
             mChatMessageInfo = mStudyModel.getStudyMessage(chatRoomId);
-            mChatMessageDataHelper.insert(mChatMessageInfo);
-            mViewRef.get().onReloadData();
+            super.sendData(mChatMessageInfo);
+//            mChatMessageDataHelper.insert(mChatMessageInfo);
+//            mViewRef.get().onReloadData();
         }
 
     }
@@ -35,9 +37,9 @@ public class ChatPresenterStudy extends ChatPresenterBase implements ChatModelSt
     @Override
     public void sendData(ChatMessageInfo chatMessageInfo) {
         super.sendData(chatMessageInfo);
-        if (chatMessageInfo.getMessageContent().equals(mChatMessageInfo.getMessageTitle())) {
-            this.startStudy(mChatRoomID);
-        }
+//        if (chatMessageInfo.getMessageContent().equals(mChatMessageInfo.getMessageTitle())) {
+//            this.startStudy(mChatRoomID);
+//        }
     }
 
     @Override
