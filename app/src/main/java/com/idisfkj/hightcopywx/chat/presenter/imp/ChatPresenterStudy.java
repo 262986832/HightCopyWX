@@ -35,8 +35,11 @@ public class ChatPresenterStudy extends ChatPresenterBase implements ChatModelSt
     public void sendData(ChatMessageInfo chatMessageInfo) {
         super.sendData(chatMessageInfo);
         if (mChatMessageInfo!=null && chatMessageInfo.getMessageContent().equals(mChatMessageInfo.getMessageTitle())) {
-            this.startStudy(mChatRoomID);
+            mStudyModel.updateStateCorrect();
+        }else {
+            mStudyModel.updateStateWrong();
         }
+        this.startStudy(mChatRoomID);
     }
 
     @Override

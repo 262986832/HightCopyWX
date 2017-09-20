@@ -73,6 +73,7 @@ public class ChatRoomsDataHelper extends BaseDataHelper {
         Cursor cursor = query(new String[]{"count()"}, WXItemDataInfo.ownMobile + "=?"
                 , new String[]{ownMobile}, WXItemDataInfo._ID + " ASC");
         return cursor;
+
     }
 
 

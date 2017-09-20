@@ -11,6 +11,10 @@ public interface ChatModelStudy {
 
     boolean isLast();
 
+    void updateStateWrong();
+
+    void updateStateCorrect();
+
     void initData(initListener listener);
 
     interface initListener{

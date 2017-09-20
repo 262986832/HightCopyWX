@@ -31,7 +31,7 @@ public class UrlUtils {
     public static final int ZHTOEN = 0;
     public static final int ENTOZH = 1;
     //服务端
-    private static final String SERVER_REGISTER = "http://10.16.66.33:8001/api/";
+    private static final String SERVER_API = "http://10.16.66.33:8001/api/";
 
 
     public UrlUtils() {
@@ -61,7 +61,7 @@ public class UrlUtils {
 
     //注册请求
     public static String getRegisterApiUrl(String userName, String mobile, String password) {
-        StringBuilder url = new StringBuilder(SERVER_REGISTER + "register?");
+        StringBuilder url = new StringBuilder(SERVER_API + "register?");
         url.append("mobile=");
         url.append(mobile);
         url.append("&password=");
@@ -73,7 +73,7 @@ public class UrlUtils {
 
     //登录请求
     public static String getLoginApiUrl(String mobile, String password, String clientid) {
-        StringBuilder url = new StringBuilder(SERVER_REGISTER + "login?");
+        StringBuilder url = new StringBuilder(SERVER_API + "login?");
         url.append("mobile=");
         url.append(mobile);
         url.append("&password=");
@@ -85,14 +85,21 @@ public class UrlUtils {
 
     //获取本日背诵的单词
     public static String getNowDayWordListApiUrl() {
-        int limit = SharedPreferencesManager.getInt("limit", 10);
-        int page = SharedPreferencesManager.getInt("page", 1);
-        StringBuilder url = new StringBuilder(SERVER_REGISTER + "getNewEnglishWord?");
-        url.append("limit=");
-        url.append(limit);
-        url.append("&page=");
-        url.append(page);
-        url.append("&sidx=id&order=asc");
+        StringBuilder url = new StringBuilder(SERVER_API + "getNewEnglishWord?");
+        return url.toString();
+    }
+
+    //更新单词学习状态
+    public static String updateNowDayWordStateApiUrl(String jsonWordsStudentEntity) {
+        String content = null;
+        try {
+            content = URLEncoder.encode(jsonWordsStudentEntity, "utf-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        StringBuilder url = new StringBuilder(SERVER_API + "postEnglishWordState?");
+        //url.append(content);
+
         return url.toString();
     }
 
