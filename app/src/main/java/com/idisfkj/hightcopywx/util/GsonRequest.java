@@ -7,9 +7,12 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import com.idisfkj.hightcopywx.beans.gson.DateDeserializer;
 
 import java.io.UnsupportedEncodingException;
+import java.util.Date;
 import java.util.Map;
 
 /**
@@ -26,14 +29,18 @@ public class GsonRequest<T> extends Request<T> {
     public GsonRequest(int method, String url, Class<T> clazz, Response.Listener<T> mListener, Response.ErrorListener listener) {
         super(method, url, listener);
         this.mListener = mListener;
-        this.mGson = new Gson();
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.registerTypeAdapter(Date.class, new DateDeserializer());
+        this.mGson=gsonBuilder.create();
         mClass = clazz;
     }
 
     public GsonRequest(int method, String url, TypeToken<T> typeToken, Response.Listener<T> mListener, Response.ErrorListener listener) {
         super(method, url, listener);
         this.mListener = mListener;
-        this.mGson = new Gson();
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.registerTypeAdapter(Date.class, new DateDeserializer());
+        this.mGson=gsonBuilder.create();
         mTypeToken = typeToken;
     }
 

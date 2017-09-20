@@ -8,7 +8,7 @@ import java.util.List;
 
 public class RespondStudy {
     private int code;
-    private List<WordsEntity> listWords;
+    private List<WordsStudentEntity> listWords;
 
     public int getCode() {
         return code;
@@ -18,11 +18,11 @@ public class RespondStudy {
         this.code = code;
     }
 
-    public List<WordsEntity> getListWords() {
+    public List<WordsStudentEntity> getListWords() {
         return listWords;
     }
 
-    public void setListWords(List<WordsEntity> listWords) {
+    public void setListWords(List<WordsStudentEntity> listWords) {
         this.listWords = listWords;
     }
 }

@@ -1,6 +1,5 @@
 package com.idisfkj.hightcopywx.chat.model.imp;
 
-import android.database.Cursor;
 import android.util.Log;
 
 import com.android.volley.AuthFailureError;
@@ -9,14 +8,10 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.idisfkj.hightcopywx.App;
 import com.idisfkj.hightcopywx.beans.ChatMessageInfo;
-import com.idisfkj.hightcopywx.beans.WordsEntity;
-import com.idisfkj.hightcopywx.chat.model.ChatModelStudy;
 import com.idisfkj.hightcopywx.beans.RespondStudy;
-import com.idisfkj.hightcopywx.dao.WordDataHelper;
-import com.idisfkj.hightcopywx.util.CalendarUtils;
-import com.idisfkj.hightcopywx.util.CursorUtils;
+import com.idisfkj.hightcopywx.beans.WordsStudentEntity;
+import com.idisfkj.hightcopywx.chat.model.ChatModelStudy;
 import com.idisfkj.hightcopywx.util.GsonRequest;
-import com.idisfkj.hightcopywx.util.SharedPreferencesManager;
 import com.idisfkj.hightcopywx.util.UrlUtils;
 import com.idisfkj.hightcopywx.util.VolleyUtils;
 
@@ -32,13 +27,9 @@ import static android.content.ContentValues.TAG;
  */
 
 public class ChatModelStudyImp extends ChatModelBase implements ChatModelStudy {
-    private WordDataHelper mWordDataHelper;
-    public Cursor mCursor;
-
+    private List<WordsStudentEntity> mWordsStudentEntityList=null;
+    private boolean mIslast=false;
     public ChatModelStudyImp() {
-        mWordDataHelper = new WordDataHelper(App.getAppContext());
-        mCursor = mWordDataHelper.query(App.ownMobile);
-
     }
 
     @Override
@@ -50,11 +41,7 @@ public class ChatModelStudyImp extends ChatModelBase implements ChatModelStudy {
                     @Override
                     public void onResponse(RespondStudy respondStudy) {
                         if (respondStudy.getCode() == 0) {
-                            List<WordsEntity> listWords = respondStudy.getListWords();
-                            if(listWords!=null && !listWords.isEmpty()){
-                                insert(listWords);
-                            }
-                            //ToastUtils.showShort("开始学习");
+                            insert(respondStudy.getListWords());
                             listener.onInitSucceed();
                         }
 
@@ -74,45 +61,36 @@ public class ChatModelStudyImp extends ChatModelBase implements ChatModelStudy {
         };
         VolleyUtils.addQueue(gsonRequest, "chatRequest");
     }
-
-    private void insert(List<WordsEntity> wordsEntityList) {
-        Iterator iterator = wordsEntityList.iterator();
-        while (iterator.hasNext()) {
-            mWordDataHelper.insert((WordsEntity) iterator.next());
-        }
-        mCursor = mWordDataHelper.query(App.ownMobile);
-        //存储
-        int page = SharedPreferencesManager.getInt("page", 1);
-        SharedPreferencesManager.putInt("page", ++page).commit();
-        String nowDate = CalendarUtils.getCurrentDay();
-        SharedPreferencesManager.putString("getStudyDataDate", nowDate).commit();
-
+    private void insert(List<WordsStudentEntity> wordsStudentEntityList){
+        this.mWordsStudentEntityList =wordsStudentEntityList;
     }
+
 
 
     @Override
     public ChatMessageInfo getStudyMessage(String chatRoomID) {
         ChatMessageInfo chatMessageInfo = new ChatMessageInfo();
-        mCursor.getPosition();
-        if (mCursor.moveToNext()) {
+        Iterator<WordsStudentEntity> iterator=mWordsStudentEntityList.iterator();
+        if (iterator.hasNext()) {
             chatMessageInfo.setStatus(App.MESSAGE_STATUS_SENDING);
             chatMessageInfo.setChatRoomID(chatRoomID);
             chatMessageInfo.setMessageType(App.MESSAGE_TYPE_CARD);
-            chatMessageInfo.setMessageTitle(CursorUtils.formatString(mCursor, WordDataHelper.WordDataInfo.english));
-            chatMessageInfo.setMessageContent(CursorUtils.formatString(mCursor, WordDataHelper.WordDataInfo.chinese));
-            chatMessageInfo.setMessageImgUrl(CursorUtils.formatString(mCursor, WordDataHelper.WordDataInfo.imgurl));
+            chatMessageInfo.setMessageTitle(iterator.next().getEnglish());
+            chatMessageInfo.setMessageContent(iterator.next().getChinese());
+            chatMessageInfo.setMessageImgUrl(iterator.next().getImgurl());
             chatMessageInfo.setSendOrReciveFlag(App.RECEIVE_FLAG);
             chatMessageInfo.setSendMobile(chatRoomID);
             //chatMessageInfo.setSendName("贝贝");
             return chatMessageInfo;
+        }else {
+            mIslast=true;
         }
         return chatMessageInfo;
-
     }
 
     @Override
     public boolean isLast() {
-        return mCursor.isLast();
+        return mIslast;
     }
 
 }
