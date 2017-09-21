@@ -36,7 +36,7 @@ public class SpeechSynthesizerService {
         mTts = SpeechSynthesizer.createSynthesizer(context, mTtsInitListener);
     }
 
-    public int play(String text, TTSLinsions ttsLinsions) {
+    public int play(String text) {
         this.ttsLinsions = ttsLinsions;
         // 设置参数
         if (StringUtils.isChinese(text)) {
@@ -142,7 +142,7 @@ public class SpeechSynthesizerService {
         // 设置在线合成发音人
         mTts.setParameter(SpeechConstant.VOICE_NAME, voicer);
         //设置合成语速
-        mTts.setParameter(SpeechConstant.SPEED, "30");
+        mTts.setParameter(SpeechConstant.SPEED, "40");
         //设置合成音调
         mTts.setParameter(SpeechConstant.PITCH, "50");
         //设置合成音量

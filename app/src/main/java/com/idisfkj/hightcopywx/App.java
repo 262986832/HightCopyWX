@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 
+import com.iflytek.cloud.SpeechUtility;
 import com.xiaomi.channel.commonutils.logger.LoggerInterface;
 import com.xiaomi.mipush.sdk.Logger;
 import com.xiaomi.mipush.sdk.MiPushClient;
@@ -60,7 +61,8 @@ public class App extends Application{
         super.onCreate();
         mContext = getApplicationContext();
         sp = getSharedPreferences("userInfo",Context.MODE_PRIVATE);
-
+        //初始语音识别
+        SpeechUtility.createUtility(this, "appid="+BuildConfig.XUNFEI_SCREAT_KEY);
         //初始化push推送服务
         if(shouldInit()) {
             MiPushClient.registerPush(this, APP_ID, APP_KEY);

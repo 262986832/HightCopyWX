@@ -21,11 +21,13 @@ public class ChatPresenterStudy extends ChatPresenterBase implements ChatModelSt
         mRoleID = SharedPreferencesManager.getString("RoleID", "");
         if (mRoleID.equals("baby"))
             mStudyModel.initData(this);
+
     }
 
     public void startStudy(String chatRoomId) {
         mChatRoomID = chatRoomId;
         mChatMessageInfo = mStudyModel.getStudyMessage(chatRoomId);
+        speechSynthesizerService.play(mChatMessageInfo.getMessageTitle());
         super.sendData(mChatMessageInfo);
     }
 

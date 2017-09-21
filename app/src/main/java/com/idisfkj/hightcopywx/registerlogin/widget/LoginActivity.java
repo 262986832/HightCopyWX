@@ -51,8 +51,11 @@ public class LoginActivity extends Activity implements LoginView {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_layout);
         ButterKnife.inject(this);
+        //取消icon图标
+        getActionBar().setDisplayShowHomeEnabled(false);
         init();
     }
+
 
     private void init() {
         mloginPresenter = new LoginPresenterImp(this);

@@ -6,8 +6,6 @@ package com.idisfkj.hightcopywx.util;
 
 import java.text.NumberFormat;
 import java.text.ParsePosition;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -86,12 +84,6 @@ public class StringUtils {
             return true;
         }
         return false;
-    }
-    public static String getNowDate(){
-        Date date=new Date();
-        SimpleDateFormat formatter=new SimpleDateFormat("yyyy-MM-dd");
-        String redate=formatter.format(date);
-        return redate;
     }
     public static boolean isValidNumeric(String str)
     {

@@ -18,6 +18,7 @@ import com.idisfkj.hightcopywx.R;
 import com.idisfkj.hightcopywx.dao.ChatMessageDataHelper;
 import com.idisfkj.hightcopywx.registerlogin.widget.RegisterActivity;
 import com.idisfkj.hightcopywx.util.CursorUtils;
+import com.idisfkj.hightcopywx.util.SpeechSynthesizerService;
 import com.idisfkj.hightcopywx.util.ToastUtils;
 
 import java.io.File;
@@ -124,8 +125,14 @@ public class ChatAdapter extends RecyclerViewCursorBaseAdapter<RecyclerView.View
             ((ChatSendViewHolder) holder).content =
                     CursorUtils.formatString(cursor, ChatMessageDataHelper.ChatMessageDataInfo.messageContent);
 
+
             ((ChatSendViewHolder) holder).chatSendContent.setText
                     (CursorUtils.formatString(cursor, ChatMessageDataHelper.ChatMessageDataInfo.messageContent));
+
+//            if (CursorUtils.formatInt(mCursor, ChatMessageDataHelper.ChatMessageDataInfo.sendOrReciveFlag) == App.MESSAGE_TYPE_TEXT) {
+//                ((ChatSendViewHolder) holder).chatSendContent.setCompoundDrawables(null, null, null, null);
+//            }
+
 
             ((ChatSendViewHolder) holder).chatSendContent.setVisibility(View.VISIBLE);
         } else {
@@ -150,6 +157,7 @@ public class ChatAdapter extends RecyclerViewCursorBaseAdapter<RecyclerView.View
         }
         return 0;
     }
+
 
     //发送信息
     public static class ChatSendViewHolder extends RecyclerView.ViewHolder {
@@ -206,11 +214,24 @@ public class ChatAdapter extends RecyclerViewCursorBaseAdapter<RecyclerView.View
         @InjectView(R.id.chat_receive_card)
         CardView chat_receive_card;
 
+        protected SpeechSynthesizerService speechSynthesizerService;
 
         ChatReceiveViewHolder(View view) {
             super(view);
             ButterKnife.inject(this, view);
+            speechSynthesizerService = new SpeechSynthesizerService(App.getAppContext());
         }
+
+        @OnClick({R.id.chat_receive_card_title, R.id.chat_receive_card_imgurl})
+        public void onTitleClick() {
+            speechSynthesizerService.play(chat_receive_card_title.getText().toString());
+        }
+
+        @OnClick({R.id.chat_receive_card_text})
+        public void onContentClick() {
+            speechSynthesizerService.play(chat_receive_card_text.getText().toString());
+        }
+
     }
 
     public static class ChatSystemViewHolder extends RecyclerView.ViewHolder {

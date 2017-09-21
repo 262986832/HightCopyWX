@@ -13,6 +13,7 @@ import com.idisfkj.hightcopywx.chat.view.ChatView;
 import com.idisfkj.hightcopywx.dao.ChatMessageDataHelper;
 import com.idisfkj.hightcopywx.dao.ChatRoomsDataHelper;
 import com.idisfkj.hightcopywx.util.SharedPreferencesManager;
+import com.idisfkj.hightcopywx.util.SpeechSynthesizerService;
 import com.idisfkj.hightcopywx.util.ToastUtils;
 
 import org.greenrobot.eventbus.EventBus;
@@ -26,6 +27,7 @@ public class ChatPresenterBase extends BasePresenter<ChatView> implements ChatPr
     protected ChatModel mChatModel;
     protected ChatRoomsDataHelper mChatRoomsDataHelper;
     protected ChatMessageDataHelper mChatMessageDataHelper;
+    protected SpeechSynthesizerService speechSynthesizerService;
     private int page;
     private int limit;
 
@@ -33,6 +35,7 @@ public class ChatPresenterBase extends BasePresenter<ChatView> implements ChatPr
         mChatModel=new ChatModelBase();
         mChatRoomsDataHelper = new ChatRoomsDataHelper(App.getAppContext());
         mChatMessageDataHelper = new ChatMessageDataHelper(App.getAppContext());
+        speechSynthesizerService = new SpeechSynthesizerService(App.getAppContext());
     }
 
 

@@ -3,22 +3,19 @@ package com.idisfkj.hightcopywx.chat.widget;
 import android.app.LoaderManager;
 import android.content.Loader;
 import android.database.Cursor;
-import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.DisplayMetrics;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.idisfkj.hightcopywx.App;
 import com.idisfkj.hightcopywx.R;
 import com.idisfkj.hightcopywx.adapters.ChatAdapter;
 import com.idisfkj.hightcopywx.adapters.OnItemTouchListener;
@@ -29,10 +26,8 @@ import com.idisfkj.hightcopywx.chat.presenter.imp.ChatPresenterBase;
 import com.idisfkj.hightcopywx.chat.view.ChatView;
 import com.idisfkj.hightcopywx.chat.view.ISpeechView;
 import com.idisfkj.hightcopywx.util.SpeechRecognizerService;
-import com.idisfkj.hightcopywx.util.SpeechSynthesizerService;
 import com.idisfkj.hightcopywx.util.ToastUtils;
 import com.idisfkj.hightcopywx.util.VolleyUtils;
-import com.iflytek.cloud.SpeechUtility;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -48,8 +43,7 @@ import butterknife.OnClick;
  * Email : idisfkj@qq.com.
  */
 public class ChatActivity extends BaseActivity<ChatView, ChatPresenterBase>
-        implements ChatView, View.OnTouchListener,
-        View.OnFocusChangeListener, LoaderManager.LoaderCallbacks<Cursor>, ISpeechView {
+        implements ChatView, View.OnFocusChangeListener, LoaderManager.LoaderCallbacks<Cursor>, ISpeechView {
 
     @InjectView(R.id.chat_content)
     EditText mChatContent;
@@ -71,8 +65,7 @@ public class ChatActivity extends BaseActivity<ChatView, ChatPresenterBase>
 
     private String chatTitle;
     protected String mChatRoomID;
-    //语音合成服务
-    protected SpeechSynthesizerService speechSynthesizerService;
+
     //语音识别服务
     protected SpeechRecognizerService speechRecognizerService;
 
@@ -93,8 +86,7 @@ public class ChatActivity extends BaseActivity<ChatView, ChatPresenterBase>
 
     //初始化语音识别与语音合成
     private void initSpeech() {
-        SpeechUtility.createUtility(this, "appid=58f81c5e");
-        speechSynthesizerService = new SpeechSynthesizerService(this);
+
         speechRecognizerService = new SpeechRecognizerService(this);
         speechRecognizerService.attachView(this);
     }
@@ -103,7 +95,6 @@ public class ChatActivity extends BaseActivity<ChatView, ChatPresenterBase>
         mChatAdapter = new ChatAdapter(this);
         chatView.setLayoutManager(new LinearLayoutManager(this));
         chatView.setAdapter(mChatAdapter);
-        chatView.setOnTouchListener(this);
         chatView.addOnItemTouchListener(new OnItemTouchListener(chatView) {
             @Override
             public void onItemListener(RecyclerView.ViewHolder vh) {
@@ -123,17 +114,6 @@ public class ChatActivity extends BaseActivity<ChatView, ChatPresenterBase>
         });
         getActionBar().setTitle(chatTitle);
         getActionBar().setDisplayHomeAsUpEnabled(true);
-
-
-        final View root = findViewById(R.id.main);
-        root.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                int heightDiff = root.getRootView().getHeight() - root.getHeight();
-                if (heightDiff > 100)
-                    chatView.smoothScrollToPosition(mChatAdapter.getItemCount());
-            }
-        });
 
     }
 
@@ -157,23 +137,7 @@ public class ChatActivity extends BaseActivity<ChatView, ChatPresenterBase>
         return super.onOptionsItemSelected(item);
     }
 
-    private boolean isKeyboardShown(View rootView) {
-        final int softKeyboardHeight = 100;
-        Rect r = new Rect();
-        // 获取根布局的可视区域r
-        rootView.getWindowVisibleDisplayFrame(r);
-        DisplayMetrics dm = rootView.getResources().getDisplayMetrics();
-        // 本来的实际底部距离 - 可视的底部距离
-        int heightDiff = rootView.getBottom() - r.bottom;
-        return heightDiff > softKeyboardHeight * dm.density;
-    }
 
-    @Override
-    public boolean onTouch(View v, MotionEvent event) {
-        if (event.getAction() == MotionEvent.ACTION_DOWN && isKeyboardShown(mChatContent.getRootView()))
-            manager.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
-        return false;
-    }
 
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
@@ -215,16 +179,19 @@ public class ChatActivity extends BaseActivity<ChatView, ChatPresenterBase>
     @OnClick(R.id.chat_send)
     public void onClick() {
         String chatContent = mChatContent.getText().toString();
-        if (chatContent.trim().length() > 0) {
+        sendMessage(chatContent,App.MESSAGE_TYPE_VOICE);
+        mChatContent.setText("");
+    }
+
+    private void sendMessage(String message,int type){
+        if (message.trim().length() > 0) {
             ChatMessageInfo chatMessageInfo = new ChatMessageInfo();
             chatMessageInfo.setSender();
-            chatMessageInfo.setMessageContent(chatContent);
+            chatMessageInfo.setMessageContent(message);
+            chatMessageInfo.setMessageType(type);
             chatMessageInfo.setChatRoomID(mChatRoomID);
-
             mPresenter.sendData(chatMessageInfo);
-
         }
-        mChatContent.setText("");
     }
 
     @OnClick(R.id.voice_button)
@@ -275,7 +242,7 @@ public class ChatActivity extends BaseActivity<ChatView, ChatPresenterBase>
 
     @Override
     public void onSpeechRecognizerComplete(String string) {
-
+        sendMessage(string,App.MESSAGE_TYPE_VOICE);
     }
 
     @Override
