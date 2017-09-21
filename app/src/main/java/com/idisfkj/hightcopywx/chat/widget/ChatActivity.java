@@ -27,8 +27,12 @@ import com.idisfkj.hightcopywx.beans.ChatMessageInfo;
 import com.idisfkj.hightcopywx.beans.eventbus.RestartLoader;
 import com.idisfkj.hightcopywx.chat.presenter.imp.ChatPresenterBase;
 import com.idisfkj.hightcopywx.chat.view.ChatView;
+import com.idisfkj.hightcopywx.chat.view.ISpeechView;
+import com.idisfkj.hightcopywx.util.SpeechRecognizerService;
+import com.idisfkj.hightcopywx.util.SpeechSynthesizerService;
 import com.idisfkj.hightcopywx.util.ToastUtils;
 import com.idisfkj.hightcopywx.util.VolleyUtils;
+import com.iflytek.cloud.SpeechUtility;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -43,9 +47,9 @@ import butterknife.OnClick;
  * Created by idisfkj on 16/4/25.
  * Email : idisfkj@qq.com.
  */
-public class ChatActivity extends BaseActivity<ChatView,ChatPresenterBase>
+public class ChatActivity extends BaseActivity<ChatView, ChatPresenterBase>
         implements ChatView, View.OnTouchListener,
-        View.OnFocusChangeListener, LoaderManager.LoaderCallbacks<Cursor> {
+        View.OnFocusChangeListener, LoaderManager.LoaderCallbacks<Cursor>, ISpeechView {
 
     @InjectView(R.id.chat_content)
     EditText mChatContent;
@@ -67,7 +71,10 @@ public class ChatActivity extends BaseActivity<ChatView,ChatPresenterBase>
 
     private String chatTitle;
     protected String mChatRoomID;
-
+    //语音合成服务
+    protected SpeechSynthesizerService speechSynthesizerService;
+    //语音识别服务
+    protected SpeechRecognizerService speechRecognizerService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +88,39 @@ public class ChatActivity extends BaseActivity<ChatView,ChatPresenterBase>
         chatTitle = bundle.getString("chatTitle");
 
         init();
+        initSpeech();
+    }
+
+    //初始化语音识别与语音合成
+    private void initSpeech() {
+        SpeechUtility.createUtility(this, "appid=58f81c5e");
+        speechSynthesizerService = new SpeechSynthesizerService(this);
+        speechRecognizerService = new SpeechRecognizerService(this);
+        speechRecognizerService.attachView(this);
+    }
+
+    public void init() {
+        mChatAdapter = new ChatAdapter(this);
+        chatView.setLayoutManager(new LinearLayoutManager(this));
+        chatView.setAdapter(mChatAdapter);
+        chatView.setOnTouchListener(this);
+        chatView.addOnItemTouchListener(new OnItemTouchListener(chatView) {
+            @Override
+            public void onItemListener(RecyclerView.ViewHolder vh) {
+//                ToastUtils.showLong(vh.getLayoutPosition()+"");
+            }
+        });
+        mChatContent.setOnFocusChangeListener(this);
+
+        getLoaderManager().initLoader(0, null, this);
+
+        //下拉刷新
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            public void onRefresh() {
+                ToastUtils.showShort("开始加载更多数据");
+                getNewPayge();
+            }
+        });
         getActionBar().setTitle(chatTitle);
         getActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -96,77 +136,14 @@ public class ChatActivity extends BaseActivity<ChatView,ChatPresenterBase>
         });
 
     }
-    public void init() {
 
-        mChatAdapter = new ChatAdapter(this);
-        chatView.setLayoutManager(new LinearLayoutManager(this));
-        chatView.setAdapter(mChatAdapter);
-        chatView.setOnTouchListener(this);
-        chatView.addOnItemTouchListener(new OnItemTouchListener(chatView) {
-            @Override
-            public void onItemListener(RecyclerView.ViewHolder vh) {
-//                ToastUtils.showLong(vh.getLayoutPosition()+"");
-            }
-        });
-        mChatContent.setOnFocusChangeListener(this);
-
-        getLoaderManager().initLoader(0, null, this);
-
-        voice_button.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                int x = (int) event.getX();// 获得x轴坐标
-                int y = (int) event.getY();// 获得y轴坐标
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        //mVoicePop.showAtLocation(v, Gravity.CENTER, 0, 0);
-                        voice_button.setText("松开结束");
-                        //mPopVoiceText.setText("手指上滑，取消发送");
-                        voice_button.setTag("1");
-                        //mAudioRecoderUtils.startRecord(mActivity);
-                        //通知开始识别
-                        break;
-                    case MotionEvent.ACTION_MOVE:
-                        if (wantToCancle(x, y)) {
-                            voice_button.setText("松开结束");
-                            voice_button.setTag("2");
-                        } else {
-                            voice_button.setText("松开结束");
-                            voice_button.setTag("1");
-                        }
-                        break;
-                    case MotionEvent.ACTION_UP:
-                        if (voice_button.getTag().equals("2")) {
-                            //取消录音（删除录音文件）
-                            //mAudioRecoderUtils.cancelRecord();
-                        } else {
-                            //结束录音（保存录音文件）
-                            //mAudioRecoderUtils.stopRecord();
-                        }
-                        voice_button.setText("按住说话");
-                        voice_button.setTag("3");
-                        break;
-                }
-                return true;
-            }
-        });
-
-        //下拉刷新
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            public void onRefresh() {
-                ToastUtils.showShort("开始加载更多数据");
-                getNewPayge();
-            }
-        });
-
-
-    }
     private void getNewPayge() {
         Bundle bundle = new Bundle();
         bundle.putInt("page", ++page);
         getLoaderManager().restartLoader(0, bundle, this);
         swipeRefreshLayout.setRefreshing(false);
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -178,15 +155,6 @@ public class ChatActivity extends BaseActivity<ChatView,ChatPresenterBase>
                 break;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-
-    private boolean wantToCancle(int x, int y) {
-        if (x < 0 || x > voice_button.getWidth()) // 超过按钮的宽度
-            return true;
-        if (y < -50 || y > voice_button.getHeight() + 50)// 超过按钮的高度
-            return true;
-        return false;
     }
 
     private boolean isKeyboardShown(View rootView) {
@@ -202,8 +170,8 @@ public class ChatActivity extends BaseActivity<ChatView,ChatPresenterBase>
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-//        if (event.getAction() == MotionEvent.ACTION_DOWN && isKeyboardShown(mChatContent.getRootView()))
-//            manager.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+        if (event.getAction() == MotionEvent.ACTION_DOWN && isKeyboardShown(mChatContent.getRootView()))
+            manager.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
         return false;
     }
 
@@ -218,7 +186,7 @@ public class ChatActivity extends BaseActivity<ChatView,ChatPresenterBase>
             int page = args.getInt("page");
             //ToastUtils.showShort("第" + page+"页");
         }
-        return mPresenter.creatLoader(mChatRoomID,page);
+        return mPresenter.creatLoader(mChatRoomID, page);
     }
 
     @Override
@@ -259,6 +227,12 @@ public class ChatActivity extends BaseActivity<ChatView,ChatPresenterBase>
         mChatContent.setText("");
     }
 
+    @OnClick(R.id.voice_button)
+    public void onVoiceClick() {
+        speechRecognizerService.startSpeechRecognizer();
+    }
+
+
     @OnClick(R.id.voice_swith)
     public void onVoice_swithClick() {
         relativeLayout.setVisibility(relativeLayout.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
@@ -296,6 +270,16 @@ public class ChatActivity extends BaseActivity<ChatView,ChatPresenterBase>
 
     @Override
     public void onInitDataComplete() {
-            //mPresenter.startStudy(mChatRoomID);
+        //mPresenter.startStudy(mChatRoomID);
+    }
+
+    @Override
+    public void onSpeechRecognizerComplete(String string) {
+
+    }
+
+    @Override
+    public void onSpeechRecognizerError(String string) {
+
     }
 }

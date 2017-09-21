@@ -36,5 +36,6 @@ dependencies {
     compile 'org.greenrobot:eventbus:3.0.0'
     compile 'cn.bingoogolapple:bga-badgeview:1.0.0@aar'
     compile 'com.github.bumptech.glide:glide:3.7.0'
-
+    //讯飞
+    compile files('libs/Msc.jar')
 }
