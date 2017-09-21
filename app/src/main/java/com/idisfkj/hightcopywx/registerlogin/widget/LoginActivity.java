@@ -1,4 +1,4 @@
-package com.idisfkj.hightcopywx.registerLogin.widget;
+package com.idisfkj.hightcopywx.registerlogin.widget;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -13,10 +13,10 @@ import android.widget.Spinner;
 import com.idisfkj.hightcopywx.App;
 import com.idisfkj.hightcopywx.R;
 import com.idisfkj.hightcopywx.main.widget.MainActivity;
-import com.idisfkj.hightcopywx.registerLogin.model.RoleAdapter;
-import com.idisfkj.hightcopywx.registerLogin.presenter.LoginPresenter;
-import com.idisfkj.hightcopywx.registerLogin.presenter.LoginPresenterImp;
-import com.idisfkj.hightcopywx.registerLogin.view.LoginView;
+import com.idisfkj.hightcopywx.registerlogin.model.RoleAdapter;
+import com.idisfkj.hightcopywx.registerlogin.presenter.LoginPresenter;
+import com.idisfkj.hightcopywx.registerlogin.presenter.LoginPresenterImp;
+import com.idisfkj.hightcopywx.registerlogin.view.LoginView;
 import com.idisfkj.hightcopywx.util.SharedPreferencesManager;
 import com.idisfkj.hightcopywx.util.ToastUtils;
 import com.xiaomi.mipush.sdk.MiPushClient;
@@ -72,6 +72,7 @@ public class LoginActivity extends Activity implements LoginView {
                         .get("roleName").toString(); //
                 mRoleID = ((Map<String, Object>) spinnerRole.getItemAtPosition(position))
                         .get("roleID").toString(); //
+                SharedPreferencesManager.putString("RoleID",mRoleID).commit();
                 setTitle(roleName);
             }
             @Override

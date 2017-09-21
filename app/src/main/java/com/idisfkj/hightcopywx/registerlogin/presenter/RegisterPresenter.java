@@ -1,4 +1,4 @@
-package com.idisfkj.hightcopywx.registerLogin.presenter;
+package com.idisfkj.hightcopywx.registerlogin.presenter;
 
 import android.content.Intent;
 import android.graphics.Bitmap;

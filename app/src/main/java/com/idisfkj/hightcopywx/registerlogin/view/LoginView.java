@@ -1,4 +1,4 @@
-package com.idisfkj.hightcopywx.registerLogin.view;
+package com.idisfkj.hightcopywx.registerlogin.view;
 
 /**
  * Created by fvelement on 2017/9/6.

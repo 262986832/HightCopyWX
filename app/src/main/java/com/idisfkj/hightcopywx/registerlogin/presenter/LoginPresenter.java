@@ -1,4 +1,4 @@
-package com.idisfkj.hightcopywx.registerLogin.presenter;
+package com.idisfkj.hightcopywx.registerlogin.presenter;
 
 /**
  * Created by fvelement on 2017/9/6.

@@ -1,4 +1,4 @@
-package com.idisfkj.hightcopywx.registerLogin;
+package com.idisfkj.hightcopywx.registerlogin;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -7,11 +7,11 @@ import android.os.Bundle;
 import com.idisfkj.hightcopywx.App;
 import com.idisfkj.hightcopywx.R;
 import com.idisfkj.hightcopywx.main.widget.MainActivity;
-import com.idisfkj.hightcopywx.registerLogin.model.LoginModel;
-import com.idisfkj.hightcopywx.registerLogin.model.LoginModelImp;
-import com.idisfkj.hightcopywx.registerLogin.model.RegisterModel;
-import com.idisfkj.hightcopywx.registerLogin.model.RegisterModelImp;
-import com.idisfkj.hightcopywx.registerLogin.widget.LoginActivity;
+import com.idisfkj.hightcopywx.registerlogin.model.LoginModel;
+import com.idisfkj.hightcopywx.registerlogin.model.LoginModelImp;
+import com.idisfkj.hightcopywx.registerlogin.model.RegisterModel;
+import com.idisfkj.hightcopywx.registerlogin.model.RegisterModelImp;
+import com.idisfkj.hightcopywx.registerlogin.widget.LoginActivity;
 import com.idisfkj.hightcopywx.util.SharedPreferencesManager;
 import com.idisfkj.hightcopywx.util.ToastUtils;
 

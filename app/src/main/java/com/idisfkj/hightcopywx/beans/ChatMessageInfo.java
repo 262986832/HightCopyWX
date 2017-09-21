@@ -25,6 +25,15 @@ public class ChatMessageInfo implements Serializable {
     private String time;
     private String sendMobile;
     private String sendName;
+    private String roleID;
+
+    public String getRoleID() {
+        return roleID;
+    }
+
+    public void setRoleID(String roleID) {
+        this.roleID = roleID;
+    }
 
     public String getSendName() {
         return sendName;
@@ -39,6 +48,7 @@ public class ChatMessageInfo implements Serializable {
         this.time= CalendarUtils.getCurrentDate();
         this.ownMobile= SharedPreferencesManager.getString("userPhone", "");
         this.messageType=App.MESSAGE_TYPE_TEXT;
+        this.roleID=SharedPreferencesManager.getString("RoleID","");
     }
 
     public String getMessageID() {

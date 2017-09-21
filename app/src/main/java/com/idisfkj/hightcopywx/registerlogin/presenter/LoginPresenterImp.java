@@ -1,9 +1,9 @@
-package com.idisfkj.hightcopywx.registerLogin.presenter;
+package com.idisfkj.hightcopywx.registerlogin.presenter;
 
 import com.idisfkj.hightcopywx.App;
-import com.idisfkj.hightcopywx.registerLogin.model.LoginModel;
-import com.idisfkj.hightcopywx.registerLogin.model.LoginModelImp;
-import com.idisfkj.hightcopywx.registerLogin.view.LoginView;
+import com.idisfkj.hightcopywx.registerlogin.model.LoginModel;
+import com.idisfkj.hightcopywx.registerlogin.model.LoginModelImp;
+import com.idisfkj.hightcopywx.registerlogin.view.LoginView;
 import com.idisfkj.hightcopywx.util.ToastUtils;
 import com.xiaomi.mipush.sdk.MiPushClient;
 

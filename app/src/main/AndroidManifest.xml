@@ -27,7 +27,7 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name=".registerLogin.WelcomeActivity"
+            android:name=".registerlogin.WelcomeActivity"
             android:launchMode="singleTop"
             android:theme="@style/Theme.AppCompat.NoActionBar">
             <intent-filter>
@@ -43,8 +43,8 @@
         <activity
             android:name=".chat.widget.ChatActivityStudy"
             android:screenOrientation="portrait" />
-        <activity android:name=".registerLogin.widget.RegisterActivity" />
-        <activity android:name=".registerLogin.widget.LoginActivity" />
+        <activity android:name=".registerlogin.widget.RegisterActivity" />
+        <activity android:name=".registerlogin.widget.LoginActivity" />
         <activity android:name=".main.widget.AddFriendsActivity" />
         <activity android:name=".main.widget.SearchResultActivity" />
 

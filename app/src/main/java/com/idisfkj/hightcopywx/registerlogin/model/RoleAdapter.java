@@ -1,4 +1,4 @@
-package com.idisfkj.hightcopywx.registerLogin.model;
+package com.idisfkj.hightcopywx.registerlogin.model;
 
 import com.idisfkj.hightcopywx.R;
 

@@ -1,4 +1,4 @@
-package com.idisfkj.hightcopywx.registerLogin.model;
+package com.idisfkj.hightcopywx.registerlogin.model;
 
 /**
  * Created by idisfkj on 16/4/28.

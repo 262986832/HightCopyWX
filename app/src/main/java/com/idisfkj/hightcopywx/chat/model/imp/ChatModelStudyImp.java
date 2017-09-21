@@ -33,7 +33,7 @@ import static android.content.ContentValues.TAG;
 public class ChatModelStudyImp extends ChatModelBase implements ChatModelStudy {
     private List<WordsStudentEntity> mWordsStudentEntityList = null;
     private boolean mIslast = false;
-    private int allStudyCount = 1;
+    private int mAllStudyCount = 1;
     private int mListIndex = 0;
     private int mWordListsCount = 0;
     private WordsStudentEntity mPreviousWords;
@@ -93,14 +93,24 @@ public class ChatModelStudyImp extends ChatModelBase implements ChatModelStudy {
             mPreviousWords = mWordsStudentEntityList.get(mListIndex);
             ++mListIndex;
             if (mListIndex == mWordListsCount) {
-                ++allStudyCount;
-                if (allStudyCount <= App.FIRST_EXERCISE_DAY) {
+                ++mAllStudyCount;
+                if (mAllStudyCount <= App.CORRECT_COUNT_PASS) {
                     mListIndex = 0;
                 } else {
                     mIslast = true;
                 }
             }
-            return chatMessageInfo;
+        } else {
+            //学习完成
+            chatMessageInfo.setStatus(App.MESSAGE_STATUS_SENDING);
+            chatMessageInfo.setChatRoomID(chatRoomID);
+            chatMessageInfo.setMessageType(App.MESSAGE_TYPE_CARD);
+            chatMessageInfo.setMessageTitle("学习完成");
+            chatMessageInfo.setMessageContent("");
+            chatMessageInfo.setMessageImgUrl("");
+            chatMessageInfo.setSendOrReciveFlag(App.RECEIVE_FLAG);
+            chatMessageInfo.setSendMobile(chatRoomID);
+            chatMessageInfo.setSendName("贝贝");
         }
         return chatMessageInfo;
     }

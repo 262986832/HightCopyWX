@@ -16,7 +16,7 @@ import com.bumptech.glide.Glide;
 import com.idisfkj.hightcopywx.App;
 import com.idisfkj.hightcopywx.R;
 import com.idisfkj.hightcopywx.dao.ChatMessageDataHelper;
-import com.idisfkj.hightcopywx.registerLogin.widget.RegisterActivity;
+import com.idisfkj.hightcopywx.registerlogin.widget.RegisterActivity;
 import com.idisfkj.hightcopywx.util.CursorUtils;
 import com.idisfkj.hightcopywx.util.ToastUtils;
 
@@ -40,6 +40,7 @@ public class ChatAdapter extends RecyclerViewCursorBaseAdapter<RecyclerView.View
     private static final int SYSTEM_MESSAGE = 2;
     private Cursor mCursor;
     private Bitmap sendBitmap;
+    private String mRoleName;
 
     public ChatAdapter(Context context) {
         super(context, null);
@@ -49,6 +50,7 @@ public class ChatAdapter extends RecyclerViewCursorBaseAdapter<RecyclerView.View
         if (path.exists()) {
             sendBitmap = BitmapFactory.decodeFile(RegisterActivity.SAVE_PATH + RegisterActivity.PICTURE_NAME);
         }
+
     }
 
     public void setCursor(Cursor cursor) {
@@ -81,7 +83,7 @@ public class ChatAdapter extends RecyclerViewCursorBaseAdapter<RecyclerView.View
                     .setText(CursorUtils.formatString(cursor, ChatMessageDataHelper.ChatMessageDataInfo.sendName));
 
             int messageType = CursorUtils.formatInt(cursor, ChatMessageDataHelper.ChatMessageDataInfo.messageType);
-            if ( messageType == App.MESSAGE_TYPE_CARD) {
+            if (messageType == App.MESSAGE_TYPE_CARD) {
                 ((ChatReceiveViewHolder) holder).chat_receive_card.setVisibility(View.VISIBLE);
                 ((ChatReceiveViewHolder) holder).chatReceiveContent.setVisibility(View.GONE);
                 Glide.with(App.getAppContext()).
@@ -89,7 +91,7 @@ public class ChatAdapter extends RecyclerViewCursorBaseAdapter<RecyclerView.View
                         .crossFade(5000)
                         .placeholder(R.mipmap.ic_launcher)
                         .error(R.mipmap.ic_launcher)
-                        .into( ((ChatReceiveViewHolder) holder).chat_receive_card_imgurl);
+                        .into(((ChatReceiveViewHolder) holder).chat_receive_card_imgurl);
                 ((ChatReceiveViewHolder) holder).chat_receive_card_title.
                         setText(CursorUtils.formatString(cursor, ChatMessageDataHelper.ChatMessageDataInfo.messageTitle));
                 ((ChatReceiveViewHolder) holder).chat_receive_card_text.
@@ -112,6 +114,9 @@ public class ChatAdapter extends RecyclerViewCursorBaseAdapter<RecyclerView.View
 
             String name = App.userName;
             ((ChatSendViewHolder) holder).chat_send_man_name.setText(name);
+            mRoleName = CursorUtils.formatString(cursor, ChatMessageDataHelper.ChatMessageDataInfo.roleID)
+                    .equals("baby") ? "宝贝" : "家长";
+            ((ChatSendViewHolder) holder).chat_send_man_role.setText(mRoleName);
 
             if (sendBitmap != null)
                 ((ChatSendViewHolder) holder).chat_send_man_picture.setImageBitmap(sendBitmap);
@@ -154,6 +159,8 @@ public class ChatAdapter extends RecyclerViewCursorBaseAdapter<RecyclerView.View
         ImageView chat_send_man_picture;
         @InjectView(R.id.chat_send_man_name)
         TextView chat_send_man_name;
+        @InjectView(R.id.chat_send_man_role)
+        TextView chat_send_man_role;
 
         @InjectView(R.id.chat_send_content)
         TextView chatSendContent;

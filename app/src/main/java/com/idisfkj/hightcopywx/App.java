@@ -45,7 +45,7 @@ public class App extends Application{
     //生词需要练习几天后，继续联系
     public static final int FIRST_EXERCISE_DAY=3;
     //正确几次后，允许通过
-    public static final int CORRECT_COUNT_PASS=5;
+    public static final int CORRECT_COUNT_PASS=1;
     public static String mNowChatRoomID = "-1";
     public static String ownMobile = "-1";
     public static String token = "";

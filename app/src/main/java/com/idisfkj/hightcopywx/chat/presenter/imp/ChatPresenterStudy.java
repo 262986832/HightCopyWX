@@ -3,7 +3,7 @@ package com.idisfkj.hightcopywx.chat.presenter.imp;
 import com.idisfkj.hightcopywx.beans.ChatMessageInfo;
 import com.idisfkj.hightcopywx.chat.model.ChatModelStudy;
 import com.idisfkj.hightcopywx.chat.model.imp.ChatModelStudyImp;
-import com.idisfkj.hightcopywx.util.ToastUtils;
+import com.idisfkj.hightcopywx.util.SharedPreferencesManager;
 
 /**
  * Created by fvelement on 2017/9/15.
@@ -13,33 +13,35 @@ public class ChatPresenterStudy extends ChatPresenterBase implements ChatModelSt
     private ChatModelStudy mStudyModel;
     private ChatMessageInfo mChatMessageInfo;
     private String mChatRoomID;
+    private String mRoleID;
 
     public ChatPresenterStudy() {
         mChatModel = new ChatModelStudyImp();
         mStudyModel = (ChatModelStudyImp) mChatModel;
-        mStudyModel.initData(this);
+        mRoleID = SharedPreferencesManager.getString("RoleID", "");
+        if (mRoleID.equals("baby"))
+            mStudyModel.initData(this);
     }
 
     public void startStudy(String chatRoomId) {
         mChatRoomID = chatRoomId;
-        if (mStudyModel.isLast()) {
-            ToastUtils.showShort("今日学习完毕！");
-        } else {
-            mChatMessageInfo = mStudyModel.getStudyMessage(chatRoomId);
-            super.sendData(mChatMessageInfo);
-        }
-
+        mChatMessageInfo = mStudyModel.getStudyMessage(chatRoomId);
+        super.sendData(mChatMessageInfo);
     }
 
     @Override
     public void sendData(ChatMessageInfo chatMessageInfo) {
         super.sendData(chatMessageInfo);
-        if (mChatMessageInfo!=null && chatMessageInfo.getMessageContent().equals(mChatMessageInfo.getMessageTitle())) {
-            mStudyModel.updateStateCorrect();
-        }else {
-            mStudyModel.updateStateWrong();
+        if (mRoleID.equals("baby")) {
+            if (!mStudyModel.isLast()) {
+                if (mChatMessageInfo != null && chatMessageInfo.getMessageContent().equals(mChatMessageInfo.getMessageTitle())) {
+                    mStudyModel.updateStateCorrect();
+                } else {
+                    mStudyModel.updateStateWrong();
+                }
+            }
+            this.startStudy(mChatRoomID);
         }
-        this.startStudy(mChatRoomID);
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.idisfkj.hightcopywx.registerLogin.widget;
+package com.idisfkj.hightcopywx.registerlogin.widget;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -18,9 +18,9 @@ import android.widget.ImageView;
 
 import com.idisfkj.hightcopywx.R;
 import com.idisfkj.hightcopywx.main.widget.MainActivity;
-import com.idisfkj.hightcopywx.registerLogin.presenter.RegisterPresenter;
-import com.idisfkj.hightcopywx.registerLogin.presenter.RegisterPresenterImp;
-import com.idisfkj.hightcopywx.registerLogin.view.RegisterView;
+import com.idisfkj.hightcopywx.registerlogin.presenter.RegisterPresenter;
+import com.idisfkj.hightcopywx.registerlogin.presenter.RegisterPresenterImp;
+import com.idisfkj.hightcopywx.registerlogin.view.RegisterView;
 import com.idisfkj.hightcopywx.util.ToastUtils;
 import com.idisfkj.hightcopywx.util.VolleyUtils;
 
