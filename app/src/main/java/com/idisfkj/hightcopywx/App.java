@@ -42,12 +42,17 @@ public class App extends Application{
     public static final int MESSAGE_STATUS_SUCCESS=0;
     public static final int MESSAGE_STATUS_FAIL=1;
     public static final int MESSAGE_STATUS_SENDING=2;
+    //生词需要练习几天后，继续联系
+    public static final int FIRST_EXERCISE_DAY=3;
+    //正确几次后，允许通过
+    public static final int CORRECT_COUNT_PASS=5;
     public static String mNowChatRoomID = "-1";
     public static String ownMobile = "-1";
     public static String token = "";
     public static String userName = "宝贝";
     public static SharedPreferences sp;
     public static SharedPreferences.Editor editor;
+
 
 
     @Override

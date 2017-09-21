@@ -16,6 +16,10 @@ import com.idisfkj.hightcopywx.util.GsonRequest;
 import com.idisfkj.hightcopywx.util.UrlUtils;
 import com.idisfkj.hightcopywx.util.VolleyUtils;
 
+import org.apache.commons.lang3.time.DateUtils;
+
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,7 +35,10 @@ public class ChatModelStudyImp extends ChatModelBase implements ChatModelStudy {
     private boolean mIslast = false;
     private int allStudyCount = 1;
     private int mListIndex = 0;
+    private int mWordListsCount = 0;
+    private WordsStudentEntity mPreviousWords;
     String jsonMessage;
+
     public ChatModelStudyImp() {
     }
 
@@ -67,14 +74,14 @@ public class ChatModelStudyImp extends ChatModelBase implements ChatModelStudy {
 
     private void insert(List<WordsStudentEntity> wordsStudentEntityList) {
         this.mWordsStudentEntityList = wordsStudentEntityList;
+        this.mWordListsCount = mWordsStudentEntityList.size();
     }
 
 
     @Override
     public ChatMessageInfo getStudyMessage(String chatRoomID) {
         ChatMessageInfo chatMessageInfo = new ChatMessageInfo();
-        int allcount = mWordsStudentEntityList.size();
-        if (mListIndex < allcount) {
+        if (mListIndex < mWordListsCount) {
             chatMessageInfo.setStatus(App.MESSAGE_STATUS_SENDING);
             chatMessageInfo.setChatRoomID(chatRoomID);
             chatMessageInfo.setMessageType(App.MESSAGE_TYPE_CARD);
@@ -83,35 +90,88 @@ public class ChatModelStudyImp extends ChatModelBase implements ChatModelStudy {
             chatMessageInfo.setMessageImgUrl(mWordsStudentEntityList.get(mListIndex).getImgurl());
             chatMessageInfo.setSendOrReciveFlag(App.RECEIVE_FLAG);
             chatMessageInfo.setSendMobile(chatRoomID);
-            //chatMessageInfo.setSendName("贝贝");
+            chatMessageInfo.setSendName("贝贝");
+            mPreviousWords = mWordsStudentEntityList.get(mListIndex);
             ++mListIndex;
-            return chatMessageInfo;
-        } else {
-            ++allStudyCount;
-            if (allStudyCount <= 3) {
-                mListIndex = 0;
-            } else {
-                mIslast = true;
+            if (mListIndex == mWordListsCount) {
+                ++allStudyCount;
+                if (allStudyCount <= App.FIRST_EXERCISE_DAY) {
+                    mListIndex = 0;
+                } else {
+                    mIslast = true;
+                }
             }
+            return chatMessageInfo;
         }
         return chatMessageInfo;
     }
+
+    private WordsStudentEntity getPreviousWords() {
+        return mPreviousWords;
+    }
+
     @Override
-    public void updateStateWrong(){
-        int previousIndex=mListIndex-1;
-        mWordsStudentEntityList.get(previousIndex).setFirstwrongcount(1);
+    public void updateStateWrong() {
+        int wrongCount;
+        if (getPreviousWords().getFirstpassdate() == null) {
+            wrongCount = getPreviousWords().getFirstwrongcount();
+            getPreviousWords().setFirstwrongcount(++wrongCount);
+        } else if (getPreviousWords().getFirstpassdate() != null && getPreviousWords().getSecondpassdate() == null) {
+            wrongCount = getPreviousWords().getSecondwrongcount();
+            getPreviousWords().setSecondwrongcount(++wrongCount);
+        } else if (getPreviousWords().getSecondpassdate() != null && getPreviousWords().getThirdpassdate() == null) {
+            wrongCount = getPreviousWords().getThirdwrongcount();
+            getPreviousWords().setThirdwrongcount(++wrongCount);
+        } else if (getPreviousWords().getThirdpassdate() != null && getPreviousWords().getFourthpassdate() == null) {
+            wrongCount = getPreviousWords().getFourthwrongcount();
+            getPreviousWords().setFourthwrongcount(++wrongCount);
+        } else {
+            wrongCount = getPreviousWords().getFourthwrongcount();
+            getPreviousWords().setFourthwrongcount(++wrongCount);
+        }
         post();
     }
+
     @Override
-    public void updateStateCorrect(){
-        int previousIndex=mListIndex-1;
-        mWordsStudentEntityList.get(previousIndex).setFirstcorrectcount(1);
+    public void updateStateCorrect() {
+        int CorrectCount;
+        Date previousExerciseDate;
+        Date now = new Date();
+        if (getPreviousWords().getFirstpassdate() == null) {
+            CorrectCount = getPreviousWords().getFirstcorrectcount();
+            getPreviousWords().setFirstcorrectcount(++CorrectCount);
+            previousExerciseDate = getPreviousWords().getFirstinserttime();
+            if (DateUtils.truncatedEquals(now, DateUtils.addDays(previousExerciseDate, App.FIRST_EXERCISE_DAY), Calendar.DATE)) {
+                getPreviousWords().setFirstpassdate(now);
+            }
+        } else if (getPreviousWords().getFirstpassdate() != null && getPreviousWords().getSecondpassdate() == null) {
+            CorrectCount = getPreviousWords().getSecondcorrectcount();
+            getPreviousWords().setSecondcorrectcount(++CorrectCount);
+            if (CorrectCount > App.CORRECT_COUNT_PASS) {
+                getPreviousWords().setSecondpassdate(now);
+            }
+        } else if (getPreviousWords().getSecondpassdate() != null && getPreviousWords().getThirdpassdate() == null) {
+            CorrectCount = getPreviousWords().getThirdcorrectcount();
+            getPreviousWords().setThirdcorrectcount(++CorrectCount);
+            if (CorrectCount > App.CORRECT_COUNT_PASS) {
+                getPreviousWords().setThirdpassdate(now);
+            }
+        } else if (getPreviousWords().getThirdpassdate() != null && getPreviousWords().getFourthpassdate() == null) {
+            CorrectCount = getPreviousWords().getFourthcorrectcount();
+            getPreviousWords().setFourthcorrectcount(++CorrectCount);
+            if (CorrectCount > App.CORRECT_COUNT_PASS) {
+                getPreviousWords().setFourthpassdate(now);
+            }
+        } else {
+            CorrectCount = getPreviousWords().getFourthcorrectcount();
+            getPreviousWords().setFourthcorrectcount(++CorrectCount);
+        }
         post();
     }
-    private void post(){
-        int previousIndex=mListIndex-1;
+
+    private void post() {
         Gson gson = new Gson();
-        jsonMessage = gson.toJson(mWordsStudentEntityList.get(previousIndex));
+        jsonMessage = gson.toJson(getPreviousWords());
         GsonRequest<RespondStudy> gsonRequest = new GsonRequest<RespondStudy>(Request.Method.POST,
                 UrlUtils.updateNowDayWordStateApiUrl(jsonMessage), RespondStudy.class,
                 new Response.Listener<RespondStudy>() {
@@ -135,6 +195,7 @@ public class ChatModelStudyImp extends ChatModelBase implements ChatModelStudy {
                 header.put("token", App.token);
                 return header;
             }
+
             @Override
             public byte[] getBody() throws AuthFailureError {
                 return jsonMessage.getBytes();
