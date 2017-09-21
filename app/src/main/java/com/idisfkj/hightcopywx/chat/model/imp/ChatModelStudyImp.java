@@ -54,7 +54,6 @@ public class ChatModelStudyImp extends ChatModelBase implements ChatModelStudy {
                             insert(respondStudy.getListWords());
                             listener.onInitSucceed();
                         }
-
                     }
                 }, new Response.ErrorListener() {
             @Override
