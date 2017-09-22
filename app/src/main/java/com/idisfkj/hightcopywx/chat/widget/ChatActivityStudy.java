@@ -26,6 +26,5 @@ public class ChatActivityStudy extends ChatActivity{
     public void onVoiceClick() {
         speechRecognizerService.setParam("en_us");
         super.onVoiceClick();
-
     }
 }

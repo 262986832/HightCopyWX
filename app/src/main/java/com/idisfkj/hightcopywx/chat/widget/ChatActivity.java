@@ -9,7 +9,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -61,8 +60,6 @@ public class ChatActivity extends BaseActivity<ChatView, ChatPresenterBase>
     SwipeRefreshLayout swipeRefreshLayout;
 
     private ChatAdapter mChatAdapter;
-    private InputMethodManager manager;
-
     private String chatTitle;
     protected String mChatRoomID;
 
@@ -137,8 +134,6 @@ public class ChatActivity extends BaseActivity<ChatView, ChatPresenterBase>
         return super.onOptionsItemSelected(item);
     }
 
-
-
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
         chatLine.setBackgroundColor(getResources().getColor(R.color.tab_color_s));
@@ -179,7 +174,7 @@ public class ChatActivity extends BaseActivity<ChatView, ChatPresenterBase>
     @OnClick(R.id.chat_send)
     public void onClick() {
         String chatContent = mChatContent.getText().toString();
-        sendMessage(chatContent,App.MESSAGE_TYPE_VOICE);
+        sendMessage(chatContent,App.MESSAGE_TYPE_TEXT);
         mChatContent.setText("");
     }
 

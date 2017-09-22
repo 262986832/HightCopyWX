@@ -55,7 +55,6 @@ public class App extends Application{
     public static SharedPreferences.Editor editor;
 
 
-
     @Override
     public void onCreate() {
         super.onCreate();
@@ -86,6 +85,7 @@ public class App extends Application{
         Logger.setLogger(this, newLogger);
 
     }
+
 
     private boolean shouldInit() {
         ActivityManager am = ((ActivityManager) getSystemService(Context.ACTIVITY_SERVICE));

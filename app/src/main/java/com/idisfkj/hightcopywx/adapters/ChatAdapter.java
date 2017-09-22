@@ -27,6 +27,8 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
+import static com.idisfkj.hightcopywx.R.id.chat_receive_content;
+
 /**
  * 聊天适配器
  * Created by idisfkj on 16/4/25.
@@ -74,7 +76,7 @@ public class ChatAdapter extends RecyclerViewCursorBaseAdapter<RecyclerView.View
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, Cursor cursor) {
-
+        int messageType = CursorUtils.formatInt(cursor, ChatMessageDataHelper.ChatMessageDataInfo.messageType);
         if (holder instanceof ChatReceiveViewHolder) {
 
             ((ChatReceiveViewHolder) holder).chatReceiveTime.
@@ -83,7 +85,6 @@ public class ChatAdapter extends RecyclerViewCursorBaseAdapter<RecyclerView.View
             ((ChatReceiveViewHolder) holder).chat_receive_man_name
                     .setText(CursorUtils.formatString(cursor, ChatMessageDataHelper.ChatMessageDataInfo.sendName));
 
-            int messageType = CursorUtils.formatInt(cursor, ChatMessageDataHelper.ChatMessageDataInfo.messageType);
             if (messageType == App.MESSAGE_TYPE_CARD) {
                 ((ChatReceiveViewHolder) holder).chat_receive_card.setVisibility(View.VISIBLE);
                 ((ChatReceiveViewHolder) holder).chatReceiveContent.setVisibility(View.GONE);
@@ -119,6 +120,14 @@ public class ChatAdapter extends RecyclerViewCursorBaseAdapter<RecyclerView.View
                     .equals("baby") ? "宝贝" : "家长";
             ((ChatSendViewHolder) holder).chat_send_man_role.setText(mRoleName);
 
+            if(messageType==App.MESSAGE_TYPE_VOICE){
+                ((ChatSendViewHolder) holder).chat_send_voice.setVisibility(View.VISIBLE);
+                ((ChatSendViewHolder) holder).chatSendContent.setVisibility(View.GONE);
+            }else {
+                ((ChatSendViewHolder) holder).chat_send_voice.setVisibility(View.GONE);
+                ((ChatSendViewHolder) holder).chatSendContent.setVisibility(View.VISIBLE);
+            }
+
             if (sendBitmap != null)
                 ((ChatSendViewHolder) holder).chat_send_man_picture.setImageBitmap(sendBitmap);
 
@@ -134,7 +143,7 @@ public class ChatAdapter extends RecyclerViewCursorBaseAdapter<RecyclerView.View
 //            }
 
 
-            ((ChatSendViewHolder) holder).chatSendContent.setVisibility(View.VISIBLE);
+
         } else {
             ((ChatSystemViewHolder) holder).chatSystemTime.
                     setText(CursorUtils.formatString(cursor, ChatMessageDataHelper.ChatMessageDataInfo.time));
@@ -170,6 +179,8 @@ public class ChatAdapter extends RecyclerViewCursorBaseAdapter<RecyclerView.View
         @InjectView(R.id.chat_send_man_role)
         TextView chat_send_man_role;
 
+        @InjectView(R.id.chat_send_voice)
+        TextView chat_send_voice;
         @InjectView(R.id.chat_send_content)
         TextView chatSendContent;
         @InjectView(R.id.chat_item_fail)
@@ -191,6 +202,11 @@ public class ChatAdapter extends RecyclerViewCursorBaseAdapter<RecyclerView.View
         public void onContentClick() {
             ToastUtils.showShort(chatSendContent.getText());
         }
+
+        @OnClick(R.id.chat_send_voice)
+        public void onVoiceClick() {
+            ToastUtils.showShort("voice");
+        }
     }
 
     //收到信息
@@ -199,7 +215,7 @@ public class ChatAdapter extends RecyclerViewCursorBaseAdapter<RecyclerView.View
         TextView chatReceiveTime;
         @InjectView(R.id.chat_receive_picture)
         ImageView chatReceivePicture;
-        @InjectView(R.id.chat_receive_content)
+        @InjectView(chat_receive_content)
         TextView chatReceiveContent;
 
         @InjectView(R.id.chat_receive_man_name)
@@ -230,6 +246,11 @@ public class ChatAdapter extends RecyclerViewCursorBaseAdapter<RecyclerView.View
         @OnClick({R.id.chat_receive_card_text})
         public void onContentClick() {
             speechSynthesizerService.play(chat_receive_card_text.getText().toString());
+        }
+
+        @OnClick({chat_receive_content})
+        public void onReceiveContentClick() {
+            speechSynthesizerService.play(chatReceiveContent.getText().toString());
         }
 
     }

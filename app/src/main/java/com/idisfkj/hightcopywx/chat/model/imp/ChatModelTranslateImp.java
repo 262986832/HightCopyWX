@@ -11,6 +11,7 @@ import com.idisfkj.hightcopywx.beans.BaiduFanyiResponse;
 import com.idisfkj.hightcopywx.beans.ChatMessageInfo;
 import com.idisfkj.hightcopywx.chat.model.ChatModel;
 import com.idisfkj.hightcopywx.util.GsonRequest;
+import com.idisfkj.hightcopywx.util.SpeechSynthesizerService;
 import com.idisfkj.hightcopywx.util.UrlUtils;
 import com.idisfkj.hightcopywx.util.VolleyUtils;
 
@@ -25,9 +26,11 @@ import static android.content.ContentValues.TAG;
 
 public class ChatModelTranslateImp implements ChatModel {
     private int type;
+    protected SpeechSynthesizerService speechSynthesizerService;
 
     public ChatModelTranslateImp(int type) {
         this.type = type;
+        speechSynthesizerService = new SpeechSynthesizerService(App.getAppContext());
     }
 
     @Override
@@ -40,6 +43,7 @@ public class ChatModelTranslateImp implements ChatModel {
                     public void onResponse(BaiduFanyiResponse baiduFanyiResponse) {
                         if (baiduFanyiResponse.getTrans_result() != null && baiduFanyiResponse.getTrans_result().size() > 0) {
                             String result = (String) baiduFanyiResponse.getTrans_result().get(0).getDst();
+                            play(result);
                             ChatMessageInfo mChatMessageInfo = new ChatMessageInfo();
                             mChatMessageInfo.setStatus(App.MESSAGE_STATUS_SUCCESS);
                             mChatMessageInfo.setChatRoomID(chatMessageInfo.getChatRoomID());
@@ -47,7 +51,7 @@ public class ChatModelTranslateImp implements ChatModel {
                             mChatMessageInfo.setSendOrReciveFlag(App.RECEIVE_FLAG);
                             mChatMessageInfo.setSendMobile(chatMessageInfo.getSendMobile());
                             mChatMessageInfo.setSendName("贝贝翻译");
-                            listener.onRequestSucceed(chatMessageInfo,mChatMessageInfo);
+                            listener.onRequestSucceed(chatMessageInfo, mChatMessageInfo);
                         }
 
                     }
@@ -68,6 +72,9 @@ public class ChatModelTranslateImp implements ChatModel {
         VolleyUtils.addQueue(gsonRequest, "chatRequest");
     }
 
+    private void play(String string) {
+        speechSynthesizerService.play(string);
+    }
 
 
 }
