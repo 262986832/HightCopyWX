@@ -12,7 +12,7 @@ import android.widget.TextView;
 import com.idisfkj.hightcopywx.R;
 import com.idisfkj.hightcopywx.dao.RegisterDataHelper;
 import com.idisfkj.hightcopywx.main.presenter.AddFriendsPresenter;
-import com.idisfkj.hightcopywx.main.presenter.AddFriendsPresenterImp;
+import com.idisfkj.hightcopywx.main.presenter.imp.AddFriendsPresenterImp;
 import com.idisfkj.hightcopywx.main.view.AddFriendsView;
 import com.idisfkj.hightcopywx.base.widget.BaseActivity;
 import com.idisfkj.hightcopywx.util.ToastUtils;

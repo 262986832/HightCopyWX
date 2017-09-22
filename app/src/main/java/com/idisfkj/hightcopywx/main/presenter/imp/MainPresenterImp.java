@@ -1,4 +1,4 @@
-package com.idisfkj.hightcopywx.main.presenter;
+package com.idisfkj.hightcopywx.main.presenter.imp;
 
 import com.idisfkj.hightcopywx.App;
 import com.idisfkj.hightcopywx.R;
@@ -9,7 +9,8 @@ import com.idisfkj.hightcopywx.beans.eventbus.RestartLoader;
 import com.idisfkj.hightcopywx.dao.ChatMessageDataHelper;
 import com.idisfkj.hightcopywx.dao.ChatRoomsDataHelper;
 import com.idisfkj.hightcopywx.main.model.MainModel;
-import com.idisfkj.hightcopywx.main.model.MainModelImp;
+import com.idisfkj.hightcopywx.main.model.imp.MainModelImp;
+import com.idisfkj.hightcopywx.main.presenter.MainPresenter;
 import com.idisfkj.hightcopywx.main.view.MainView;
 import com.idisfkj.hightcopywx.util.SharedPreferencesManager;
 

@@ -1,4 +1,4 @@
-package com.idisfkj.hightcopywx.registerlogin.presenter;
+package com.idisfkj.hightcopywx.registerlogin.presenter.imp;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -7,7 +7,8 @@ import android.widget.EditText;
 
 import com.idisfkj.hightcopywx.R;
 import com.idisfkj.hightcopywx.registerlogin.model.RegisterModel;
-import com.idisfkj.hightcopywx.registerlogin.model.RegisterModelImp;
+import com.idisfkj.hightcopywx.registerlogin.model.imp.RegisterModelImp;
+import com.idisfkj.hightcopywx.registerlogin.presenter.RegisterPresenter;
 import com.idisfkj.hightcopywx.registerlogin.view.RegisterView;
 import com.idisfkj.hightcopywx.util.ToastUtils;
 

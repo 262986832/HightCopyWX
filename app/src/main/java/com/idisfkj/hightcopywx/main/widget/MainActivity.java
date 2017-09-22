@@ -15,7 +15,7 @@ import com.idisfkj.hightcopywx.base.widget.BaseActivity;
 import com.idisfkj.hightcopywx.beans.ChatMessageInfo;
 import com.idisfkj.hightcopywx.beans.UnReadNumber;
 import com.idisfkj.hightcopywx.chat.widget.ChatActivity;
-import com.idisfkj.hightcopywx.main.presenter.MainPresenterImp;
+import com.idisfkj.hightcopywx.main.presenter.imp.MainPresenterImp;
 import com.idisfkj.hightcopywx.main.view.MainView;
 import com.readystatesoftware.viewbadger.BadgeView;
 

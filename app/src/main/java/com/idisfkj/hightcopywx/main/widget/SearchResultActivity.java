@@ -13,7 +13,7 @@ import com.idisfkj.hightcopywx.R;
 import com.idisfkj.hightcopywx.adapters.SearchResultAdapter;
 import com.idisfkj.hightcopywx.dao.RegisterDataHelper;
 import com.idisfkj.hightcopywx.main.presenter.SearchResultPresenter;
-import com.idisfkj.hightcopywx.main.presenter.SearchResultPresenterImp;
+import com.idisfkj.hightcopywx.main.presenter.imp.SearchResultPresenterImp;
 import com.idisfkj.hightcopywx.main.view.SearchResultView;
 import com.idisfkj.hightcopywx.base.widget.BaseActivity;
 import com.idisfkj.hightcopywx.util.ToastUtils;

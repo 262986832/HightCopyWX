@@ -1,4 +1,4 @@
-package com.idisfkj.hightcopywx.main.model;
+package com.idisfkj.hightcopywx.main.model.imp;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -17,6 +17,7 @@ import com.idisfkj.hightcopywx.R;
 import com.idisfkj.hightcopywx.adapters.SearchResultAdapter;
 import com.idisfkj.hightcopywx.dao.ChatRoomsDataHelper;
 import com.idisfkj.hightcopywx.dao.RegisterDataHelper;
+import com.idisfkj.hightcopywx.main.model.SearchResultModel;
 import com.idisfkj.hightcopywx.util.CursorUtils;
 import com.idisfkj.hightcopywx.util.SharedPreferencesManager;
 import com.idisfkj.hightcopywx.util.ToastUtils;

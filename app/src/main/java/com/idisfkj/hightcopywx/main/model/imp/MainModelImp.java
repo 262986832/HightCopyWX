@@ -1,4 +1,6 @@
-package com.idisfkj.hightcopywx.main.model;
+package com.idisfkj.hightcopywx.main.model.imp;
+
+import com.idisfkj.hightcopywx.main.model.MainModel;
 
 /**
  * Created by idisfkj on 16/4/29.

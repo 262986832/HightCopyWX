@@ -19,7 +19,7 @@ import android.widget.ImageView;
 import com.idisfkj.hightcopywx.R;
 import com.idisfkj.hightcopywx.main.widget.MainActivity;
 import com.idisfkj.hightcopywx.registerlogin.presenter.RegisterPresenter;
-import com.idisfkj.hightcopywx.registerlogin.presenter.RegisterPresenterImp;
+import com.idisfkj.hightcopywx.registerlogin.presenter.imp.RegisterPresenterImp;
 import com.idisfkj.hightcopywx.registerlogin.view.RegisterView;
 import com.idisfkj.hightcopywx.util.ToastUtils;
 import com.idisfkj.hightcopywx.util.VolleyUtils;

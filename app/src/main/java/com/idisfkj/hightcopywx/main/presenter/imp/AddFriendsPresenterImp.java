@@ -1,10 +1,11 @@
-package com.idisfkj.hightcopywx.main.presenter;
+package com.idisfkj.hightcopywx.main.presenter.imp;
 
 import android.database.Cursor;
 import android.widget.TextView;
 
 import com.idisfkj.hightcopywx.base.presenter.BasePresenter;
 import com.idisfkj.hightcopywx.dao.RegisterDataHelper;
+import com.idisfkj.hightcopywx.main.presenter.AddFriendsPresenter;
 import com.idisfkj.hightcopywx.main.view.AddFriendsView;
 
 /**

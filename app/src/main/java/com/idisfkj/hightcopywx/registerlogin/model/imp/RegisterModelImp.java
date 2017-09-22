@@ -1,4 +1,4 @@
-package com.idisfkj.hightcopywx.registerlogin.model;
+package com.idisfkj.hightcopywx.registerlogin.model.imp;
 
 import android.util.Log;
 
@@ -8,6 +8,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.idisfkj.hightcopywx.App;
 import com.idisfkj.hightcopywx.beans.ResponsdServer;
+import com.idisfkj.hightcopywx.registerlogin.model.RegisterModel;
 import com.idisfkj.hightcopywx.util.GsonRequest;
 import com.idisfkj.hightcopywx.util.SharedPreferencesManager;
 import com.idisfkj.hightcopywx.util.UrlUtils;

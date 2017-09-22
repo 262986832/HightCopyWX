@@ -62,7 +62,6 @@ public class ChatActivity extends BaseActivity<ChatView, ChatPresenterBase>
     private ChatAdapter mChatAdapter;
     private String chatTitle;
     protected String mChatRoomID;
-
     //语音识别服务
     protected SpeechRecognizerService speechRecognizerService;
 
@@ -76,14 +75,12 @@ public class ChatActivity extends BaseActivity<ChatView, ChatPresenterBase>
         Bundle bundle = getIntent().getExtras();
         mChatRoomID = bundle.getString("chatRoomID");
         chatTitle = bundle.getString("chatTitle");
-
         init();
         initSpeech();
     }
 
     //初始化语音识别与语音合成
     private void initSpeech() {
-
         speechRecognizerService = new SpeechRecognizerService(this);
         speechRecognizerService.attachView(this);
     }
@@ -99,9 +96,7 @@ public class ChatActivity extends BaseActivity<ChatView, ChatPresenterBase>
             }
         });
         mChatContent.setOnFocusChangeListener(this);
-
         getLoaderManager().initLoader(0, null, this);
-
         //下拉刷新
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             public void onRefresh() {
@@ -111,7 +106,6 @@ public class ChatActivity extends BaseActivity<ChatView, ChatPresenterBase>
         });
         getActionBar().setTitle(chatTitle);
         getActionBar().setDisplayHomeAsUpEnabled(true);
-
     }
 
     private void getNewPayge() {
@@ -174,11 +168,11 @@ public class ChatActivity extends BaseActivity<ChatView, ChatPresenterBase>
     @OnClick(R.id.chat_send)
     public void onClick() {
         String chatContent = mChatContent.getText().toString();
-        sendMessage(chatContent,App.MESSAGE_TYPE_TEXT);
+        sendMessage(chatContent, App.MESSAGE_TYPE_TEXT);
         mChatContent.setText("");
     }
 
-    private void sendMessage(String message,int type){
+    private void sendMessage(String message, int type) {
         if (message.trim().length() > 0) {
             ChatMessageInfo chatMessageInfo = new ChatMessageInfo();
             chatMessageInfo.setSender();
@@ -237,7 +231,7 @@ public class ChatActivity extends BaseActivity<ChatView, ChatPresenterBase>
 
     @Override
     public void onSpeechRecognizerComplete(String string) {
-        sendMessage(string,App.MESSAGE_TYPE_VOICE);
+        sendMessage(string, App.MESSAGE_TYPE_VOICE);
     }
 
     @Override

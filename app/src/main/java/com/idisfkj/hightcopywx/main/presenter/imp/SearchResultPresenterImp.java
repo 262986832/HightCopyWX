@@ -1,4 +1,4 @@
-package com.idisfkj.hightcopywx.main.presenter;
+package com.idisfkj.hightcopywx.main.presenter.imp;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -12,7 +12,8 @@ import com.idisfkj.hightcopywx.beans.ChatRoomItemInfo;
 import com.idisfkj.hightcopywx.dao.ChatMessageDataHelper;
 import com.idisfkj.hightcopywx.dao.ChatRoomsDataHelper;
 import com.idisfkj.hightcopywx.main.model.SearchResultModel;
-import com.idisfkj.hightcopywx.main.model.SearchResultModelImp;
+import com.idisfkj.hightcopywx.main.model.imp.SearchResultModelImp;
+import com.idisfkj.hightcopywx.main.presenter.SearchResultPresenter;
 import com.idisfkj.hightcopywx.main.view.SearchResultView;
 import com.idisfkj.hightcopywx.util.SharedPreferencesManager;
 import com.idisfkj.hightcopywx.util.VolleyUtils;
