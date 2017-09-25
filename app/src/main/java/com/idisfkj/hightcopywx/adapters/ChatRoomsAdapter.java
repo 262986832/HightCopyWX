@@ -14,8 +14,8 @@ import com.idisfkj.hightcopywx.dao.ChatRoomsDataHelper;
 import com.idisfkj.hightcopywx.util.CursorUtils;
 import com.readystatesoftware.viewbadger.BadgeView;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 
 import static com.idisfkj.hightcopywx.util.CursorUtils.formatString;
 
@@ -64,13 +64,13 @@ public class ChatRoomsAdapter extends RecyclerViewCursorBaseAdapter<ChatRoomsAda
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        @InjectView(R.id.wx_item_picture)
+        @Bind(R.id.wx_item_picture)
         ImageView wxItemPicture;
-        @InjectView(R.id.wx_item_title)
+        @Bind(R.id.wx_item_title)
         TextView wxItemTitle;
-        @InjectView(R.id.wx_item_time)
+        @Bind(R.id.wx_item_time)
         TextView wxItemTime;
-        @InjectView(R.id.wx_item_content)
+        @Bind(R.id.wx_item_content)
         TextView wxItemContent;
         public int unReadNum;
         public BadgeView badgeView;
@@ -93,7 +93,7 @@ public class ChatRoomsAdapter extends RecyclerViewCursorBaseAdapter<ChatRoomsAda
 
         ViewHolder(View view, Context context) {
             super(view);
-            ButterKnife.inject(this, view);
+            ButterKnife.bind(this, view);
             mContext = context;
 
             badgeView = new BadgeView(mContext, wxItemPicture);

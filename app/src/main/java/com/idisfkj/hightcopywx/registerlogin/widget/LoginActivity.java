@@ -24,8 +24,8 @@ import com.xiaomi.mipush.sdk.MiPushClient;
 import java.util.List;
 import java.util.Map;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 import butterknife.OnClick;
 
 /**
@@ -33,13 +33,13 @@ import butterknife.OnClick;
  */
 
 public class LoginActivity extends Activity implements LoginView {
-    @InjectView(R.id.register_picture)
+    @Bind(R.id.register_picture)
     ImageView registerPicture;
-    @InjectView(R.id.userPhone_et)
+    @Bind(R.id.userPhone_et)
     EditText userPhone_et;
-    @InjectView(R.id.userPassword_et)
+    @Bind(R.id.userPassword_et)
     EditText userPassword_et;
-    @InjectView(R.id.spinnerRole)
+    @Bind(R.id.spinnerRole)
     Spinner spinnerRole;
 
     private String mRoleID;
@@ -50,7 +50,7 @@ public class LoginActivity extends Activity implements LoginView {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_layout);
-        ButterKnife.inject(this);
+        ButterKnife.bind(this);
         //取消icon图标
         getActionBar().setDisplayShowHomeEnabled(false);
         init();

@@ -24,10 +24,12 @@ public class SpeechRecognizerService {
     // 语音听写UI
     private RecognizerDialog mIatDialog;
     private ISpeechView iSpeechView;
-    public String lag="en_us";
-    public void attachView(ISpeechView view){
+    public String lag = "en_us";
+
+    public void attachView(ISpeechView view) {
         this.iSpeechView = view;
     }
+
     public SpeechRecognizerService(Context context) {
         // 初始化识别无UI识别对象
         // 使用SpeechRecognizer对象，可根据回调消息自定义界面；
@@ -37,6 +39,7 @@ public class SpeechRecognizerService {
         mIatDialog = new RecognizerDialog(context, mInitListener);
         setParam("zh_cn");
     }
+
     /**
      * 初始化监听器。
      */
@@ -44,7 +47,7 @@ public class SpeechRecognizerService {
         @Override
         public void onInit(int code) {
             if (code != ErrorCode.SUCCESS) {
-                iSpeechView.onSpeechRecognizerError("语音识别初始化失败："+code);
+                iSpeechView.onSpeechRecognizerError("语音识别初始化失败：" + code);
             }
         }
     };
@@ -84,9 +87,12 @@ public class SpeechRecognizerService {
     }
 
     public void startSpeechRecognizer() {
+        if (mIatDialog.isShowing())
+            mIatDialog.cancel();
         mIatDialog.setListener(mRecognizerDialogListener);
         mIatDialog.show();
     }
+
     /**
      * 听写UI监听器
      */
@@ -96,6 +102,7 @@ public class SpeechRecognizerService {
             String text = JsonParser.parseIatResult(results.getResultString());
             iSpeechView.onSpeechRecognizerComplete(text);
         }
+
         /**
          * 识别回调错误.
          */

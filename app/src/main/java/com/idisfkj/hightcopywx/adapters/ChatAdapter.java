@@ -23,8 +23,8 @@ import com.idisfkj.hightcopywx.util.ToastUtils;
 
 import java.io.File;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 import butterknife.OnClick;
 
 import static com.idisfkj.hightcopywx.R.id.chat_receive_content;
@@ -137,6 +137,8 @@ public class ChatAdapter extends RecyclerViewCursorBaseAdapter<RecyclerView.View
 
             ((ChatSendViewHolder) holder).chatSendContent.setText
                     (CursorUtils.formatString(cursor, ChatMessageDataHelper.ChatMessageDataInfo.messageContent));
+            ((ChatSendViewHolder) holder).chat_send_voice.setText
+                    (CursorUtils.formatString(cursor, ChatMessageDataHelper.ChatMessageDataInfo.messageContent));
 
 //            if (CursorUtils.formatInt(mCursor, ChatMessageDataHelper.ChatMessageDataInfo.sendOrReciveFlag) == App.MESSAGE_TYPE_TEXT) {
 //                ((ChatSendViewHolder) holder).chatSendContent.setCompoundDrawables(null, null, null, null);
@@ -170,27 +172,27 @@ public class ChatAdapter extends RecyclerViewCursorBaseAdapter<RecyclerView.View
 
     //发送信息
     public static class ChatSendViewHolder extends RecyclerView.ViewHolder {
-        @InjectView(R.id.chat_send_time)
+        @Bind(R.id.chat_send_time)
         TextView chatSendTime;
-        @InjectView(R.id.chat_send_man_picture)
+        @Bind(R.id.chat_send_man_picture)
         ImageView chat_send_man_picture;
-        @InjectView(R.id.chat_send_man_name)
+        @Bind(R.id.chat_send_man_name)
         TextView chat_send_man_name;
-        @InjectView(R.id.chat_send_man_role)
+        @Bind(R.id.chat_send_man_role)
         TextView chat_send_man_role;
 
-        @InjectView(R.id.chat_send_voice)
+        @Bind(R.id.chat_send_voice)
         TextView chat_send_voice;
-        @InjectView(R.id.chat_send_content)
+        @Bind(R.id.chat_send_content)
         TextView chatSendContent;
-        @InjectView(R.id.chat_item_fail)
+        @Bind(R.id.chat_item_fail)
         ImageView chat_item_fail;
 
         String content;
 
         ChatSendViewHolder(View view) {
             super(view);
-            ButterKnife.inject(this, view);
+            ButterKnife.bind(this, view);
         }
 
         @OnClick(R.id.chat_send_man_picture)
@@ -211,30 +213,30 @@ public class ChatAdapter extends RecyclerViewCursorBaseAdapter<RecyclerView.View
 
     //收到信息
     public static class ChatReceiveViewHolder extends RecyclerView.ViewHolder {
-        @InjectView(R.id.chat_receive_time)
+        @Bind(R.id.chat_receive_time)
         TextView chatReceiveTime;
-        @InjectView(R.id.chat_receive_picture)
+        @Bind(R.id.chat_receive_picture)
         ImageView chatReceivePicture;
-        @InjectView(chat_receive_content)
+        @Bind(chat_receive_content)
         TextView chatReceiveContent;
 
-        @InjectView(R.id.chat_receive_man_name)
+        @Bind(R.id.chat_receive_man_name)
         TextView chat_receive_man_name;
 
-        @InjectView(R.id.chat_receive_card_title)
+        @Bind(R.id.chat_receive_card_title)
         TextView chat_receive_card_title;
-        @InjectView(R.id.chat_receive_card_text)
+        @Bind(R.id.chat_receive_card_text)
         TextView chat_receive_card_text;
-        @InjectView(R.id.chat_receive_card_imgurl)
+        @Bind(R.id.chat_receive_card_imgurl)
         ImageView chat_receive_card_imgurl;
-        @InjectView(R.id.chat_receive_card)
+        @Bind(R.id.chat_receive_card)
         CardView chat_receive_card;
 
         protected SpeechSynthesizerService speechSynthesizerService;
 
         ChatReceiveViewHolder(View view) {
             super(view);
-            ButterKnife.inject(this, view);
+            ButterKnife.bind(this, view);
             speechSynthesizerService = new SpeechSynthesizerService(App.getAppContext());
         }
 
@@ -256,14 +258,14 @@ public class ChatAdapter extends RecyclerViewCursorBaseAdapter<RecyclerView.View
     }
 
     public static class ChatSystemViewHolder extends RecyclerView.ViewHolder {
-        @InjectView(R.id.chat_system_time)
+        @Bind(R.id.chat_system_time)
         TextView chatSystemTime;
-        @InjectView(R.id.chat_system_content)
+        @Bind(R.id.chat_system_content)
         TextView chatSystemContent;
 
         ChatSystemViewHolder(View view) {
             super(view);
-            ButterKnife.inject(this, view);
+            ButterKnife.bind(this, view);
         }
     }
 }

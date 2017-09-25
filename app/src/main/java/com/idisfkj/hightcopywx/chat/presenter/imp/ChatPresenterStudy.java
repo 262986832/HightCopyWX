@@ -14,6 +14,7 @@ public class ChatPresenterStudy extends ChatPresenterBase implements ChatModelSt
     private ChatMessageInfo mChatMessageInfo;
     private String mChatRoomID;
     private String mRoleID;
+    private int mTempWrongCount=0;
 
     public ChatPresenterStudy() {
         mChatModel = new ChatModelStudyImp();
@@ -28,7 +29,9 @@ public class ChatPresenterStudy extends ChatPresenterBase implements ChatModelSt
         mChatRoomID = chatRoomId;
         mChatMessageInfo = mStudyModel.getStudyMessage(chatRoomId);
         speechSynthesizerService.play(mChatMessageInfo.getMessageTitle());
+        mTempWrongCount=0;
         super.sendData(mChatMessageInfo);
+        //mViewRef.get().onSpeechRecognize();
     }
 
     @Override
@@ -36,13 +39,22 @@ public class ChatPresenterStudy extends ChatPresenterBase implements ChatModelSt
         super.sendData(chatMessageInfo);
         if (mRoleID.equals("baby")) {
             if (!mStudyModel.isLast()) {
-                if (mChatMessageInfo != null && chatMessageInfo.getMessageContent().equals(mChatMessageInfo.getMessageTitle())) {
+                if (mChatMessageInfo != null && chatMessageInfo.getMessageContent().toLowerCase().equals(mChatMessageInfo.getMessageTitle().toLowerCase())) {
                     mStudyModel.updateStateCorrect();
+                    this.startStudy(mChatRoomID);
                 } else {
                     mStudyModel.updateStateWrong();
+                    if(mTempWrongCount<3){
+                        speechSynthesizerService.play("try again.");
+                        speechSynthesizerService.play(mChatMessageInfo.getMessageTitle());
+                        //mViewRef.get().onSpeechRecognize();
+                        ++mTempWrongCount;
+                    }else {
+                        this.startStudy(mChatRoomID);
+                    }
                 }
             }
-            this.startStudy(mChatRoomID);
+
         }
     }
 

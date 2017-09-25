@@ -3,6 +3,7 @@ package com.idisfkj.hightcopywx.main.widget;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,43 +15,54 @@ import com.idisfkj.hightcopywx.adapters.FragmentAdapter;
 import com.idisfkj.hightcopywx.base.widget.BaseActivity;
 import com.idisfkj.hightcopywx.beans.ChatMessageInfo;
 import com.idisfkj.hightcopywx.beans.UnReadNumber;
+import com.idisfkj.hightcopywx.beans.eventbus.ShowSetDialog;
 import com.idisfkj.hightcopywx.chat.widget.ChatActivity;
 import com.idisfkj.hightcopywx.main.presenter.imp.MainPresenterImp;
 import com.idisfkj.hightcopywx.main.view.MainView;
+import com.idisfkj.hightcopywx.util.Auth;
+import com.qiniu.android.http.ResponseInfo;
+import com.qiniu.android.storage.UpCompletionHandler;
+import com.qiniu.android.storage.UploadManager;
 import com.readystatesoftware.viewbadger.BadgeView;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 import butterknife.OnClick;
+
+import static com.idisfkj.hightcopywx.registerlogin.widget.RegisterActivity.PICTURE_NAME;
+import static com.idisfkj.hightcopywx.registerlogin.widget.RegisterActivity.SAVE_PATH;
 
 public class MainActivity extends BaseActivity<MainView,MainPresenterImp> implements MainView {
 
-    @InjectView(R.id.viewPage)
+    @Bind(R.id.viewPage)
     ViewPager viewPage;
-    @InjectView(R.id.wei_xin_s)
+    @Bind(R.id.wei_xin_s)
     ImageView weiXinS;
-    @InjectView(R.id.address_book_s)
+    @Bind(R.id.address_book_s)
     ImageView addressBookS;
-    @InjectView(R.id.find_s)
+    @Bind(R.id.find_s)
     ImageView findS;
-    @InjectView(R.id.find)
+    @Bind(R.id.find)
     ImageView find;
-    @InjectView(R.id.me_s)
+    @Bind(R.id.me_s)
     ImageView meS;
-    @InjectView(R.id.tab_weiXin_s)
+    @Bind(R.id.tab_weiXin_s)
     TextView tabWeiXinS;
-    @InjectView(R.id.tab_address_s)
+    @Bind(R.id.tab_address_s)
     TextView tabAddressS;
-    @InjectView(R.id.tab_find_s)
+    @Bind(R.id.tab_find_s)
     TextView tabFindS;
-    @InjectView(R.id.tab_me_s)
+    @Bind(R.id.tab_me_s)
     TextView tabMeS;
 
     private List<ImageView> mListImage = new ArrayList<>();
@@ -63,7 +75,7 @@ public class MainActivity extends BaseActivity<MainView,MainPresenterImp> implem
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ButterKnife.inject(this);
+        ButterKnife.bind(this);
         EventBus.getDefault().register(this);//订阅总线消息
 
         init();
@@ -75,6 +87,7 @@ public class MainActivity extends BaseActivity<MainView,MainPresenterImp> implem
         }
 
     }
+
 
     //收到小米推送的消息
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
@@ -94,7 +107,15 @@ public class MainActivity extends BaseActivity<MainView,MainPresenterImp> implem
         }
     }
 
+    //
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void handleMessage(ShowSetDialog showSetDialog) {
+        Intent intent = new Intent(MainActivity.this, PictureActivity.class);
+        startActivity(intent);
+    }
+
     public void init() {
+
         FragmentAdapter adapter = new FragmentAdapter(getSupportFragmentManager());
         viewPage.setAdapter(adapter);
         weiXinS.setAlpha(1.0f);
@@ -218,12 +239,39 @@ public class MainActivity extends BaseActivity<MainView,MainPresenterImp> implem
         super.onDestroy();
         //取消注册事件
         EventBus.getDefault().unregister(this);
-        ButterKnife.reset(this);
+        ButterKnife.unbind(this);
     }
 
     @Override
     protected MainPresenterImp createPresenter() {
         return new MainPresenterImp();
+    }
+
+
+    private final String AccessKey="fKCbJcTRVhdQ-fxQ353HTfsYUdav7QYU54edsc2U";
+    private final String SecretKey="LO6jij2QURShZIr5y-FVqMD6C2HL08Mcv6FV7dk0";
+    private void uploadImg2QiNiu() {
+        final String TAG="";
+        UploadManager uploadManager = new UploadManager();
+        // 设置图片名字
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+        String key = "icon_" + sdf.format(new Date());
+        String picPath = SAVE_PATH;
+        Log.i(TAG, "picPath: " + picPath);
+        //Auth.create(AccessKey, SecretKey).uploadToken("zhongshan-avatar")，这句就是生成token
+        uploadManager.put(SAVE_PATH, PICTURE_NAME, Auth.create(AccessKey, SecretKey).uploadToken("dudu"), new UpCompletionHandler() {
+            @Override
+            public void complete(String key, ResponseInfo info, JSONObject res) {
+                // info.error中包含了错误信息，可打印调试
+                // 上传成功后将key值上传到自己的服务器
+                if (info.isOK()) {
+                    Log.i(TAG, "token===" + Auth.create(AccessKey, SecretKey).uploadToken("photo"));
+                    String headpicPath = "http://ov66bzns1.bkt.clouddn.com" + key;
+                    Log.i(TAG, "complete: " + headpicPath);
+                }
+                //     uploadpictoQianMo(headpicPath, picPath);
+            }
+        }, null);
     }
 
 }

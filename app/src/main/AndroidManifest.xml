@@ -41,6 +41,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity android:name=".main.widget.MainActivity" />
         <activity android:name=".chat.widget.ChatActivity" />
         <activity android:name=".chat.widget.ChatActivityTranslateEnToZh" />
@@ -50,8 +51,9 @@
             android:screenOrientation="portrait" />
         <activity android:name=".registerlogin.widget.RegisterActivity" />
         <activity android:name=".registerlogin.widget.LoginActivity" />
-        <activity android:name=".main.widget.AddFriendsActivity" />
         <activity android:name=".main.widget.SearchResultActivity" />
+        <activity
+            android:name=".main.widget.PictureActivity"/>
 
         <provider
             android:name=".dao.DataProvider"

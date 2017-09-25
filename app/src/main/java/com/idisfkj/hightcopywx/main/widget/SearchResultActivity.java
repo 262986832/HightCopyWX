@@ -11,16 +11,17 @@ import android.view.View;
 
 import com.idisfkj.hightcopywx.R;
 import com.idisfkj.hightcopywx.adapters.SearchResultAdapter;
+import com.idisfkj.hightcopywx.base.widget.BaseActivity;
+import com.idisfkj.hightcopywx.chat.WXItemDecoration;
 import com.idisfkj.hightcopywx.dao.RegisterDataHelper;
 import com.idisfkj.hightcopywx.main.presenter.SearchResultPresenter;
 import com.idisfkj.hightcopywx.main.presenter.imp.SearchResultPresenterImp;
 import com.idisfkj.hightcopywx.main.view.SearchResultView;
-import com.idisfkj.hightcopywx.base.widget.BaseActivity;
 import com.idisfkj.hightcopywx.util.ToastUtils;
-import com.idisfkj.hightcopywx.chat.WXItemDecoration;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
+
 
 /**
  * 搜寻结果展示
@@ -29,7 +30,7 @@ import butterknife.InjectView;
  */
 public class SearchResultActivity extends BaseActivity<SearchResultView,SearchResultPresenterImp> implements LoaderManager.LoaderCallbacks<Cursor>, SearchResultAdapter.SearchItemClickListener, SearchResultView{
 
-    @InjectView(R.id.search_result)
+    @Bind(R.id.search_result)
     RecyclerView searchResult;
 
     private String mSearchResult;
@@ -41,7 +42,7 @@ public class SearchResultActivity extends BaseActivity<SearchResultView,SearchRe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.search_result);
-        ButterKnife.inject(this);
+        ButterKnife.bind(this);
         getActionBar().setTitle(R.string.add_friends);
         mPresenter = new SearchResultPresenterImp(this);
         mSearchResult = getIntent().getStringExtra("searchResult");

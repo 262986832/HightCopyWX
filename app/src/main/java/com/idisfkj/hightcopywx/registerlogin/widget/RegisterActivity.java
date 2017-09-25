@@ -29,7 +29,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 
 import butterknife.ButterKnife;
-import butterknife.InjectView;
+import butterknife.Bind;
 import butterknife.OnClick;
 
 /**
@@ -39,21 +39,21 @@ import butterknife.OnClick;
  */
 public class RegisterActivity extends Activity implements RegisterView, View.OnFocusChangeListener {
 
-    @InjectView(R.id.register_picture)
+    @Bind(R.id.register_picture)
     ImageView registerPicture;
-    @InjectView(R.id.userName_line)
+    @Bind(R.id.userName_line)
     View userNameLine;
-    @InjectView(R.id.userName_et)
+    @Bind(R.id.userName_et)
     EditText userNameEt;
-    @InjectView(R.id.userPhone_line)
+    @Bind(R.id.userPhone_line)
     View userPhoneLine;
-    @InjectView(R.id.userPhone_et)
+    @Bind(R.id.userPhone_et)
     EditText userPhoneEt;
-    @InjectView(R.id.userPassword_line)
+    @Bind(R.id.userPassword_line)
     View userPasswordLine;
-    @InjectView(R.id.userPassword_et)
+    @Bind(R.id.userPassword_et)
     EditText userPasswordEt;
-    @InjectView(R.id.userPassword_et1)
+    @Bind(R.id.userPassword_et1)
     EditText userPasswordEt1;
 
     private RegisterPresenter mRegisterPresenter;
@@ -70,7 +70,7 @@ public class RegisterActivity extends Activity implements RegisterView, View.OnF
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.register_layout);
-        ButterKnife.inject(this);
+        ButterKnife.bind(this);
         init();
     }
 
@@ -263,6 +263,6 @@ public class RegisterActivity extends Activity implements RegisterView, View.OnF
     protected void onDestroy() {
         super.onDestroy();
         VolleyUtils.cancelAll("registerRequest");
-        ButterKnife.reset(this);
+        ButterKnife.unbind(this);
     }
 }

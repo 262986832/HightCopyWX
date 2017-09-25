@@ -6,7 +6,7 @@
     <string name="tab_me">我</string>
     <string name="action_bar_search">search</string>
     <string name="plus">plus</string>
-    <string name="multi_chat">发起群聊</string>
+    <string name="multi_chat">设置头像</string>
     <string name="add_friends">添加朋友</string>
     <string name="scan">扫一扫</string>
     <string name="pay_money">收付款</string>
@@ -34,4 +34,10 @@
     <string name="dialog_message">你确定要添加%s用户吗？</string>
     <string name="dialog_positive">确定</string>
     <string name="dialog_negative">取消</string>
+
+    <string name="label_cancel">取消</string>
+    <string name="label_ok">确定</string>
+    <string name="permission_title_rationale">权限需求</string>
+    <string name="permission_read_storage_rationale">选择图片时需要读取权限</string>
+    <string name="permission_write_storage_rationale">拍照时需要存储权限</string>
 </resources>

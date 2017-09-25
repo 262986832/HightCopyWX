@@ -12,8 +12,9 @@ import com.idisfkj.hightcopywx.R;
 import com.idisfkj.hightcopywx.dao.RegisterDataHelper;
 import com.idisfkj.hightcopywx.util.CursorUtils;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
+
 
 /**
  * 搜寻好友适配器
@@ -49,14 +50,14 @@ public class SearchResultAdapter extends RecyclerViewCursorBaseAdapter<SearchRes
     }
 
     static class SearchViewHolder extends RecyclerView.ViewHolder {
-        @InjectView(R.id.search_item_name)
+        @Bind(R.id.search_item_name)
         TextView searchItemName;
-        @InjectView(R.id.search_item_number)
+        @Bind(R.id.search_item_number)
         TextView searchItemNumber;
 
         SearchViewHolder(View view) {
             super(view);
-            ButterKnife.inject(this, view);
+            ButterKnife.bind(this, view);
         }
     }
 

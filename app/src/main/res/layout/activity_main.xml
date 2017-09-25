@@ -4,7 +4,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".main.widget.MainActivity">
-
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/main_act_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true"/>
     <LinearLayout
         android:layout_marginTop="5dp"
         android:id="@+id/ll_tab"

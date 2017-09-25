@@ -32,8 +32,8 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 import butterknife.OnClick;
 
 /**
@@ -44,19 +44,19 @@ import butterknife.OnClick;
 public class ChatActivity extends BaseActivity<ChatView, ChatPresenterBase>
         implements ChatView, View.OnFocusChangeListener, LoaderManager.LoaderCallbacks<Cursor>, ISpeechView {
 
-    @InjectView(R.id.chat_content)
+    @Bind(R.id.chat_content)
     EditText mChatContent;
-    @InjectView(R.id.chat_view)
+    @Bind(R.id.chat_view)
     RecyclerView chatView;
-    @InjectView(R.id.chat_line)
+    @Bind(R.id.chat_line)
     View chatLine;
-    @InjectView(R.id.voice_swith)
+    @Bind(R.id.voice_swith)
     ImageView voiceSwith;
-    @InjectView(R.id.voice_button)
+    @Bind(R.id.voice_button)
     TextView voice_button;
-    @InjectView(R.id.chat_bottm)
+    @Bind(R.id.chat_bottm)
     RelativeLayout relativeLayout;
-    @InjectView(R.id.layout_swipe_refresh)
+    @Bind(R.id.layout_swipe_refresh)
     SwipeRefreshLayout swipeRefreshLayout;
 
     private ChatAdapter mChatAdapter;
@@ -69,7 +69,7 @@ public class ChatActivity extends BaseActivity<ChatView, ChatPresenterBase>
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.chat_layout);
-        ButterKnife.inject(this);
+        ButterKnife.bind(this);
         EventBus.getDefault().register(this);//订阅总线消息
 
         Bundle bundle = getIntent().getExtras();
@@ -204,7 +204,7 @@ public class ChatActivity extends BaseActivity<ChatView, ChatPresenterBase>
         VolleyUtils.cancelAll("chatRequest");
         //取消注册事件
         EventBus.getDefault().unregister(this);
-        ButterKnife.reset(this);
+        ButterKnife.unbind(this);
     }
 
     @Override
@@ -227,6 +227,11 @@ public class ChatActivity extends BaseActivity<ChatView, ChatPresenterBase>
     @Override
     public void onInitDataComplete() {
         //mPresenter.startStudy(mChatRoomID);
+    }
+
+    @Override
+    public void onSpeechRecognize() {
+
     }
 
     @Override

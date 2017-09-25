@@ -24,8 +24,9 @@ import com.idisfkj.hightcopywx.chat.presenter.imp.ChatRoomsPresentImp;
 import com.idisfkj.hightcopywx.chat.view.ChatRoomsView;
 import com.idisfkj.hightcopywx.util.SharedPreferencesManager;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
+
 
 /**
  * 聊天通讯界面
@@ -33,9 +34,9 @@ import butterknife.InjectView;
  * Email : idisfkj@qq.com.
  */
 public class ChatRoomsFragment extends Fragment implements ChatRoomsView, LoaderManager.LoaderCallbacks<Cursor> {
-    @InjectView(R.id.wx_recyclerView)
+    @Bind(R.id.wx_recyclerView)
     RecyclerView wxRecyclerView;
-    @InjectView(R.id.layout_swipe_refresh)
+    @Bind(R.id.layout_swipe_refresh)
     SwipeRefreshLayout swipeRefreshLayout;
     private ChatRoomsAdapter chatRoomsAdapter;
     private ChatRoomsPresent mChatRoomsPresent;
@@ -46,7 +47,7 @@ public class ChatRoomsFragment extends Fragment implements ChatRoomsView, Loader
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = LayoutInflater.from(getContext()).inflate(R.layout.chat_rooms, null);
-        ButterKnife.inject(this, view);
+        ButterKnife.bind(this, view);
         init();
         return view;
     }
@@ -106,7 +107,7 @@ public class ChatRoomsFragment extends Fragment implements ChatRoomsView, Loader
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.reset(this);
+        ButterKnife.unbind(this);
     }
 
     @Override
