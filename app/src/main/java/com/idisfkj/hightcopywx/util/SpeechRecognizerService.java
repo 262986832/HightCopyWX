@@ -25,7 +25,7 @@ public class SpeechRecognizerService {
     private RecognizerDialog mIatDialog;
     private ISpeechView iSpeechView;
     public String lag = "en_us";
-
+    public static final String mVoicePath=Environment.getExternalStorageDirectory() + "/msc/iat.wav";
     public void attachView(ISpeechView view) {
         this.iSpeechView = view;
     }
@@ -82,13 +82,11 @@ public class SpeechRecognizerService {
 //        mIatVoicePath = Environment.getExternalStorageDirectory().getPath();
 //        mIatVoicePath = String.format("%s/%s.wav",mIatVoicePath,new Date().getTime());
 //        mIat.setParameter(SpeechConstant.ASR_AUDIO_PATH, mIatVoicePath);
-        mIat.setParameter(SpeechConstant.ASR_AUDIO_PATH, Environment.getExternalStorageDirectory() + "/msc/iat.wav");
+        mIat.setParameter(SpeechConstant.ASR_AUDIO_PATH, mVoicePath);
 
     }
 
     public void startSpeechRecognizer() {
-        if (mIatDialog.isShowing())
-            mIatDialog.cancel();
         mIatDialog.setListener(mRecognizerDialogListener);
         mIatDialog.show();
     }

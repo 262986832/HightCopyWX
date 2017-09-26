@@ -11,9 +11,14 @@ import com.google.gson.Gson;
 import com.idisfkj.hightcopywx.App;
 import com.idisfkj.hightcopywx.beans.ChatMessageInfo;
 import com.idisfkj.hightcopywx.chat.model.ChatModel;
+import com.idisfkj.hightcopywx.util.SpeechRecognizerService;
 import com.idisfkj.hightcopywx.util.UrlUtils;
 import com.idisfkj.hightcopywx.util.VolleyUtils;
+import com.qiniu.android.http.ResponseInfo;
+import com.qiniu.android.storage.UpCompletionHandler;
+import com.qiniu.android.storage.UploadManager;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -57,6 +62,26 @@ public class ChatModelBase implements ChatModel {
             }
         };
         VolleyUtils.addQueue(jsonObjectRequest, "chatRequest");
+    }
+
+    @Override
+    public void saveMessageVoice(final saveMessageVoiceListener listener, final ChatMessageInfo chatMessageInfo) {
+        UploadManager uploadManager = new UploadManager();
+        uploadManager.put(SpeechRecognizerService.mVoicePath, null, App.voiceUploadToken, new UpCompletionHandler() {
+            @Override
+            public void complete(String key, ResponseInfo info, JSONObject res) {
+                if (info.isOK()) {
+                    try {
+                        String path = "http://oww4rwkcc.bkt.clouddn.com/" + res.getString("hash");
+                        chatMessageInfo.setMessageVoiceUrl(path);
+                        listener.onsaveMessageVoiceListenerSucceed(chatMessageInfo);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }
+        }, null);
     }
 
 

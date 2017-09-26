@@ -23,7 +23,7 @@ import org.greenrobot.eventbus.EventBus;
  * Email : idisfkj@qq.com.
  */
 public class ChatPresenterBase extends BasePresenter<ChatView> implements ChatPresenter,
-        ChatModel.requestListener {
+        ChatModel.requestListener,ChatModel.saveMessageVoiceListener {
     protected ChatModel mChatModel;
     protected ChatRoomsDataHelper mChatRoomsDataHelper;
     protected ChatMessageDataHelper mChatMessageDataHelper;
@@ -47,10 +47,13 @@ public class ChatPresenterBase extends BasePresenter<ChatView> implements ChatPr
 
     @Override
     public void sendData(ChatMessageInfo chatMessageInfo) {
-        mChatMessageDataHelper.insert(chatMessageInfo);
-        mViewRef.get().onReloadData();
-        mChatModel.requestData(this, chatMessageInfo);
-
+        if(chatMessageInfo!=null && chatMessageInfo.getMessageType()==App.MESSAGE_TYPE_VOICE){
+            mChatModel.saveMessageVoice(this,chatMessageInfo);
+        }else {
+            mChatMessageDataHelper.insert(chatMessageInfo);
+            mViewRef.get().onReloadData();
+            mChatModel.requestData(this, chatMessageInfo);
+        }
     }
 
 
@@ -92,5 +95,15 @@ public class ChatPresenterBase extends BasePresenter<ChatView> implements ChatPr
     }
 
 
+    @Override
+    public void onsaveMessageVoiceListenerSucceed(ChatMessageInfo chatMessageInfo) {
+        mChatMessageDataHelper.insert(chatMessageInfo);
+        mViewRef.get().onReloadData();
+        mChatModel.requestData(this, chatMessageInfo);
+    }
 
+    @Override
+    public void onsaveMessageVoiceListenerError(String errorMessage) {
+
+    }
 }

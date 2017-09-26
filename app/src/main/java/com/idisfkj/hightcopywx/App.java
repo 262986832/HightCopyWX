@@ -50,7 +50,8 @@ public class App extends Application{
     public static String mNowChatRoomID = "-1";
     public static String ownMobile = "-1";
     public static String token = "";
-    public static String uploadToken = "";
+    public static String headUploadToken = "";
+    public static String voiceUploadToken = "";
     public static String userName = "宝贝";
     public static SharedPreferences sp;
     public static SharedPreferences.Editor editor;

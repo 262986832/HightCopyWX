@@ -10,14 +10,23 @@ public class RespondLogin {
     private String token;
     private String msg;
     private String userName;
-    private String uploadToken;
+    private String headUploadToken;
+    private String voiceUploadToken;
 
-    public String getUploadToken() {
-        return uploadToken;
+    public String getHeadUploadToken() {
+        return headUploadToken;
     }
 
-    public void setUploadToken(String uploadToken) {
-        this.uploadToken = uploadToken;
+    public void setHeadUploadToken(String headUploadToken) {
+        this.headUploadToken = headUploadToken;
+    }
+
+    public String getVoiceUploadToken() {
+        return voiceUploadToken;
+    }
+
+    public void setVoiceUploadToken(String voiceUploadToken) {
+        this.voiceUploadToken = voiceUploadToken;
     }
 
     public String getUserName() {

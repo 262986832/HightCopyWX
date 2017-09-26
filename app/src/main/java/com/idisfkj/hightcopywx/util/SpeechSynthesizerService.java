@@ -39,7 +39,7 @@ public class SpeechSynthesizerService {
     public int play(String text) {
         this.ttsLinsions = ttsLinsions;
         // 设置参数
-        if (StringUtils.isChinese(text)) {
+        if (StringsUtils.isChinese(text)) {
             voicer = "vixq";
         } else {
             voicer = "catherine";

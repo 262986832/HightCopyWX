@@ -2,6 +2,8 @@ package com.idisfkj.hightcopywx.adapters;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -20,13 +22,17 @@ import com.idisfkj.hightcopywx.util.SharedPreferencesManager;
 import com.idisfkj.hightcopywx.util.SpeechSynthesizerService;
 import com.idisfkj.hightcopywx.util.ToastUtils;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.io.File;
+import java.io.IOException;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 import static com.idisfkj.hightcopywx.R.id.chat_receive_content;
+import static com.idisfkj.hightcopywx.util.CursorUtils.formatString;
 
 /**
  * 聊天适配器
@@ -43,10 +49,12 @@ public class ChatAdapter extends RecyclerViewCursorBaseAdapter<RecyclerView.View
     private Cursor mCursor;
     private String mRoleName;
 
+
     public ChatAdapter(Context context) {
         super(context, null);
         mContext = context;
         mLayoutInflater = LayoutInflater.from(mContext);
+
     }
 
     public void setCursor(Cursor cursor) {
@@ -73,29 +81,29 @@ public class ChatAdapter extends RecyclerViewCursorBaseAdapter<RecyclerView.View
         if (holder instanceof ChatReceiveViewHolder) {
 
             ((ChatReceiveViewHolder) holder).chatReceiveTime.
-                    setText(CursorUtils.formatString(cursor, ChatMessageDataHelper.ChatMessageDataInfo.time));
+                    setText(formatString(cursor, ChatMessageDataHelper.ChatMessageDataInfo.time));
 
             ((ChatReceiveViewHolder) holder).chat_receive_man_name
-                    .setText(CursorUtils.formatString(cursor, ChatMessageDataHelper.ChatMessageDataInfo.sendName));
+                    .setText(formatString(cursor, ChatMessageDataHelper.ChatMessageDataInfo.sendName));
 
             if (messageType == App.MESSAGE_TYPE_CARD) {
                 ((ChatReceiveViewHolder) holder).chat_receive_card.setVisibility(View.VISIBLE);
                 ((ChatReceiveViewHolder) holder).chatReceiveContent.setVisibility(View.GONE);
                 Glide.with(App.getAppContext()).
-                        load(CursorUtils.formatString(cursor, ChatMessageDataHelper.ChatMessageDataInfo.messageImgUrl))
+                        load(formatString(cursor, ChatMessageDataHelper.ChatMessageDataInfo.messageImgUrl))
                         .crossFade(5000)
                         .placeholder(R.mipmap.ic_launcher)
                         .error(R.mipmap.ic_launcher)
                         .into(((ChatReceiveViewHolder) holder).chat_receive_card_imgurl);
                 ((ChatReceiveViewHolder) holder).chat_receive_card_title.
-                        setText(CursorUtils.formatString(cursor, ChatMessageDataHelper.ChatMessageDataInfo.messageTitle));
+                        setText(formatString(cursor, ChatMessageDataHelper.ChatMessageDataInfo.messageTitle));
                 ((ChatReceiveViewHolder) holder).chat_receive_card_text.
-                        setText(CursorUtils.formatString(cursor, ChatMessageDataHelper.ChatMessageDataInfo.messageContent));
+                        setText(formatString(cursor, ChatMessageDataHelper.ChatMessageDataInfo.messageContent));
             } else {
                 ((ChatReceiveViewHolder) holder).chat_receive_card.setVisibility(View.GONE);
                 ((ChatReceiveViewHolder) holder).chatReceiveContent.setVisibility(View.VISIBLE);
                 ((ChatReceiveViewHolder) holder).chatReceiveContent.
-                        setText(CursorUtils.formatString(cursor, ChatMessageDataHelper.ChatMessageDataInfo.messageContent));
+                        setText(formatString(cursor, ChatMessageDataHelper.ChatMessageDataInfo.messageContent));
             }
 
 
@@ -105,11 +113,11 @@ public class ChatAdapter extends RecyclerViewCursorBaseAdapter<RecyclerView.View
                 ((ChatSendViewHolder) holder).chat_item_fail.setVisibility(View.GONE);
 
             ((ChatSendViewHolder) holder).chatSendTime.
-                    setText(CursorUtils.formatString(cursor, ChatMessageDataHelper.ChatMessageDataInfo.time));
+                    setText(formatString(cursor, ChatMessageDataHelper.ChatMessageDataInfo.time));
 
             String name = App.userName;
             ((ChatSendViewHolder) holder).chat_send_man_name.setText(name);
-            mRoleName = CursorUtils.formatString(cursor, ChatMessageDataHelper.ChatMessageDataInfo.roleID)
+            mRoleName = formatString(cursor, ChatMessageDataHelper.ChatMessageDataInfo.roleID)
                     .equals("baby") ? "宝贝" : "家长";
             ((ChatSendViewHolder) holder).chat_send_man_role.setText(mRoleName);
 
@@ -126,7 +134,10 @@ public class ChatAdapter extends RecyclerViewCursorBaseAdapter<RecyclerView.View
                 Uri uri = Uri.fromFile(new File(head));
                 ((ChatSendViewHolder) holder).chat_send_man_picture.setImageURI(uri);
             }
-
+            String voiceUrl = CursorUtils.formatString(cursor, ChatMessageDataHelper.ChatMessageDataInfo.messageVoiceUrl);
+            if (StringUtils.isNoneEmpty(voiceUrl)) {
+                ((ChatSendViewHolder) holder).voiceUrl = voiceUrl;
+            }
 
             ((ChatSendViewHolder) holder).content =
                     CursorUtils.formatString(cursor, ChatMessageDataHelper.ChatMessageDataInfo.messageContent);
@@ -144,9 +155,9 @@ public class ChatAdapter extends RecyclerViewCursorBaseAdapter<RecyclerView.View
 
         } else {
             ((ChatSystemViewHolder) holder).chatSystemTime.
-                    setText(CursorUtils.formatString(cursor, ChatMessageDataHelper.ChatMessageDataInfo.time));
+                    setText(formatString(cursor, ChatMessageDataHelper.ChatMessageDataInfo.time));
             ((ChatSystemViewHolder) holder).chatSystemContent.
-                    setText(CursorUtils.formatString(cursor, ChatMessageDataHelper.ChatMessageDataInfo.messageContent));
+                    setText(formatString(cursor, ChatMessageDataHelper.ChatMessageDataInfo.messageContent));
         }
 
     }
@@ -185,10 +196,14 @@ public class ChatAdapter extends RecyclerViewCursorBaseAdapter<RecyclerView.View
         ImageView chat_item_fail;
 
         String content;
+        String voiceUrl;
+        private MediaPlayer mediaPlayer;
 
         ChatSendViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
+            mediaPlayer = new MediaPlayer();
+            mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
         }
 
         @OnClick(R.id.chat_send_man_picture)
@@ -203,7 +218,16 @@ public class ChatAdapter extends RecyclerViewCursorBaseAdapter<RecyclerView.View
 
         @OnClick(R.id.chat_send_voice)
         public void onVoiceClick() {
-            ToastUtils.showShort("voice");
+            if (StringUtils.isNoneEmpty(voiceUrl)) {
+                mediaPlayer.reset();
+                try {
+                    mediaPlayer.setDataSource(voiceUrl);
+                    mediaPlayer.prepare();//prepare之后自动播放
+                    mediaPlayer.start();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 

@@ -291,7 +291,7 @@ public class MainActivity extends BaseActivity<MainView, MainPresenterImp> imple
 
     private void uploadImg2QiNiu(String path, String name) {
         UploadManager uploadManager = new UploadManager();
-        uploadManager.put(path, name, App.uploadToken, new UpCompletionHandler() {
+        uploadManager.put(path, name, App.headUploadToken, new UpCompletionHandler() {
             @Override
             public void complete(String key, ResponseInfo info, JSONObject res) {
                 if (info.isOK()) {

@@ -72,6 +72,11 @@ public class ChatModelTranslateImp implements ChatModel {
         VolleyUtils.addQueue(gsonRequest, "chatRequest");
     }
 
+    @Override
+    public void saveMessageVoice(saveMessageVoiceListener listener, ChatMessageInfo chatMessageInfo) {
+
+    }
+
     private void play(String string) {
         speechSynthesizerService.play(string);
     }
