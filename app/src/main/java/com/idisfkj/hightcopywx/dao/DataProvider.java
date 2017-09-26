@@ -21,7 +21,7 @@ public class DataProvider extends ContentProvider {
 
     public final String TAG = DataProvider.class.getSimpleName();
     public static final Object DBLock = new Object();
-    private static final String AUTHORITY = "com.idisfkj.hightcopywx.provider";
+    private static final String AUTHORITY = "com.idisfkj.hightcopywx.provider1";
     private static final String SCHEME = "content://";
 
     private static final String PATH_REGISTERS = "/registers";

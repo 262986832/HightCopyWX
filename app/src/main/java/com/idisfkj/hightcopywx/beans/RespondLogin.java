@@ -10,6 +10,15 @@ public class RespondLogin {
     private String token;
     private String msg;
     private String userName;
+    private String uploadToken;
+
+    public String getUploadToken() {
+        return uploadToken;
+    }
+
+    public void setUploadToken(String uploadToken) {
+        this.uploadToken = uploadToken;
+    }
 
     public String getUserName() {
         return userName;

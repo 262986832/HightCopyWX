@@ -1,4 +1,4 @@
-package com.idisfkj.hightcopywx.main.widget;
+package com.idisfkj.hightcopywx;
 
 import android.support.v4.content.FileProvider;
 

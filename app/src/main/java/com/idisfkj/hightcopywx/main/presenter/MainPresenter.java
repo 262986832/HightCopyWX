@@ -12,4 +12,6 @@ public interface MainPresenter {
     void switchActivity();
 
     void receiveData(ChatMessageInfo chatMessageInfo);
+
+    void uploadHeadUrl(String headurl);
 }

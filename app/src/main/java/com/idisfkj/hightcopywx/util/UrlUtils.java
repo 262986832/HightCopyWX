@@ -31,7 +31,7 @@ public class UrlUtils {
     public static final int ZHTOEN = 0;
     public static final int ENTOZH = 1;
     //服务端
-    private static final String SERVER_API = "http://198.35.45.235:8001/api/";
+    private static final String SERVER_API = "http://10.16.66.129:8001/api/";
 
 
     public UrlUtils() {
@@ -100,6 +100,19 @@ public class UrlUtils {
         StringBuilder url = new StringBuilder(SERVER_API + "postEnglishWordState?");
         //url.append(content);
 
+        return url.toString();
+    }
+
+    //更新用户头像信息
+    public static String updateHeadUrl(String headurl) {
+        String content = null;
+        try {
+            content = URLEncoder.encode(headurl, "utf-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        StringBuilder url = new StringBuilder(SERVER_API + "setHeadUrl?headurl=");
+        url.append(content);
         return url.toString();
     }
 

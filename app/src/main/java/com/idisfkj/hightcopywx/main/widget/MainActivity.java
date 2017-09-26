@@ -3,7 +3,6 @@ package com.idisfkj.hightcopywx.main.widget;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -11,6 +10,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.idisfkj.hightcopywx.App;
 import com.idisfkj.hightcopywx.R;
 import com.idisfkj.hightcopywx.adapters.FragmentAdapter;
 import com.idisfkj.hightcopywx.base.widget.BaseActivity;
@@ -20,7 +21,7 @@ import com.idisfkj.hightcopywx.beans.eventbus.ShowSetDialog;
 import com.idisfkj.hightcopywx.chat.widget.ChatActivity;
 import com.idisfkj.hightcopywx.main.presenter.imp.MainPresenterImp;
 import com.idisfkj.hightcopywx.main.view.MainView;
-import com.idisfkj.hightcopywx.util.Auth;
+import com.idisfkj.hightcopywx.util.SharedPreferencesManager;
 import com.lzy.imagepicker.ImagePicker;
 import com.lzy.imagepicker.bean.ImageItem;
 import com.lzy.imagepicker.ui.ImageGridActivity;
@@ -33,21 +34,18 @@ import com.readystatesoftware.viewbadger.BadgeView;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-import static com.idisfkj.hightcopywx.registerlogin.widget.RegisterActivity.PICTURE_NAME;
-import static com.idisfkj.hightcopywx.registerlogin.widget.RegisterActivity.SAVE_PATH;
-
-public class MainActivity extends BaseActivity<MainView,MainPresenterImp> implements MainView {
+public class MainActivity extends BaseActivity<MainView, MainPresenterImp> implements MainView {
 
     @Bind(R.id.viewPage)
     ViewPager viewPage;
@@ -75,6 +73,7 @@ public class MainActivity extends BaseActivity<MainView,MainPresenterImp> implem
     private int[] viewId;
     private Bundle bundle;
     private BadgeView badgeView;
+    private Gson mGson;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,71 +81,14 @@ public class MainActivity extends BaseActivity<MainView,MainPresenterImp> implem
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         EventBus.getDefault().register(this);//订阅总线消息
-
         init();
-
+        initImagePicker();
         //是否是点击通知跳转
         bundle = getIntent().getExtras();
         if (bundle != null) {
             mPresenter.switchActivity();
         }
 
-        ImagePicker imagePicker = ImagePicker.getInstance();
-        imagePicker.setImageLoader(new GlideImageLoader());   //设置图片加载器
-        imagePicker.setShowCamera(true);  //显示拍照按钮
-        imagePicker.setCrop(true);        //允许裁剪（单选才有效）
-        imagePicker.setMultiMode(false);
-        imagePicker.setSaveRectangle(true); //是否按矩形区域保存
-        imagePicker.setSelectLimit(1);    //选中数量限制
-        imagePicker.setStyle(CropImageView.Style.RECTANGLE);  //裁剪框的形状
-        imagePicker.setFocusWidth(800);   //裁剪框的宽度。单位像素（圆形自动取宽高最小值）
-        imagePicker.setFocusHeight(800);  //裁剪框的高度。单位像素（圆形自动取宽高最小值）
-        imagePicker.setOutPutX(1000);//保存文件的宽度。单位像素
-        imagePicker.setOutPutY(1000);//保存文件的高度。单位像素
-
-    }
-
-    //收到小米推送的消息
-    @Subscribe(threadMode = ThreadMode.BACKGROUND)
-    public void handleMessage(ChatMessageInfo chatMessageInfo) {
-        mPresenter.receiveData(chatMessageInfo);
-    }
-
-    //收到main气泡更新消息
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void showBadge(UnReadNumber unReadNumber) {
-        int count = unReadNumber.getUnReadNumber();
-        if (count > 0) {
-            badgeView.setText("" + count);
-            badgeView.show();
-        } else {
-            badgeView.hide();
-        }
-    }
-
-    //
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void handleMessage(ShowSetDialog showSetDialog) {
-        //startCrop();
-        Intent intent = new Intent(this, ImageGridActivity.class);
-
-        intent.putExtra(ImageGridActivity.EXTRAS_TAKE_PICKERS,false); // 是否是直
-        startActivityForResult(intent, IMAGE_PICKER);
-    }
-
-    int IMAGE_PICKER=101;
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == ImagePicker.RESULT_CODE_ITEMS) {
-            if (data != null && requestCode == IMAGE_PICKER) {
-                ArrayList<ImageItem> images = (ArrayList<ImageItem>) data.getSerializableExtra(ImagePicker.EXTRA_RESULT_ITEMS);
-
-            } else {
-                Toast.makeText(this, "没有数据", Toast.LENGTH_SHORT).show();
-            }
-        }
     }
 
     public void init() {
@@ -170,8 +112,72 @@ public class MainActivity extends BaseActivity<MainView,MainPresenterImp> implem
         badgeView = new BadgeView(this, weiXinS);
         badgeView.setText("12");
         badgeView.hide();
+        Gson mGson = new Gson();
 
     }
+
+    private void initImagePicker() {
+        ImagePicker imagePicker = ImagePicker.getInstance();
+        imagePicker.setImageLoader(new GlideImageLoader());   //设置图片加载器
+        imagePicker.setShowCamera(true);  //显示拍照按钮
+        imagePicker.setCrop(true);        //允许裁剪（单选才有效）
+        imagePicker.setMultiMode(false);
+        imagePicker.setSaveRectangle(true); //是否按矩形区域保存
+        imagePicker.setSelectLimit(1);    //选中数量限制
+        imagePicker.setStyle(CropImageView.Style.RECTANGLE);  //裁剪框的形状
+        imagePicker.setFocusWidth(800);   //裁剪框的宽度。单位像素（圆形自动取宽高最小值）
+        imagePicker.setFocusHeight(800);  //裁剪框的高度。单位像素（圆形自动取宽高最小值）
+        imagePicker.setOutPutX(300);//保存文件的宽度。单位像素
+        imagePicker.setOutPutY(300);//保存文件的高度。单位像素
+    }
+
+    //收到小米推送的消息
+    @Subscribe(threadMode = ThreadMode.BACKGROUND)
+    public void handleMessage(ChatMessageInfo chatMessageInfo) {
+        mPresenter.receiveData(chatMessageInfo);
+    }
+
+    //收到main气泡更新消息
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void showBadge(UnReadNumber unReadNumber) {
+        int count = unReadNumber.getUnReadNumber();
+        if (count > 0) {
+            badgeView.setText("" + count);
+            badgeView.show();
+        } else {
+            badgeView.hide();
+        }
+    }
+
+    //
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void handleMessage(ShowSetDialog showSetDialog) {
+        Intent intent = new Intent(this, ImageGridActivity.class);
+        intent.putExtra(ImageGridActivity.EXTRAS_TAKE_PICKERS, false); // 是否是直
+        startActivityForResult(intent, IMAGE_PICKER);
+    }
+
+    int IMAGE_PICKER = 101;
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == ImagePicker.RESULT_CODE_ITEMS) {
+            if (data != null && requestCode == IMAGE_PICKER) {
+                ArrayList<ImageItem> images = (ArrayList<ImageItem>) data.getSerializableExtra(ImagePicker.EXTRA_RESULT_ITEMS);
+                Iterator<ImageItem> iterator = images.iterator();
+                while (iterator.hasNext()) {
+                    ImageItem imageItem = iterator.next();
+                    SharedPreferencesManager.putString("head", imageItem.path).commit();
+                    uploadImg2QiNiu(imageItem.path, imageItem.name);
+                }
+            } else {
+
+                Toast.makeText(this, "没有数据", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
 
     public void setViewPageListener() {
         viewPage.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -283,28 +289,22 @@ public class MainActivity extends BaseActivity<MainView,MainPresenterImp> implem
     }
 
 
-    private final String AccessKey="fKCbJcTRVhdQ-fxQ353HTfsYUdav7QYU54edsc2U";
-    private final String SecretKey="LO6jij2QURShZIr5y-FVqMD6C2HL08Mcv6FV7dk0";
-    private void uploadImg2QiNiu() {
-        final String TAG="";
+    private void uploadImg2QiNiu(String path, String name) {
         UploadManager uploadManager = new UploadManager();
-        // 设置图片名字
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
-        String key = "icon_" + sdf.format(new Date());
-        String picPath = SAVE_PATH;
-        Log.i(TAG, "picPath: " + picPath);
-        //Auth.create(AccessKey, SecretKey).uploadToken("zhongshan-avatar")，这句就是生成token
-        uploadManager.put(SAVE_PATH, PICTURE_NAME, Auth.create(AccessKey, SecretKey).uploadToken("dudu"), new UpCompletionHandler() {
+        uploadManager.put(path, name, App.uploadToken, new UpCompletionHandler() {
             @Override
             public void complete(String key, ResponseInfo info, JSONObject res) {
-                // info.error中包含了错误信息，可打印调试
-                // 上传成功后将key值上传到自己的服务器
                 if (info.isOK()) {
-                    Log.i(TAG, "token===" + Auth.create(AccessKey, SecretKey).uploadToken("photo"));
-                    String headpicPath = "http://ov66bzns1.bkt.clouddn.com" + key;
-                    Log.i(TAG, "complete: " + headpicPath);
+                    String name = "";
+                    try {
+                        name = res.getString("hash");
+                        String headpicPath = "http://owvifpcqf.bkt.clouddn.com/" + name;
+                        mPresenter.uploadHeadUrl(headpicPath);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
                 }
-                //     uploadpictoQianMo(headpicPath, picPath);
             }
         }, null);
     }

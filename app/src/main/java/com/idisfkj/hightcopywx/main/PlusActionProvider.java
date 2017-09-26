@@ -62,7 +62,6 @@ public class PlusActionProvider extends ActionProvider implements MenuItem.OnMen
             case 0:
                 ShowSetDialog showSetDialog=new ShowSetDialog();
                 EventBus.getDefault().post(showSetDialog);
-                ToastUtils.showShort("打开群聊");
                 break;
             case 1:
                 break;

@@ -2,8 +2,7 @@ package com.idisfkj.hightcopywx.adapters;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -16,8 +15,8 @@ import com.bumptech.glide.Glide;
 import com.idisfkj.hightcopywx.App;
 import com.idisfkj.hightcopywx.R;
 import com.idisfkj.hightcopywx.dao.ChatMessageDataHelper;
-import com.idisfkj.hightcopywx.registerlogin.widget.RegisterActivity;
 import com.idisfkj.hightcopywx.util.CursorUtils;
+import com.idisfkj.hightcopywx.util.SharedPreferencesManager;
 import com.idisfkj.hightcopywx.util.SpeechSynthesizerService;
 import com.idisfkj.hightcopywx.util.ToastUtils;
 
@@ -42,18 +41,12 @@ public class ChatAdapter extends RecyclerViewCursorBaseAdapter<RecyclerView.View
     private static final int SEND_MESSAGE = 1;
     private static final int SYSTEM_MESSAGE = 2;
     private Cursor mCursor;
-    private Bitmap sendBitmap;
     private String mRoleName;
 
     public ChatAdapter(Context context) {
         super(context, null);
         mContext = context;
         mLayoutInflater = LayoutInflater.from(mContext);
-        File path = new File(RegisterActivity.SAVE_PATH + RegisterActivity.PICTURE_NAME);
-        if (path.exists()) {
-            sendBitmap = BitmapFactory.decodeFile(RegisterActivity.SAVE_PATH + RegisterActivity.PICTURE_NAME);
-        }
-
     }
 
     public void setCursor(Cursor cursor) {
@@ -120,16 +113,20 @@ public class ChatAdapter extends RecyclerViewCursorBaseAdapter<RecyclerView.View
                     .equals("baby") ? "宝贝" : "家长";
             ((ChatSendViewHolder) holder).chat_send_man_role.setText(mRoleName);
 
-            if(messageType==App.MESSAGE_TYPE_VOICE){
+            if (messageType == App.MESSAGE_TYPE_VOICE) {
                 ((ChatSendViewHolder) holder).chat_send_voice.setVisibility(View.VISIBLE);
                 ((ChatSendViewHolder) holder).chatSendContent.setVisibility(View.GONE);
-            }else {
+            } else {
                 ((ChatSendViewHolder) holder).chat_send_voice.setVisibility(View.GONE);
                 ((ChatSendViewHolder) holder).chatSendContent.setVisibility(View.VISIBLE);
             }
 
-            if (sendBitmap != null)
-                ((ChatSendViewHolder) holder).chat_send_man_picture.setImageBitmap(sendBitmap);
+            String head = SharedPreferencesManager.getString("head", "");
+            if (!head.equals("")) {
+                Uri uri = Uri.fromFile(new File(head));
+                ((ChatSendViewHolder) holder).chat_send_man_picture.setImageURI(uri);
+            }
+
 
             ((ChatSendViewHolder) holder).content =
                     CursorUtils.formatString(cursor, ChatMessageDataHelper.ChatMessageDataInfo.messageContent);
@@ -143,7 +140,6 @@ public class ChatAdapter extends RecyclerViewCursorBaseAdapter<RecyclerView.View
 //            if (CursorUtils.formatInt(mCursor, ChatMessageDataHelper.ChatMessageDataInfo.sendOrReciveFlag) == App.MESSAGE_TYPE_TEXT) {
 //                ((ChatSendViewHolder) holder).chatSendContent.setCompoundDrawables(null, null, null, null);
 //            }
-
 
 
         } else {

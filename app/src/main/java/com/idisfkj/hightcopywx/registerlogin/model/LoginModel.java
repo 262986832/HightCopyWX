@@ -5,8 +5,9 @@ package com.idisfkj.hightcopywx.registerlogin.model;
  */
 
 public interface LoginModel {
-    void requestLogin(requestLoginListener listener, String mobile, String password,String clientid);
-    public interface requestLoginListener {
+    void requestLogin(requestLoginListener listener, String mobile, String password, String clientid);
+
+    interface requestLoginListener {
         void onLoginSucceed();
 
         void onError(String msg);

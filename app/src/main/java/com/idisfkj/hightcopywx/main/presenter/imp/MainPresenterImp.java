@@ -20,7 +20,7 @@ import org.greenrobot.eventbus.EventBus;
  * Created by idisfkj on 16/4/19.
  * Email : idisfkj@qq.com.
  */
-public class MainPresenterImp extends BasePresenter<MainView> implements MainPresenter {
+public class MainPresenterImp extends BasePresenter<MainView> implements MainPresenter,MainModel.requestUploadHeadUrlListener {
 
     private MainModel mMainModel;
     private ChatMessageDataHelper mChatMessageDataHelper;
@@ -83,6 +83,11 @@ public class MainPresenterImp extends BasePresenter<MainView> implements MainPre
 
     }
 
+    @Override
+    public void uploadHeadUrl(String headurl) {
+        mMainModel.uploadHeadUrl(this,headurl);
+    }
+
     private void setAllUnReadNumber() {
         int oldCount = SharedPreferencesManager.getInt("unAllReadNumber", 0);
         int unAllReadNumber = oldCount + 1;
@@ -94,4 +99,13 @@ public class MainPresenterImp extends BasePresenter<MainView> implements MainPre
         EventBus.getDefault().post(unread);
     }
 
+    @Override
+    public void onUploadHeadUrlSucceed() {
+
+    }
+
+    @Override
+    public void onUploadHeadUrlError(String msg) {
+
+    }
 }
