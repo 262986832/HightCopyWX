@@ -12,6 +12,9 @@
     <uses-permission android:name="android.permission.GET_TASKS" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <!-- 在SDCard中创建与删除文件权限 -->
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
 
 
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
@@ -28,9 +31,7 @@
         android:icon="@mipmap/icon"
         android:label="@string/app_name"
         android:supportsRtl="true"
-
         android:theme="@style/AppTheme">
-
         <activity
             android:name=".registerlogin.WelcomeActivity"
             android:launchMode="singleTop"
@@ -52,16 +53,27 @@
         <activity android:name=".registerlogin.widget.RegisterActivity" />
         <activity android:name=".registerlogin.widget.LoginActivity" />
         <activity android:name=".main.widget.SearchResultActivity" />
-        <activity
-            android:name=".main.widget.PictureActivity"/>
 
         <provider
             android:name=".dao.DataProvider"
             android:authorities="com.idisfkj.hightcopywx.provider"
-            android:exported="false">
+            android:exported="false"
+            android:grantUriPermissions="true">
             <grant-uri-permission android:pathPattern=".*" />
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths"/>
         </provider>
 
+        <provider
+            android:name=".main.widget.ImagePickerProvider"
+            android:authorities="${applicationId}.provider1"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths"/>
+        </provider>
 
         <service
             android:name="com.xiaomi.push.service.XMPushService"

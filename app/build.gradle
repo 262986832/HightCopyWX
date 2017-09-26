@@ -1,13 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 23
+    compileSdkVersion 24
     buildToolsVersion '25.0.0'
 
     defaultConfig {
         applicationId "com.idisfkj.hightcopywx"
         minSdkVersion 15
-        targetSdkVersion 23
+        targetSdkVersion 24
         versionCode 1
         versionName "1.0"
 
@@ -45,10 +45,9 @@ dependencies {
     compile 'com.squareup.okio:okio:1.9.0'
     compile 'com.qiniu:happy-dns:0.2.13'
 
-    // 图像剪切
-    compile('com.kevin:crop:1.0.2') {
-        // 如果已经引入 support:appcompat-v7 可以加上这句话
-        exclude group: 'com.android.support', module: 'appcompat-v7'
-    }
+    compile 'com.yalantis:ucrop:1.4.1'
     compile 'com.jakewharton:butterknife:7.0.1'
+
+    compile 'com.lzy.widget:imagepicker:0.6.1'
+
 }

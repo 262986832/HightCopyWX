@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.idisfkj.hightcopywx.R;
 import com.idisfkj.hightcopywx.adapters.FragmentAdapter;
@@ -20,6 +21,10 @@ import com.idisfkj.hightcopywx.chat.widget.ChatActivity;
 import com.idisfkj.hightcopywx.main.presenter.imp.MainPresenterImp;
 import com.idisfkj.hightcopywx.main.view.MainView;
 import com.idisfkj.hightcopywx.util.Auth;
+import com.lzy.imagepicker.ImagePicker;
+import com.lzy.imagepicker.bean.ImageItem;
+import com.lzy.imagepicker.ui.ImageGridActivity;
+import com.lzy.imagepicker.view.CropImageView;
 import com.qiniu.android.http.ResponseInfo;
 import com.qiniu.android.storage.UpCompletionHandler;
 import com.qiniu.android.storage.UploadManager;
@@ -86,8 +91,20 @@ public class MainActivity extends BaseActivity<MainView,MainPresenterImp> implem
             mPresenter.switchActivity();
         }
 
-    }
+        ImagePicker imagePicker = ImagePicker.getInstance();
+        imagePicker.setImageLoader(new GlideImageLoader());   //设置图片加载器
+        imagePicker.setShowCamera(true);  //显示拍照按钮
+        imagePicker.setCrop(true);        //允许裁剪（单选才有效）
+        imagePicker.setMultiMode(false);
+        imagePicker.setSaveRectangle(true); //是否按矩形区域保存
+        imagePicker.setSelectLimit(1);    //选中数量限制
+        imagePicker.setStyle(CropImageView.Style.RECTANGLE);  //裁剪框的形状
+        imagePicker.setFocusWidth(800);   //裁剪框的宽度。单位像素（圆形自动取宽高最小值）
+        imagePicker.setFocusHeight(800);  //裁剪框的高度。单位像素（圆形自动取宽高最小值）
+        imagePicker.setOutPutX(1000);//保存文件的宽度。单位像素
+        imagePicker.setOutPutY(1000);//保存文件的高度。单位像素
 
+    }
 
     //收到小米推送的消息
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
@@ -110,8 +127,26 @@ public class MainActivity extends BaseActivity<MainView,MainPresenterImp> implem
     //
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void handleMessage(ShowSetDialog showSetDialog) {
-        Intent intent = new Intent(MainActivity.this, PictureActivity.class);
-        startActivity(intent);
+        //startCrop();
+        Intent intent = new Intent(this, ImageGridActivity.class);
+
+        intent.putExtra(ImageGridActivity.EXTRAS_TAKE_PICKERS,false); // 是否是直
+        startActivityForResult(intent, IMAGE_PICKER);
+    }
+
+    int IMAGE_PICKER=101;
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == ImagePicker.RESULT_CODE_ITEMS) {
+            if (data != null && requestCode == IMAGE_PICKER) {
+                ArrayList<ImageItem> images = (ArrayList<ImageItem>) data.getSerializableExtra(ImagePicker.EXTRA_RESULT_ITEMS);
+
+            } else {
+                Toast.makeText(this, "没有数据", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
     public void init() {
