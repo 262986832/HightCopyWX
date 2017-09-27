@@ -43,6 +43,7 @@ public class App extends Application{
     public static final int MESSAGE_STATUS_SUCCESS=0;
     public static final int MESSAGE_STATUS_FAIL=1;
     public static final int MESSAGE_STATUS_SENDING=2;
+    public static final String VOICE_PATH="http://oww4rwkcc.bkt.clouddn.com/";
     //生词需要练习几天后，继续联系
     public static final int FIRST_EXERCISE_DAY=3;
     //正确几次后，允许通过

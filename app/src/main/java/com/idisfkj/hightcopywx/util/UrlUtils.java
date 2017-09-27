@@ -31,7 +31,7 @@ public class UrlUtils {
     public static final int ZHTOEN = 0;
     public static final int ENTOZH = 1;
     //服务端
-    private static final String SERVER_API = "http://192.168.1.2:8001/api/";
+    private static final String SERVER_API = "http://10.16.66.129:8001/api/";
 
 
     public UrlUtils() {

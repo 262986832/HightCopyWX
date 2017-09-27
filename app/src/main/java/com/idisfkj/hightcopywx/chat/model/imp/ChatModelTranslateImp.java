@@ -73,9 +73,10 @@ public class ChatModelTranslateImp implements ChatModel {
     }
 
     @Override
-    public void saveMessageVoice(saveMessageVoiceListener listener, ChatMessageInfo chatMessageInfo) {
+    public void saveMessageVoice(saveMessageVoiceListener listener, String voiceName) {
 
     }
+
 
     private void play(String string) {
         speechSynthesizerService.play(string);

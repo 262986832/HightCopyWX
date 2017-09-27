@@ -17,7 +17,7 @@ public interface ChatModel {
         void onRequestError(String errorMessage);
     }
 
-    void saveMessageVoice(saveMessageVoiceListener listener, ChatMessageInfo chatMessageInfo);
+    void saveMessageVoice(saveMessageVoiceListener listener, String voiceName);
 
     interface saveMessageVoiceListener {
 

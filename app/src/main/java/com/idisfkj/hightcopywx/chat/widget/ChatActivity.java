@@ -32,6 +32,8 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.util.UUID;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -174,11 +176,14 @@ public class ChatActivity extends BaseActivity<ChatView, ChatPresenterBase>
 
     private void sendMessage(String message, int type) {
         if (message.trim().length() > 0) {
+            //生成一个token
+            String voiceName = UUID.randomUUID().toString();
             ChatMessageInfo chatMessageInfo = new ChatMessageInfo();
             chatMessageInfo.setSender();
             chatMessageInfo.setMessageContent(message);
             chatMessageInfo.setMessageType(type);
             chatMessageInfo.setChatRoomID(mChatRoomID);
+            chatMessageInfo.setMessageVoiceUrl(voiceName);
             mPresenter.sendData(chatMessageInfo);
         }
     }

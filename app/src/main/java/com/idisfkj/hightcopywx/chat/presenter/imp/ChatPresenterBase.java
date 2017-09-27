@@ -23,7 +23,7 @@ import org.greenrobot.eventbus.EventBus;
  * Email : idisfkj@qq.com.
  */
 public class ChatPresenterBase extends BasePresenter<ChatView> implements ChatPresenter,
-        ChatModel.requestListener,ChatModel.saveMessageVoiceListener {
+        ChatModel.requestListener, ChatModel.saveMessageVoiceListener {
     protected ChatModel mChatModel;
     protected ChatRoomsDataHelper mChatRoomsDataHelper;
     protected ChatMessageDataHelper mChatMessageDataHelper;
@@ -32,7 +32,7 @@ public class ChatPresenterBase extends BasePresenter<ChatView> implements ChatPr
     private int limit;
 
     public ChatPresenterBase() {
-        mChatModel=new ChatModelBase();
+        mChatModel = new ChatModelBase();
         mChatRoomsDataHelper = new ChatRoomsDataHelper(App.getAppContext());
         mChatMessageDataHelper = new ChatMessageDataHelper(App.getAppContext());
         speechSynthesizerService = new SpeechSynthesizerService(App.getAppContext());
@@ -47,13 +47,14 @@ public class ChatPresenterBase extends BasePresenter<ChatView> implements ChatPr
 
     @Override
     public void sendData(ChatMessageInfo chatMessageInfo) {
-        if(chatMessageInfo!=null && chatMessageInfo.getMessageType()==App.MESSAGE_TYPE_VOICE){
-            mChatModel.saveMessageVoice(this,chatMessageInfo);
-        }else {
-            mChatMessageDataHelper.insert(chatMessageInfo);
-            mViewRef.get().onReloadData();
-            mChatModel.requestData(this, chatMessageInfo);
+        if (chatMessageInfo != null && chatMessageInfo.getMessageType() == App.MESSAGE_TYPE_VOICE) {
+            mChatModel.saveMessageVoice(this, chatMessageInfo.getMessageVoiceUrl());
+            chatMessageInfo.setMessageVoiceUrl(App.VOICE_PATH + chatMessageInfo.getMessageVoiceUrl());
         }
+        mChatMessageDataHelper.insert(chatMessageInfo);
+        mViewRef.get().onReloadData();
+        mChatModel.requestData(this, chatMessageInfo);
+
     }
 
 
@@ -97,9 +98,7 @@ public class ChatPresenterBase extends BasePresenter<ChatView> implements ChatPr
 
     @Override
     public void onsaveMessageVoiceListenerSucceed(ChatMessageInfo chatMessageInfo) {
-        mChatMessageDataHelper.insert(chatMessageInfo);
-        mViewRef.get().onReloadData();
-        mChatModel.requestData(this, chatMessageInfo);
+
     }
 
     @Override
