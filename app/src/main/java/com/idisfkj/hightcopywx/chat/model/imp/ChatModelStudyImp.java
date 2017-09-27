@@ -7,6 +7,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.idisfkj.hightcopywx.App;
 import com.idisfkj.hightcopywx.beans.ChatMessageInfo;
 import com.idisfkj.hightcopywx.beans.RespondStudy;
@@ -68,6 +69,7 @@ public class ChatModelStudyImp extends ChatModelBase implements ChatModelStudy {
                 return header;
             }
         };
+
         VolleyUtils.addQueue(gsonRequest, "chatRequest");
     }
 
@@ -179,7 +181,7 @@ public class ChatModelStudyImp extends ChatModelBase implements ChatModelStudy {
     }
 
     private void post() {
-        Gson gson = new Gson();
+        Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
         jsonMessage = gson.toJson(getPreviousWords());
         GsonRequest<RespondStudy> gsonRequest = new GsonRequest<RespondStudy>(Request.Method.POST,
                 UrlUtils.updateNowDayWordStateApiUrl(jsonMessage), RespondStudy.class,

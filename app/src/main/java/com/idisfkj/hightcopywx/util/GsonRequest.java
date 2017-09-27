@@ -1,6 +1,7 @@
 package com.idisfkj.hightcopywx.util;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkResponse;
 import com.android.volley.ParseError;
 import com.android.volley.Request;
@@ -33,6 +34,10 @@ public class GsonRequest<T> extends Request<T> {
         gsonBuilder.registerTypeAdapter(Date.class, new DateDeserializer());
         this.mGson=gsonBuilder.create();
         mClass = clazz;
+        setRetry();
+    }
+    private void setRetry(){
+        this.setRetryPolicy(new DefaultRetryPolicy(20 * 1000, 1, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
     }
 
     public GsonRequest(int method, String url, TypeToken<T> typeToken, Response.Listener<T> mListener, Response.ErrorListener listener) {
@@ -42,6 +47,7 @@ public class GsonRequest<T> extends Request<T> {
         gsonBuilder.registerTypeAdapter(Date.class, new DateDeserializer());
         this.mGson=gsonBuilder.create();
         mTypeToken = typeToken;
+        setRetry();
     }
 
     //get
