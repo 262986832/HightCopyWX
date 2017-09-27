@@ -170,7 +170,7 @@ public class ChatActivity extends BaseActivity<ChatView, ChatPresenterBase>
     @OnClick(R.id.chat_send)
     public void onClick() {
         String chatContent = mChatContent.getText().toString();
-        sendMessage(chatContent, App.MESSAGE_TYPE_VOICE);
+        sendMessage(chatContent, App.MESSAGE_TYPE_TEXT);
         mChatContent.setText("");
     }
 
