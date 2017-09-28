@@ -20,7 +20,6 @@ import com.iflytek.cloud.SynthesizerListener;
 public class SpeechSynthesizerService {
     // 语音合成对象
     private SpeechSynthesizer mTts;
-    private TTSLinsions ttsLinsions;
     // 默认发音人
     private String voicer = "catherine";
     // 缓冲进度
@@ -37,7 +36,6 @@ public class SpeechSynthesizerService {
     }
 
     public int play(String text) {
-        this.ttsLinsions = ttsLinsions;
         // 设置参数
         if (StringsUtils.isChinese(text)) {
             voicer = "vixq";
@@ -111,7 +109,7 @@ public class SpeechSynthesizerService {
         @Override
         public void onCompleted(SpeechError error) {
             if (error == null) {
-                ttsLinsions.onComplated();
+
             } else if (error != null) {
                 System.out.println(error.getPlainDescription(true));
             }
@@ -156,8 +154,5 @@ public class SpeechSynthesizerService {
         mTts.setParameter(SpeechConstant.TTS_AUDIO_PATH, Environment.getExternalStorageDirectory() + "/msc/tts.wav");
     }
 
-    public interface TTSLinsions {
-        void onComplated();
-    }
 
 }
