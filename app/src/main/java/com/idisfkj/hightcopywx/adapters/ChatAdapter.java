@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.os.Handler;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -219,14 +220,21 @@ public class ChatAdapter extends RecyclerViewCursorBaseAdapter<RecyclerView.View
         @OnClick(R.id.chat_send_voice)
         public void onVoiceClick() {
             if (StringUtils.isNoneEmpty(voiceUrl)) {
-                mediaPlayer.reset();
-                try {
-                    mediaPlayer.setDataSource(voiceUrl);
-                    mediaPlayer.prepare();//prepare之后自动播放
-                    mediaPlayer.start();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                Handler handler = new Handler();
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        mediaPlayer.reset();
+                        try {
+                            mediaPlayer.setDataSource(voiceUrl);
+                            mediaPlayer.prepare();//prepare之后自动播放
+                            mediaPlayer.start();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                });
             }
         }
     }

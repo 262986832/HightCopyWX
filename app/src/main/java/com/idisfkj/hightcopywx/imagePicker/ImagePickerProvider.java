@@ -1,4 +1,4 @@
-package com.idisfkj.hightcopywx;
+package com.idisfkj.hightcopywx.imagePicker;
 
 import android.support.v4.content.FileProvider;
 

@@ -136,7 +136,6 @@ public class ChatRoomsFragment extends Fragment implements ChatRoomsView, Loader
     @Override
     public void onInitDataEnd(Cursor data) {
         chatRoomsAdapter.changeCursor(data);
-        ;
     }
 
     @Override

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+    <ImageView
+        android:id="@+id/find_card_imgurl1"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_margin="5dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/search"
+        android:visibility="gone"/>
+    <android.support.v7.widget.CardView
+        android:id="@+id/chat_receive_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@drawable/chat_tv_send"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/find_card_imgurl"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_margin="5dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/search" />
+
+            <TextView
+                android:id="@+id/find_card_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:gravity="center"
+                android:padding="1dp"
+                android:text="标题"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/find_card_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:gravity="center"
+                android:padding="1dp"
+                android:text="内容" />
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+</LinearLayout>

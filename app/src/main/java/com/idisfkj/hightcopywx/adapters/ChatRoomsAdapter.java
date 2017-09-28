@@ -59,10 +59,6 @@ public class ChatRoomsAdapter extends RecyclerViewCursorBaseAdapter<ChatRoomsAda
 
     }
 
-    void test() {
-
-    }
-
     public static class ViewHolder extends RecyclerView.ViewHolder {
         @Bind(R.id.wx_item_picture)
         ImageView wxItemPicture;

@@ -1,4 +1,4 @@
-package com.idisfkj.hightcopywx.main.widget;
+package com.idisfkj.hightcopywx.imagePicker;
 
 /**
  * Created by fvelement on 2017/9/26.

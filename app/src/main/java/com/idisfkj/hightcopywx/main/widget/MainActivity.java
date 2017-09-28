@@ -19,6 +19,7 @@ import com.idisfkj.hightcopywx.beans.ChatMessageInfo;
 import com.idisfkj.hightcopywx.beans.UnReadNumber;
 import com.idisfkj.hightcopywx.beans.eventbus.ShowSetDialog;
 import com.idisfkj.hightcopywx.chat.widget.ChatActivity;
+import com.idisfkj.hightcopywx.imagePicker.GlideImageLoader;
 import com.idisfkj.hightcopywx.main.presenter.imp.MainPresenterImp;
 import com.idisfkj.hightcopywx.main.view.MainView;
 import com.idisfkj.hightcopywx.util.SharedPreferencesManager;
