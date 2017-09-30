@@ -14,7 +14,7 @@ import org.apache.commons.lang3.StringUtils;
  * Created by fvelement on 2017/9/6.
  */
 
-public class LoginPresenterImp implements LoginPresenter,LoginModel.requestLoginListener {
+public class LoginPresenterImp implements LoginPresenter,LoginModel.requestLoginListener ,LoginModel.initListener{
     private LoginView mloginView;
     private LoginModel mloginModel;
     public LoginPresenterImp(LoginView loginView) {
@@ -34,11 +34,22 @@ public class LoginPresenterImp implements LoginPresenter,LoginModel.requestLogin
 
     @Override
     public void onLoginSucceed() {
+        mloginModel.initData(this);
         mloginView.onLoginSuccess();
     }
 
     @Override
     public void onError(String msg) {
         mloginView.onLoginError(msg);
+    }
+
+    @Override
+    public void onInitSuccess() {
+
+    }
+
+    @Override
+    public void onInitFail() {
+
     }
 }

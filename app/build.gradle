@@ -16,6 +16,8 @@ android {
         buildConfigField "String", "BAIDU_APP_ID", '"20151224000008231"'
         //xunfei config
         buildConfigField "String", "XUNFEI_SCREAT_KEY", '"58f81c5e"'
+        //JINSHAN config
+        buildConfigField "String", "JINSHAN_KEY", '"8B660C51C6D4A410DE9D406667729BC4"'
     }
     buildTypes {
         release {
@@ -49,5 +51,7 @@ dependencies {
     compile 'com.jakewharton:butterknife:7.0.1'
 
     compile 'com.lzy.widget:imagepicker:0.6.1'
-    compile 'com.vivian.widgets:TimeLineItemDecoration:1.1'
+    
+
+    compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.30'
 }

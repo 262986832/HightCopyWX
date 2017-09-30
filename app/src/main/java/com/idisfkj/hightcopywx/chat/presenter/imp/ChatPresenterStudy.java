@@ -36,6 +36,8 @@ public class ChatPresenterStudy extends ChatPresenterBase implements ChatModelSt
 
     @Override
     public void sendData(ChatMessageInfo chatMessageInfo) {
+        //判断识别单词是否为同音词
+        mStudyModel.getWordIPA(chatMessageInfo.getMessageContent());
         super.sendData(chatMessageInfo);
         if (mRoleID.equals("baby")) {
             if (!mStudyModel.isLast()) {

@@ -177,7 +177,7 @@ public class DataProvider extends ContentProvider {
                 table = ChatMessageDataHelper.ChatMessageDataInfo.TABLE_NAME;
                 break;
             case WORDS:
-                table = WordDataHelper.WordDataInfo.TABLE_NAME;
+                table = FindDataHelper.WordDataInfo.TABLE_NAME;
                 break;
             default:
                 throw new IllegalArgumentException("Unkonw Uri" + uri);

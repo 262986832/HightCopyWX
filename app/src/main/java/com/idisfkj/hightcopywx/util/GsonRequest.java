@@ -36,6 +36,9 @@ public class GsonRequest<T> extends Request<T> {
         mClass = clazz;
         setRetry();
     }
+
+
+
     private void setRetry(){
         this.setRetryPolicy(new DefaultRetryPolicy(20 * 1000, 1, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
     }

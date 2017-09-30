@@ -88,6 +88,7 @@ public class ChatActivity extends BaseActivity<ChatView, ChatPresenterBase>
     }
 
     public void init() {
+        chatView.getBaseline();
         mChatAdapter = new ChatAdapter(this);
         chatView.setLayoutManager(new LinearLayoutManager(this));
         chatView.setAdapter(mChatAdapter);

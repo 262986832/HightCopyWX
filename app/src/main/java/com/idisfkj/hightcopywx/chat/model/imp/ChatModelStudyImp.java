@@ -19,11 +19,18 @@ import com.idisfkj.hightcopywx.util.VolleyUtils;
 
 import org.apache.commons.lang3.time.DateUtils;
 
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
 
 import static android.content.ContentValues.TAG;
 
@@ -178,6 +185,32 @@ public class ChatModelStudyImp extends ChatModelBase implements ChatModelStudy {
             getPreviousWords().setFourthcorrectcount(++CorrectCount);
         }
         post();
+    }
+
+    @Override
+    public void getWordIPA(String string) {
+        OkHttpClient okHttpClient = new OkHttpClient();
+        RequestBody requestBody = new FormBody.Builder()
+                .add("word", string)
+                .build();
+        okhttp3.Request request = new okhttp3.Request.Builder()
+                .url(UrlUtils.getJinShanTranslateApiUrl(string))
+                .addHeader("token", App.token)
+                .post(requestBody)
+                .build();
+        Call call = okHttpClient.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                //TODO 失败的,在子线程中
+
+            }
+            @Override
+            public void onResponse(Call call, okhttp3.Response response) throws IOException {
+                String en=new String(response.body().string().getBytes("ISO8859-1"));
+                System.out.print("");
+            }
+        });
     }
 
     private void post() {

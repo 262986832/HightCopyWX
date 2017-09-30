@@ -5,6 +5,7 @@ package com.idisfkj.hightcopywx.registerlogin.view;
  */
 
 public interface LoginView {
+
     void onLoginSuccess();
     void onLoginError(String error);
 }

@@ -21,7 +21,7 @@ public class DBHelper extends SQLiteOpenHelper {
         RegisterDataHelper.RegisterDataInfo.TABLE.create(db);
         ChatRoomsDataHelper.WXItemDataInfo.TABLE.create(db);
         ChatMessageDataHelper.ChatMessageDataInfo.TABLE.create(db);
-        WordDataHelper.WordDataInfo.TABLE.create(db);
+        FindDataHelper.WordDataInfo.TABLE.create(db);
     }
 
     @Override

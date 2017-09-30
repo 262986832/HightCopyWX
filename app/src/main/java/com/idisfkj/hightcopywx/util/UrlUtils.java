@@ -30,8 +30,10 @@ public class UrlUtils {
     private static final String BAIDU_TRANSLATE_API = "http://api.fanyi.baidu.com/api/trans/vip/translate?";
     public static final int ZHTOEN = 0;
     public static final int ENTOZH = 1;
+    //金山翻译
+    private static final String JINSHAN_TRANSLATE_API = "http://dict-co.iciba.com/api/dictionary.php?type=json";
     //服务端
-    private static final String SERVER_API = "http://198.35.45.235:8001/api/";
+    private static final String SERVER_API = "http://10.16.66.11:8001/api/";
 
 
     public UrlUtils() {
@@ -59,6 +61,12 @@ public class UrlUtils {
         return urlStr;
     }
 
+    public static String getJinShanTranslateApiUrl(String query) {
+        StringBuilder url = new StringBuilder(SERVER_API);
+        url.append("getWordIPA");
+        return url.toString();
+    }
+
     //注册请求
     public static String getRegisterApiUrl(String userName, String mobile, String password) {
         StringBuilder url = new StringBuilder(SERVER_API + "register?");
@@ -80,6 +88,12 @@ public class UrlUtils {
         url.append(password);
         url.append("&clientid=");
         url.append(clientid);
+        return url.toString();
+    }
+
+    //获取激励列表
+    public static String getEncourageList() {
+        StringBuilder url = new StringBuilder(SERVER_API + "getEncourageList?");
         return url.toString();
     }
 

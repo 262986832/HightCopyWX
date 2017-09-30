@@ -15,19 +15,19 @@ import com.idisfkj.hightcopywx.util.database.SQLiteTable;
 
 import java.text.ParseException;
 
-import static com.idisfkj.hightcopywx.dao.WordDataHelper.WordDataInfo.bookid;
-import static com.idisfkj.hightcopywx.dao.WordDataHelper.WordDataInfo.firstcorrect;
-import static com.idisfkj.hightcopywx.dao.WordDataHelper.WordDataInfo.firstfinishtime;
-import static com.idisfkj.hightcopywx.dao.WordDataHelper.WordDataInfo.firstwrong;
-import static com.idisfkj.hightcopywx.dao.WordDataHelper.WordDataInfo.ownmobile;
-import static com.idisfkj.hightcopywx.dao.WordDataHelper.WordDataInfo.wordid;
+import static com.idisfkj.hightcopywx.dao.FindDataHelper.WordDataInfo.bookid;
+import static com.idisfkj.hightcopywx.dao.FindDataHelper.WordDataInfo.firstcorrect;
+import static com.idisfkj.hightcopywx.dao.FindDataHelper.WordDataInfo.firstfinishtime;
+import static com.idisfkj.hightcopywx.dao.FindDataHelper.WordDataInfo.firstwrong;
+import static com.idisfkj.hightcopywx.dao.FindDataHelper.WordDataInfo.ownmobile;
+import static com.idisfkj.hightcopywx.dao.FindDataHelper.WordDataInfo.wordid;
 
 /**
  * Created by fvelement on 2017/9/13.
  */
 
-public class WordDataHelper extends BaseDataHelper {
-    public WordDataHelper(Context mContext) {
+public class FindDataHelper extends BaseDataHelper {
+    public FindDataHelper(Context mContext) {
         super(mContext);
     }
     @Override

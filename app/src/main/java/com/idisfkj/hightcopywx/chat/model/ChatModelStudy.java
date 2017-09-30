@@ -15,6 +15,15 @@ public interface ChatModelStudy {
 
     void updateStateCorrect();
 
+    void getWordIPA(String string);
+
+    interface getWordIPAListener{
+
+        void ongetWordIPASucceed();
+
+        void ongetWordIPAError(String errorMessage);
+    }
+
     void initData(initListener listener);
 
     interface initListener{

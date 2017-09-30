@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 
+import com.idisfkj.hightcopywx.beans.EncourageEntity;
 import com.iflytek.cloud.SpeechUtility;
 import com.xiaomi.channel.commonutils.logger.LoggerInterface;
 import com.xiaomi.mipush.sdk.Logger;
@@ -56,6 +57,7 @@ public class App extends Application{
     public static String userName = "宝贝";
     public static SharedPreferences sp;
     public static SharedPreferences.Editor editor;
+    public static List<EncourageEntity> encourageEntityList;
 
 
     @Override
