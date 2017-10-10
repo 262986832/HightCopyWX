@@ -6,10 +6,11 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.google.gson.internal.LinkedTreeMap;
 import com.idisfkj.hightcopywx.App;
+import com.idisfkj.hightcopywx.beans.EncourageEntity;
 import com.idisfkj.hightcopywx.beans.RespondLogin;
+import com.idisfkj.hightcopywx.beans.RespondPage;
+import com.idisfkj.hightcopywx.beans.gson.JsonParseUtils;
 import com.idisfkj.hightcopywx.registerlogin.model.LoginModel;
 import com.idisfkj.hightcopywx.util.GsonRequest;
 import com.idisfkj.hightcopywx.util.SharedPreferencesManager;
@@ -17,6 +18,7 @@ import com.idisfkj.hightcopywx.util.UrlUtils;
 import com.idisfkj.hightcopywx.util.VolleyUtils;
 
 import java.io.IOException;
+import java.util.List;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -33,10 +35,15 @@ import static android.content.ContentValues.TAG;
 public class LoginModelImp implements LoginModel {
     @Override
     public void initData(final initListener initListener) {
+        initEncourageList();
+    }
+    private void initEncourageList(){
         OkHttpClient okHttpClient = new OkHttpClient();
         RequestBody requestBody = new FormBody.Builder()
                 .add("page", "1")
-                .add("limit", "1")
+                .add("limit", "5")
+                .add("sidx", "id")
+                .add("order", "asc")
                 .build();
         okhttp3.Request request = new okhttp3.Request.Builder()
                 .url(UrlUtils.getEncourageList())
@@ -55,11 +62,11 @@ public class LoginModelImp implements LoginModel {
             public void onResponse(Call call, okhttp3.Response response) throws IOException {
                 String json = response.body().string();
                 Gson gson=new Gson();
-
-                LinkedTreeMap<?,?> yourMap = new LinkedTreeMap<Object, Object>();
-                JsonObject jsonObject = gson.toJsonTree(yourMap).getAsJsonObject();
-                gson.fromJson(json, JsonObject.class);
-                System.out.print(jsonObject.get("page"));
+                RespondPage respondPage=gson.fromJson(json,RespondPage.class);
+                JsonParseUtils jsonParseUtils=new JsonParseUtils();
+                //List<EncourageEntity> list= (List<EncourageEntity>) gson.fromJson(respondPage.getPage().getListString(),List.class);
+                List<EncourageEntity> list = jsonParseUtils.parseString2List(respondPage.getPage().getListString(), EncourageEntity.class);
+                App.encourageEntityList =list;
             }
 
         });

@@ -45,7 +45,7 @@ public class FindAdapter extends RecyclerViewCursorBaseAdapter<FindAdapter.ViewH
 
     @Override
     public FindAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = mLayoutInflater.inflate(R.layout.item, parent, false);
+        View view = mLayoutInflater.inflate(R.layout.find_item, parent, false);
         return new ViewHolder(view, mContext);
     }
 

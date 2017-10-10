@@ -15,20 +15,21 @@ import java.util.List;
  * Created by fvelement on 2017/9/29.
  */
 
-public class FirstAdapter extends BaseQuickAdapter<EncourageEntity, BaseViewHolder> {
+public class FindAdapter extends BaseQuickAdapter<EncourageEntity, BaseViewHolder> {
 
-    public FirstAdapter(int layoutResId, List<EncourageEntity> list) {
+    public FindAdapter(int layoutResId, List<EncourageEntity> list) {
         super(layoutResId, list);
     }
 
     @Override
     protected void convert(BaseViewHolder helper, EncourageEntity item) {
         Glide.with(App.getAppContext()).
-                load("http://owvifpcqf.bkt.clouddn.com/FtEjsJGtC9cwcbMWlXppqtbPrW1y")
+                load(item.getEncourageimgurl())
                 .crossFade(5000)
                 .placeholder(R.mipmap.ic_launcher)
                 .error(R.mipmap.ic_launcher)
                 .into((ImageView) helper.getView(R.id.find_card_imgurl));
         helper.setText(R.id.find_card_title, item.getEncouragetitle());
+        helper.setText(R.id.find_card_text, item.getEncouragetext());
     }
 }

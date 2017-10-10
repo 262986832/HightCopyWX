@@ -5,7 +5,6 @@ package com.idisfkj.hightcopywx.util;
  */
 
 import java.io.Serializable;
-import java.util.List;
 
 /**
  * 分页工具类
@@ -14,7 +13,7 @@ import java.util.List;
  * @email sunlightcs@gmail.com
  * @date 2016年11月4日 下午12:59:00
  */
-public class PageUtils<T> implements Serializable {
+public class PageUtils implements Serializable {
     private static final long serialVersionUID = 1L;
     //总记录数
     private int totalCount;
@@ -25,7 +24,7 @@ public class PageUtils<T> implements Serializable {
     //当前页数
     private int currPage;
     //列表数据
-    private List<T> list;
+    private String listString;
 
     /**
      * 分页
@@ -34,12 +33,19 @@ public class PageUtils<T> implements Serializable {
      * @param pageSize    每页记录数
      * @param currPage    当前页数
      */
-    public PageUtils(List<T> list, int totalCount, int pageSize, int currPage) {
-        this.list = list;
+    public PageUtils(String list, int totalCount, int pageSize, int currPage) {
         this.totalCount = totalCount;
         this.pageSize = pageSize;
         this.currPage = currPage;
         this.totalPage = (int)Math.ceil((double)totalCount/pageSize);
+    }
+
+    public String getListString() {
+        return listString;
+    }
+
+    public void setListString(String listString) {
+        this.listString = listString;
     }
 
     public int getTotalCount() {
@@ -74,12 +80,5 @@ public class PageUtils<T> implements Serializable {
         this.currPage = currPage;
     }
 
-    public List<T> getList() {
-        return list;
-    }
-
-    public void setList(List<T> list) {
-        this.list = list;
-    }
 
 }

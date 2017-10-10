@@ -33,7 +33,7 @@ public class UrlUtils {
     //金山翻译
     private static final String JINSHAN_TRANSLATE_API = "http://dict-co.iciba.com/api/dictionary.php?type=json";
     //服务端
-    private static final String SERVER_API = "http://10.16.66.11:8001/api/";
+    private static final String SERVER_API = "http://10.16.66.238:8001/api/";
 
 
     public UrlUtils() {

@@ -6,10 +6,10 @@ import com.idisfkj.hightcopywx.util.PageUtils;
  * Created by fvelement on 2017/9/29.
  */
 
-public class RespondPage<T> {
+public class RespondPage {
     private int code;
     private String msg;
-    private PageUtils<T> page;
+    private PageUtils page;
 
     public int getCode() {
         return code;
@@ -27,11 +27,11 @@ public class RespondPage<T> {
         this.msg = msg;
     }
 
-    public PageUtils<T> getPage() {
+    public PageUtils getPage() {
         return page;
     }
 
-    public void setPage(PageUtils<T> page) {
+    public void setPage(PageUtils page) {
         this.page = page;
     }
 }
