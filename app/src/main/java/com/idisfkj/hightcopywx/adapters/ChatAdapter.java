@@ -90,8 +90,12 @@ public class ChatAdapter extends RecyclerViewCursorBaseAdapter<RecyclerView.View
             if (messageType == App.MESSAGE_TYPE_CARD) {
                 ((ChatReceiveViewHolder) holder).chat_receive_card.setVisibility(View.VISIBLE);
                 ((ChatReceiveViewHolder) holder).chatReceiveContent.setVisibility(View.GONE);
+                String imgurl=formatString(cursor, ChatMessageDataHelper.ChatMessageDataInfo.messageImgUrl);
+                if(StringUtils.isBlank(imgurl)){
+                    imgurl=App.BOOK_IMG_URL+formatString(cursor, ChatMessageDataHelper.ChatMessageDataInfo.messageTitle)+".jpg";
+                }
                 Glide.with(App.getAppContext()).
-                        load(formatString(cursor, ChatMessageDataHelper.ChatMessageDataInfo.messageImgUrl))
+                        load(imgurl)
                         .crossFade(5000)
                         .placeholder(R.mipmap.ic_launcher)
                         .error(R.mipmap.ic_launcher)
@@ -261,26 +265,50 @@ public class ChatAdapter extends RecyclerViewCursorBaseAdapter<RecyclerView.View
         CardView chat_receive_card;
 
         protected SpeechSynthesizerService speechSynthesizerService;
-
+        private MediaPlayer mediaPlayer;
         ChatReceiveViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
             speechSynthesizerService = new SpeechSynthesizerService(App.getAppContext());
+            mediaPlayer = new MediaPlayer();
+            mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
         }
 
         @OnClick({R.id.chat_receive_card_title, R.id.chat_receive_card_imgurl})
         public void onTitleClick() {
-            speechSynthesizerService.play(chat_receive_card_title.getText().toString());
+            //speechSynthesizerService.play(chat_receive_card_title.getText().toString());
+            play();
         }
 
         @OnClick({R.id.chat_receive_card_text})
         public void onContentClick() {
-            speechSynthesizerService.play(chat_receive_card_text.getText().toString());
+            //speechSynthesizerService.play(chat_receive_card_text.getText().toString());
+            play();
         }
 
         @OnClick({chat_receive_content})
         public void onReceiveContentClick() {
             speechSynthesizerService.play(chatReceiveContent.getText().toString());
+        }
+        private void play(){
+            final String voiceUrl=App.BOOK_VOICE_URL+chat_receive_card_title.getText().toString()+".mp3";
+            if (StringUtils.isNoneEmpty(voiceUrl)) {
+                Handler handler = new Handler();
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        mediaPlayer.reset();
+                        try {
+                            mediaPlayer.setDataSource(voiceUrl);
+                            mediaPlayer.prepare();//prepare之后自动播放
+                            mediaPlayer.start();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                });
+            }
         }
 
     }

@@ -48,8 +48,9 @@ public class ChatPresenterBase extends BasePresenter<ChatView> implements ChatPr
     @Override
     public void sendData(ChatMessageInfo chatMessageInfo) {
         if (chatMessageInfo != null && chatMessageInfo.getMessageType() == App.MESSAGE_TYPE_VOICE) {
+            //上传语音
             mChatModel.saveMessageVoice(this, chatMessageInfo.getMessageVoiceUrl());
-            chatMessageInfo.setMessageVoiceUrl(App.VOICE_PATH + chatMessageInfo.getMessageVoiceUrl());
+            chatMessageInfo.setMessageVoiceUrl(App.VOICE_URL + chatMessageInfo.getMessageVoiceUrl());
         }
         mChatMessageDataHelper.insert(chatMessageInfo);
         mViewRef.get().onReloadData();

@@ -7,7 +7,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.google.gson.Gson;
 import com.idisfkj.hightcopywx.App;
-import com.idisfkj.hightcopywx.beans.EncourageEntity;
+import com.idisfkj.hightcopywx.find.model.EncourageEntity;
 import com.idisfkj.hightcopywx.beans.RespondLogin;
 import com.idisfkj.hightcopywx.beans.RespondPage;
 import com.idisfkj.hightcopywx.beans.gson.JsonParseUtils;

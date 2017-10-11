@@ -1,4 +1,4 @@
-package com.idisfkj.hightcopywx.beans;
+package com.idisfkj.hightcopywx.find.model;
 
 /**
  * Created by fvelement on 2017/9/29.

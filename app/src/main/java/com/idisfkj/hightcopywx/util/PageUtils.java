@@ -5,6 +5,7 @@ package com.idisfkj.hightcopywx.util;
  */
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * 分页工具类
@@ -25,6 +26,16 @@ public class PageUtils implements Serializable {
     private int currPage;
     //列表数据
     private String listString;
+    //列表数据
+    private List<?> list;
+
+    public List<?> getList() {
+        return list;
+    }
+
+    public void setList(List<?> list) {
+        this.list = list;
+    }
 
     /**
      * 分页

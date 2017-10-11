@@ -6,7 +6,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 
-import com.idisfkj.hightcopywx.beans.EncourageEntity;
+import com.idisfkj.hightcopywx.find.model.EncourageEntity;
 import com.iflytek.cloud.SpeechUtility;
 import com.xiaomi.channel.commonutils.logger.LoggerInterface;
 import com.xiaomi.mipush.sdk.Logger;
@@ -44,7 +44,9 @@ public class App extends Application{
     public static final int MESSAGE_STATUS_SUCCESS=0;
     public static final int MESSAGE_STATUS_FAIL=1;
     public static final int MESSAGE_STATUS_SENDING=2;
-    public static final String VOICE_PATH="http://oww4rwkcc.bkt.clouddn.com/";
+    public static final String VOICE_URL="http://oww4rwkcc.bkt.clouddn.com/";
+    public static final String BOOK_VOICE_URL="http://oxnbp01a8.bkt.clouddn.com/";
+    public static final String BOOK_IMG_URL="http://ov66bzns1.bkt.clouddn.com/";
     //生词需要练习几天后，继续联系
     public static final int FIRST_EXERCISE_DAY=3;
     //正确几次后，允许通过

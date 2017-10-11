@@ -18,6 +18,8 @@ public class WordsStudentEntity {
     private String chinese;
     //图片地址
     private String imgurl;
+    //声音地址
+    private String voiceurl;
     //图书编号
     private Integer bookid;
     //拥有者
@@ -55,6 +57,14 @@ public class WordsStudentEntity {
 
     public void setWordid(Integer wordid) {
         this.wordid = wordid;
+    }
+
+    public String getVoiceurl() {
+        return voiceurl;
+    }
+
+    public void setVoiceurl(String voiceurl) {
+        this.voiceurl = voiceurl;
     }
 
     /**

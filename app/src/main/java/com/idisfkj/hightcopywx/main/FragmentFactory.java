@@ -3,7 +3,7 @@ package com.idisfkj.hightcopywx.main;
 import android.support.v4.app.Fragment;
 
 import com.idisfkj.hightcopywx.contact.ContactFragment;
-import com.idisfkj.hightcopywx.find.FindFragment;
+import com.idisfkj.hightcopywx.find.widget.FindFragment;
 import com.idisfkj.hightcopywx.me.MeFragment;
 import com.idisfkj.hightcopywx.chat.widget.ChatRoomsFragment;
 

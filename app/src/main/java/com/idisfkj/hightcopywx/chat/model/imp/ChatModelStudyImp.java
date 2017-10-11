@@ -96,6 +96,7 @@ public class ChatModelStudyImp extends ChatModelBase implements ChatModelStudy {
             chatMessageInfo.setMessageTitle(mWordsStudentEntityList.get(mListIndex).getEnglish());
             chatMessageInfo.setMessageContent(mWordsStudentEntityList.get(mListIndex).getChinese());
             chatMessageInfo.setMessageImgUrl(mWordsStudentEntityList.get(mListIndex).getImgurl());
+            chatMessageInfo.setMessageVoiceUrl(mWordsStudentEntityList.get(mListIndex).getVoiceurl());
             chatMessageInfo.setSendOrReciveFlag(App.RECEIVE_FLAG);
             chatMessageInfo.setSendMobile(chatRoomID);
             chatMessageInfo.setSendName("贝贝");

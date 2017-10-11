@@ -62,7 +62,7 @@ public class ChatModelBase implements ChatModel {
         };
         VolleyUtils.addQueue(jsonObjectRequest, "chatRequest");
     }
-
+    //保存语音识别
     @Override
     public void saveMessageVoice(final saveMessageVoiceListener listener, final String voiceName) {
         UploadManager uploadManager = new UploadManager();
