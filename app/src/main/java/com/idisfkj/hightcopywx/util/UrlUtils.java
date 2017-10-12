@@ -30,8 +30,6 @@ public class UrlUtils {
     private static final String BAIDU_TRANSLATE_API = "http://api.fanyi.baidu.com/api/trans/vip/translate?";
     public static final int ZHTOEN = 0;
     public static final int ENTOZH = 1;
-    //金山翻译
-    private static final String JINSHAN_TRANSLATE_API = "http://dict-co.iciba.com/api/dictionary.php?type=json";
     //服务端
     public static final String SERVER_API = "http://10.16.66.238:8001/api/";
 
@@ -61,9 +59,9 @@ public class UrlUtils {
         return urlStr;
     }
 
-    public static String getJinShanTranslateApiUrl(String query) {
+    public static String getIsSameWord() {
         StringBuilder url = new StringBuilder(SERVER_API);
-        url.append("getWordIPA");
+        url.append("isSameWord");
         return url.toString();
     }
 

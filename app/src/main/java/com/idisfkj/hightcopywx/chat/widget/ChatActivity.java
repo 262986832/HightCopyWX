@@ -88,9 +88,12 @@ public class ChatActivity extends BaseActivity<ChatView, ChatPresenterBase>
     }
 
     public void init() {
-        chatView.getBaseline();
+        if(chatView==null){
+            ToastUtils.showShort("chatView is null");
+        }
         mChatAdapter = new ChatAdapter(this);
         chatView.setLayoutManager(new LinearLayoutManager(this));
+        chatView.getBaseline();
         chatView.setAdapter(mChatAdapter);
         chatView.addOnItemTouchListener(new OnItemTouchListener(chatView) {
             @Override

@@ -2,7 +2,6 @@ package com.idisfkj.hightcopywx.adapters;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Handler;
@@ -17,6 +16,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.idisfkj.hightcopywx.App;
 import com.idisfkj.hightcopywx.R;
+import com.idisfkj.hightcopywx.beans.eventbus.PlaySound;
 import com.idisfkj.hightcopywx.dao.ChatMessageDataHelper;
 import com.idisfkj.hightcopywx.util.CursorUtils;
 import com.idisfkj.hightcopywx.util.SharedPreferencesManager;
@@ -24,6 +24,7 @@ import com.idisfkj.hightcopywx.util.SpeechSynthesizerService;
 import com.idisfkj.hightcopywx.util.ToastUtils;
 
 import org.apache.commons.lang3.StringUtils;
+import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
 import java.io.IOException;
@@ -207,8 +208,8 @@ public class ChatAdapter extends RecyclerViewCursorBaseAdapter<RecyclerView.View
         ChatSendViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
-            mediaPlayer = new MediaPlayer();
-            mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+//            mediaPlayer = new MediaPlayer();
+//            mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
         }
 
         @OnClick(R.id.chat_send_man_picture)
@@ -223,23 +224,24 @@ public class ChatAdapter extends RecyclerViewCursorBaseAdapter<RecyclerView.View
 
         @OnClick(R.id.chat_send_voice)
         public void onVoiceClick() {
-            if (StringUtils.isNoneEmpty(voiceUrl)) {
-                Handler handler = new Handler();
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        mediaPlayer.reset();
-                        try {
-                            mediaPlayer.setDataSource(voiceUrl);
-                            mediaPlayer.prepare();//prepare之后自动播放
-                            mediaPlayer.start();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-
-                    }
-                });
-            }
+//            if (StringUtils.isNoneEmpty(voiceUrl)) {
+//                Handler handler = new Handler();
+//                handler.post(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        mediaPlayer.stop();
+//                        mediaPlayer.reset();
+//                        try {
+//                            mediaPlayer.setDataSource(voiceUrl);
+//                            mediaPlayer.prepare();//prepare之后自动播放
+//                            mediaPlayer.start();
+//                        } catch (IOException e) {
+//                            e.printStackTrace();
+//                        }
+//
+//                    }
+//                });
+//            }
         }
     }
 
@@ -270,20 +272,26 @@ public class ChatAdapter extends RecyclerViewCursorBaseAdapter<RecyclerView.View
             super(view);
             ButterKnife.bind(this, view);
             speechSynthesizerService = new SpeechSynthesizerService(App.getAppContext());
-            mediaPlayer = new MediaPlayer();
-            mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+//            mediaPlayer = new MediaPlayer();
+//            mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
         }
 
         @OnClick({R.id.chat_receive_card_title, R.id.chat_receive_card_imgurl})
         public void onTitleClick() {
             //speechSynthesizerService.play(chat_receive_card_title.getText().toString());
-            play();
+            //play();
+            PlaySound playSound=new PlaySound();
+            playSound.setSoundName(App.BOOK_VOICE_URL+chat_receive_card_title.getText().toString()+".mp3");
+            EventBus.getDefault().post(playSound);
         }
 
         @OnClick({R.id.chat_receive_card_text})
         public void onContentClick() {
             //speechSynthesizerService.play(chat_receive_card_text.getText().toString());
-            play();
+            //play();
+            PlaySound playSound=new PlaySound();
+            playSound.setSoundName(App.BOOK_VOICE_URL+chat_receive_card_title.getText().toString()+".mp3");
+            EventBus.getDefault().post(playSound);
         }
 
         @OnClick({chat_receive_content})
@@ -297,6 +305,7 @@ public class ChatAdapter extends RecyclerViewCursorBaseAdapter<RecyclerView.View
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
+                        mediaPlayer.stop();
                         mediaPlayer.reset();
                         try {
                             mediaPlayer.setDataSource(voiceUrl);

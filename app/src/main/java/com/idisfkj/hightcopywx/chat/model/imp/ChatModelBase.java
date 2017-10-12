@@ -76,5 +76,4 @@ public class ChatModelBase implements ChatModel {
         }, null);
     }
 
-
 }

@@ -15,7 +15,11 @@ public interface ChatModelStudy {
 
     void updateStateCorrect();
 
-    void getWordIPA(String string);
+    boolean isSame(IsSameListener isSameListener,String word,String speech);
+
+    interface IsSameListener{
+        void onisSameComplete(boolean isSame);
+    }
 
     interface getWordIPAListener{
 
