@@ -34,13 +34,13 @@ public class ChatPresenterStudy extends ChatPresenterBase implements ChatModelSt
     public void startStudy(String chatRoomId) {
         mChatRoomID = chatRoomId;
         mChatMessageInfo = mStudyModel.getStudyMessage(chatRoomId);
-        String voiceurl=mChatMessageInfo.getMessageVoiceUrl();
-        if(StringUtils.isBlank(voiceurl)){
+        if(StringUtils.isNotBlank(mChatMessageInfo.getMessageVoiceUrl())){
             //发送给聊天处理线程
             PlaySound playSound=new PlaySound();
             playSound.setSoundName(App.BOOK_VOICE_URL+mChatMessageInfo.getMessageTitle()+".mp3");
             EventBus.getDefault().post(playSound);
-            //speechSynthesizerService.play(mChatMessageInfo.getMessageTitle());
+        }else {
+            speechSynthesizerService.play(mChatMessageInfo.getMessageTitle());
         }
 
         mTempWrongCount=0;
@@ -53,7 +53,7 @@ public class ChatPresenterStudy extends ChatPresenterBase implements ChatModelSt
     @Override
     public void sendData(ChatMessageInfo chatMessageInfo) {
         //判断识别单词是否为同音词
-        mStudyModel.isSame(this,mChatMessageInfo.getMessageTitle(),chatMessageInfo.getMessageTitle());
+        mStudyModel.isSame(this,mChatMessageInfo.getMessageTitle(),chatMessageInfo.getMessageContent());
         super.sendData(chatMessageInfo);
 
     }

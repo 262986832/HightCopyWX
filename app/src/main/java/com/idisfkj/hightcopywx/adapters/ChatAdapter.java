@@ -2,9 +2,7 @@ package com.idisfkj.hightcopywx.adapters;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.media.MediaPlayer;
 import android.net.Uri;
-import android.os.Handler;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -27,7 +25,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
-import java.io.IOException;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -87,6 +84,8 @@ public class ChatAdapter extends RecyclerViewCursorBaseAdapter<RecyclerView.View
 
             ((ChatReceiveViewHolder) holder).chat_receive_man_name
                     .setText(formatString(cursor, ChatMessageDataHelper.ChatMessageDataInfo.sendName));
+
+            ((ChatReceiveViewHolder) holder).mVoiceUrl=formatString(cursor, ChatMessageDataHelper.ChatMessageDataInfo.messageVoiceUrl);
 
             if (messageType == App.MESSAGE_TYPE_CARD) {
                 ((ChatReceiveViewHolder) holder).chat_receive_card.setVisibility(View.VISIBLE);
@@ -203,13 +202,10 @@ public class ChatAdapter extends RecyclerViewCursorBaseAdapter<RecyclerView.View
 
         String content;
         String voiceUrl;
-        private MediaPlayer mediaPlayer;
 
         ChatSendViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
-//            mediaPlayer = new MediaPlayer();
-//            mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
         }
 
         @OnClick(R.id.chat_send_man_picture)
@@ -224,24 +220,6 @@ public class ChatAdapter extends RecyclerViewCursorBaseAdapter<RecyclerView.View
 
         @OnClick(R.id.chat_send_voice)
         public void onVoiceClick() {
-//            if (StringUtils.isNoneEmpty(voiceUrl)) {
-//                Handler handler = new Handler();
-//                handler.post(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        mediaPlayer.stop();
-//                        mediaPlayer.reset();
-//                        try {
-//                            mediaPlayer.setDataSource(voiceUrl);
-//                            mediaPlayer.prepare();//prepare之后自动播放
-//                            mediaPlayer.start();
-//                        } catch (IOException e) {
-//                            e.printStackTrace();
-//                        }
-//
-//                    }
-//                });
-//            }
         }
     }
 
@@ -265,33 +243,28 @@ public class ChatAdapter extends RecyclerViewCursorBaseAdapter<RecyclerView.View
         ImageView chat_receive_card_imgurl;
         @Bind(R.id.chat_receive_card)
         CardView chat_receive_card;
+        String mVoiceUrl;
 
         protected SpeechSynthesizerService speechSynthesizerService;
-        private MediaPlayer mediaPlayer;
         ChatReceiveViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
             speechSynthesizerService = new SpeechSynthesizerService(App.getAppContext());
-//            mediaPlayer = new MediaPlayer();
-//            mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
         }
 
-        @OnClick({R.id.chat_receive_card_title, R.id.chat_receive_card_imgurl})
+        @OnClick({ R.id.chat_receive_card_imgurl})
+        public void onImgClick() {
+            play();
+        }
+
+        @OnClick({R.id.chat_receive_card_title})
         public void onTitleClick() {
-            //speechSynthesizerService.play(chat_receive_card_title.getText().toString());
-            //play();
-            PlaySound playSound=new PlaySound();
-            playSound.setSoundName(App.BOOK_VOICE_URL+chat_receive_card_title.getText().toString()+".mp3");
-            EventBus.getDefault().post(playSound);
+            speechSynthesizerService.play(chat_receive_card_title.getText().toString());
         }
 
         @OnClick({R.id.chat_receive_card_text})
         public void onContentClick() {
-            //speechSynthesizerService.play(chat_receive_card_text.getText().toString());
-            //play();
-            PlaySound playSound=new PlaySound();
-            playSound.setSoundName(App.BOOK_VOICE_URL+chat_receive_card_title.getText().toString()+".mp3");
-            EventBus.getDefault().post(playSound);
+            speechSynthesizerService.play(chat_receive_card_text.getText().toString());
         }
 
         @OnClick({chat_receive_content})
@@ -299,24 +272,12 @@ public class ChatAdapter extends RecyclerViewCursorBaseAdapter<RecyclerView.View
             speechSynthesizerService.play(chatReceiveContent.getText().toString());
         }
         private void play(){
-            final String voiceUrl=App.BOOK_VOICE_URL+chat_receive_card_title.getText().toString()+".mp3";
-            if (StringUtils.isNoneEmpty(voiceUrl)) {
-                Handler handler = new Handler();
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        mediaPlayer.stop();
-                        mediaPlayer.reset();
-                        try {
-                            mediaPlayer.setDataSource(voiceUrl);
-                            mediaPlayer.prepare();//prepare之后自动播放
-                            mediaPlayer.start();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-
-                    }
-                });
+            if (StringUtils.isNotBlank(mVoiceUrl)) {
+                PlaySound playSound=new PlaySound();
+                playSound.setSoundName(App.BOOK_VOICE_URL+chat_receive_card_title.getText().toString()+".mp3");
+                EventBus.getDefault().post(playSound);
+            }else{
+                speechSynthesizerService.play(chat_receive_card_title.getText().toString());
             }
         }
 

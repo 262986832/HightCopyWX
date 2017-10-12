@@ -2,6 +2,8 @@ package com.idisfkj.hightcopywx.chat.widget;
 
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.os.Handler;
+import android.os.Message;
 
 import com.idisfkj.hightcopywx.R;
 import com.idisfkj.hightcopywx.beans.eventbus.PlaySound;
@@ -54,16 +56,33 @@ public class ChatActivityStudy extends ChatActivity {
     }
 
     private void mediaPlayerPlay(final String soundName) {
-        if(mediaPlayer.isPlaying()){
-            mediaPlayer.stop();
-        }
-        mediaPlayer.reset();
-        try {
-            mediaPlayer.setDataSource(soundName);
-            mediaPlayer.prepare();//prepare之后自动播放
-            mediaPlayer.start();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                // TODO Auto-generated method stub
+                if (mediaPlayer.isPlaying()) {
+                    mediaPlayer.stop();
+                }
+                mediaPlayer.reset();
+                try {
+                    mediaPlayer.setDataSource(soundName);
+                    mediaPlayer.prepare();//prepare之后自动播放
+                    mediaPlayer.start();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
     }
+
+    private Handler handler = new Handler() {
+
+        // 该方法运行在主线程中
+        // 接收到handler发送的消息，对UI进行操作
+        @Override
+        public void handleMessage(Message msg) {
+            // TODO Auto-generated method stub
+
+        }
+    };
 }
