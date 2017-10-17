@@ -26,8 +26,8 @@ public class FindAdapter extends BaseQuickAdapter<EncourageEntity, BaseViewHolde
         Glide.with(App.getAppContext()).
                 load(item.getEncourageimgurl())
                 .crossFade(3000)
-                .placeholder(R.mipmap.reset_icon)
-                .error(R.mipmap.reset_icon)
+                .placeholder(R.mipmap.loading)
+                .error(R.mipmap.loaderror)
                 .into((ImageView) helper.getView(R.id.find_card_imgurl));
         helper.setText(R.id.find_card_title, item.getEncouragetitle());
         helper.setText(R.id.find_card_text, item.getEncouragetext());

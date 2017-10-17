@@ -32,7 +32,7 @@ public class ChatModelTranslateImp implements ChatModel {
         this.type = type;
         speechSynthesizerService = new SpeechSynthesizerService(App.getAppContext());
     }
-
+    
     @Override
     public void requestData(final requestListener listener, final ChatMessageInfo chatMessageInfo) {
 

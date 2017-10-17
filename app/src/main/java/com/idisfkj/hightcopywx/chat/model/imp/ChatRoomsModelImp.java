@@ -57,6 +57,16 @@ public class ChatRoomsModelImp implements ChatRoomsModel {
             mHelper.insert(chatRoomItemInfo);
             MiPushClient.subscribe(App.getAppContext(),chatRoomIDEnglishToChinese,ownMoible);
 
+            String chatRoomIDTranslate=ownMoible+"004";
+            chatRoomItemInfo.setTitle("汉英互译");
+            chatRoomItemInfo.setContent("汉英实时互译");
+            chatRoomItemInfo.setTime(CalendarUtils.getCurrentDate());
+            chatRoomItemInfo.setChatRoomID(chatRoomIDTranslate);
+            chatRoomItemInfo.setOwnMobile(ownMoible);
+            chatRoomItemInfo.setChatType(App.CHAT_TYPE_TRANSLATE_ENZH);
+            mHelper.insert(chatRoomItemInfo);
+            MiPushClient.subscribe(App.getAppContext(),chatRoomIDTranslate,ownMoible);
+
             chatRoomItemInfo.setTitle(App.COMPLAIN_PROPOSE);
             chatRoomItemInfo.setContent(App.COMPLAIN_PROPOSE_MESSAGE);
             chatRoomItemInfo.setTime(CalendarUtils.getCurrentDate());

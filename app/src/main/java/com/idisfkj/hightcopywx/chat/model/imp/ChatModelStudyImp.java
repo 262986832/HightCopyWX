@@ -198,8 +198,11 @@ public class ChatModelStudyImp extends ChatModelBase implements ChatModelStudy {
                 , @Query("speech") String limit);
     }
     @Override
-    public boolean isSame(final IsSameListener isSameListener, String word, String speech) {
-
+    public void  isSame(final IsSameListener isSameListener, String word, String speech) {
+        if(word.equals(speech)){
+            isSameListener.onisSameComplete(true);
+            return;
+        }
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(UrlUtils.SERVER_API)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -209,7 +212,7 @@ public class ChatModelStudyImp extends ChatModelBase implements ChatModelStudy {
 
         rx.Observable<String> observable = apiService.getEncourageList(App.token,word,speech);
         if (observable == null) {
-            return false;
+            return ;
         }
 
         observable.subscribeOn(Schedulers.io())
@@ -232,7 +235,7 @@ public class ChatModelStudyImp extends ChatModelBase implements ChatModelStudy {
 
                 });
 
-        return false;
+        return ;
     }
 
 

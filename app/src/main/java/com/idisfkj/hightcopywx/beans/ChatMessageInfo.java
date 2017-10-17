@@ -1,5 +1,6 @@
 package com.idisfkj.hightcopywx.beans;
 
+import com.chad.library.adapter.base.entity.MultiItemEntity;
 import com.idisfkj.hightcopywx.App;
 import com.idisfkj.hightcopywx.util.CalendarUtils;
 import com.idisfkj.hightcopywx.util.SharedPreferencesManager;
@@ -11,7 +12,7 @@ import java.util.UUID;
  * Created by idisfkj on 16/4/25.
  * Email : idisfkj@qq.com.
  */
-public class ChatMessageInfo implements Serializable {
+public class ChatMessageInfo implements Serializable , MultiItemEntity {
     private String messageID;
     private String ownMobile;
     private String chatRoomID;
@@ -161,5 +162,10 @@ public class ChatMessageInfo implements Serializable {
 
     public void setSendMobile(String sendMobile) {
         this.sendMobile = sendMobile;
+    }
+
+    @Override
+    public int getItemType() {
+        return this.sendOrReciveFlag;
     }
 }

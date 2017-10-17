@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.idisfkj.hightcopywx.App;
 import com.idisfkj.hightcopywx.R;
+import com.idisfkj.hightcopywx.beans.ChatMessageInfo;
 import com.idisfkj.hightcopywx.find.ItemDecoration;
 import com.idisfkj.hightcopywx.find.adapter.FindAdapter;
 import com.idisfkj.hightcopywx.find.model.EncourageEntity;
@@ -75,7 +76,13 @@ public class FindFragment extends Fragment implements BaseQuickAdapter.RequestLo
 //                findAdapter.setNewData(mDataList);
             }
         });
+        findAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener(){
 
+            @Override
+            public void onItemChildClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
+                ChatMessageInfo chatMessageInfo= (ChatMessageInfo) baseQuickAdapter.getItem(i);
+            }
+        });
         findAdapter.setOnLoadMoreListener(this, mFind_recyclerView);
         findAdapter.openLoadAnimation(BaseQuickAdapter.SLIDEIN_BOTTOM);
         mFind_recyclerView.setAdapter(findAdapter);

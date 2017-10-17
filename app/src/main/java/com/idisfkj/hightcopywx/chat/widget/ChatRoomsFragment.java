@@ -77,6 +77,9 @@ public class ChatRoomsFragment extends Fragment implements ChatRoomsView, Loader
                     case App.CHAT_TYPE_CHAT:
                         intent = new Intent(getActivity(), ChatActivity.class);
                         break;
+                    case App.CHAT_TYPE_TRANSLATE_ENZH:
+                        intent = new Intent(getActivity(), ChatActivityTranslate.class);
+                        break;
                     default:
                         intent = new Intent(getActivity(), ChatActivity.class);
                 }

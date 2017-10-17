@@ -15,7 +15,7 @@ public interface ChatModelStudy {
 
     void updateStateCorrect();
 
-    boolean isSame(IsSameListener isSameListener,String word,String speech);
+    void isSame(IsSameListener isSameListener,String word,String speech);
 
     interface IsSameListener{
         void onisSameComplete(boolean isSame);

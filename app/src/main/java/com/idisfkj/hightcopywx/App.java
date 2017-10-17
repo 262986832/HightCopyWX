@@ -34,6 +34,7 @@ public class App extends Application{
     public static final int CHAT_TYPE_ENGLISHTOCHINESE=1;
     public static final int CHAT_TYPE_CHINESETOENGLISH=2;
     public static final int CHAT_TYPE_ENGLISH_STUDY=3;
+    public static final int CHAT_TYPE_TRANSLATE_ENZH=4;
     public static final int SEND_FLAG=1;
     public static final int RECEIVE_FLAG=0;
     public static final int MESSAGE_TYPE_TEXT=1;

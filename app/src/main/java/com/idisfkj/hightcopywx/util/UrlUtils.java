@@ -27,11 +27,11 @@ public class UrlUtils {
     private static final String PASS_THROUGH = "&pass_through=1";
     private static final String NOTIFY_ID = "&notify_id=0";
     //百度翻译
-    private static final String BAIDU_TRANSLATE_API = "http://api.fanyi.baidu.com/api/trans/vip/translate?";
+    public static final String BAIDU_TRANSLATE_API = "http://api.fanyi.baidu.com/api/trans/vip/translate?";
     public static final int ZHTOEN = 0;
     public static final int ENTOZH = 1;
     //服务端
-    public static final String SERVER_API = "http://10.16.66.238:8001/api/";
+    public static final String SERVER_API = "http://198.35.45.235:8001/api/";
 
 
     public UrlUtils() {
