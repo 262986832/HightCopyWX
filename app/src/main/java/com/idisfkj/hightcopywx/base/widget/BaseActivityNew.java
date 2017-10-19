@@ -8,14 +8,11 @@ import android.support.v4.app.FragmentActivity;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 
-import com.idisfkj.hightcopywx.base.presenter.BasePresenter;
-
 /**
  * Created by idisfkj on 16/4/21.
  * Email : idisfkj@qq.com.
  */
-public abstract class BaseActivity<V, P extends BasePresenter<V>> extends FragmentActivity {
-    protected P mPresenter;//Presenter对象
+public abstract class BaseActivityNew extends FragmentActivity {
     protected int page = 1;
     protected AudioManager audio;
     //控制播放器音量
@@ -55,8 +52,6 @@ public abstract class BaseActivity<V, P extends BasePresenter<V>> extends Fragme
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initActionBar();
-        mPresenter = createPresenter();//创建Presenter
-        mPresenter.attachView((V) this);
         audio = (AudioManager) getSystemService(Service.AUDIO_SERVICE);
     }
 
@@ -71,8 +66,6 @@ public abstract class BaseActivity<V, P extends BasePresenter<V>> extends Fragme
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mPresenter.detachView();
     }
 
-    protected abstract P createPresenter();
 }

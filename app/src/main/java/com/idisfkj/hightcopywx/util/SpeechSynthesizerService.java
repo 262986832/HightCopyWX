@@ -12,7 +12,6 @@ import com.iflytek.cloud.SpeechSynthesizer;
 import com.iflytek.cloud.SynthesizerListener;
 
 
-
 /**
  * Created by fvelement on 2017/8/15.
  */
@@ -29,7 +28,6 @@ public class SpeechSynthesizerService {
 
     // 引擎类型
     private String mEngineType = SpeechConstant.TYPE_CLOUD;
-
     public SpeechSynthesizerService(Context context) {
         // 初始化合成对象
         mTts = SpeechSynthesizer.createSynthesizer(context, mTtsInitListener);

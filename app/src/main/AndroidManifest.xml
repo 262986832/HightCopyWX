@@ -49,7 +49,10 @@
         <activity android:name=".chat.widget.ChatActivity" />
         <activity android:name=".chat.widget.ChatActivityTranslateEnToZh" />
         <activity android:name=".chat.widget.ChatActivityTranslateZhToEn" />
-        <activity android:name=".chat.widget.ChatActivityTranslate" />
+        <activity
+            android:name=".chat.widget.ChatActivityTranslate"
+            android:windowSoftInputMode="adjustResize"
+            />
         <activity
             android:name=".chat.widget.ChatActivityStudy"
             android:screenOrientation="portrait" />

@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -121,18 +120,7 @@ public class ChatActivity extends BaseActivity<ChatView, ChatPresenterBase>
         swipeRefreshLayout.setRefreshing(false);
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                onBackPressed();
-                break;
-            default:
 
-                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
 
     @Override
     public void onFocusChange(View v, boolean hasFocus) {

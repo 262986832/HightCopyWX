@@ -7,6 +7,9 @@ import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.idisfkj.hightcopywx.find.model.EncourageEntity;
+import com.idisfkj.hightcopywx.injection.components.AppComponent;
+import com.idisfkj.hightcopywx.injection.components.DaggerAppComponent;
+import com.idisfkj.hightcopywx.injection.modules.AppModule;
 import com.iflytek.cloud.SpeechUtility;
 import com.xiaomi.channel.commonutils.logger.LoggerInterface;
 import com.xiaomi.mipush.sdk.Logger;
@@ -61,12 +64,22 @@ public class App extends Application{
     public static SharedPreferences sp;
     public static SharedPreferences.Editor editor;
     public static List<EncourageEntity> encourageEntityList;
+    private static AppComponent mAppComponent;
+    private static App instance;
 
-
+    public static App getInstance() {
+        return instance;
+    }
     @Override
     public void onCreate() {
         super.onCreate();
+        instance=this;
         mContext = getApplicationContext();
+        mAppComponent = DaggerAppComponent.builder()
+                .appModule(new AppModule(this))
+                .build();
+        mAppComponent.inject(this);
+
         sp = getSharedPreferences("userInfo",Context.MODE_PRIVATE);
         //初始语音识别
         SpeechUtility.createUtility(this, "appid="+BuildConfig.XUNFEI_SCREAT_KEY);
@@ -94,6 +107,10 @@ public class App extends Application{
 
     }
 
+
+    public  AppComponent getAppComponent() {
+        return this.mAppComponent;
+    }
 
     private boolean shouldInit() {
         ActivityManager am = ((ActivityManager) getSystemService(Context.ACTIVITY_SERVICE));
