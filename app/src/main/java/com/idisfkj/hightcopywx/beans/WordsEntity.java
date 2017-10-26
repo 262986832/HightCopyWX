@@ -7,8 +7,6 @@ import java.io.Serializable;
  */
 
 public class WordsEntity implements Serializable {
-    private static final long serialVersionUID = 1L;
-
     //
     private Integer id;
     //英文
@@ -17,10 +15,20 @@ public class WordsEntity implements Serializable {
     private String chinese;
     //图片地址
     private String imgurl;
-    //班级
+    //声音地址
+    private String voiceurl;
+    //图书编号
     private Integer bookid;
+    //第几天
+    private Integer dayth;
 
-    private Integer wordid;
+    public String getVoiceurl() {
+        return voiceurl;
+    }
+
+    public void setVoiceurl(String voiceurl) {
+        this.voiceurl = voiceurl;
+    }
 
     /**
      * 设置：
@@ -70,20 +78,28 @@ public class WordsEntity implements Serializable {
     public String getImgurl() {
         return imgurl;
     }
-
-    public Integer getBookid() {
-        return bookid;
-    }
-
+    /**
+     * 设置：图书编号
+     */
     public void setBookid(Integer bookid) {
         this.bookid = bookid;
     }
-
-    public Integer getWordid() {
-        return wordid;
+    /**
+     * 获取：图书编号
+     */
+    public Integer getBookid() {
+        return bookid;
     }
-
-    public void setWordid(Integer wordid) {
-        this.wordid = wordid;
+    /**
+     * 设置：第几天
+     */
+    public void setDayth(Integer dayth) {
+        this.dayth = dayth;
+    }
+    /**
+     * 获取：第几天
+     */
+    public Integer getDayth() {
+        return dayth;
     }
 }

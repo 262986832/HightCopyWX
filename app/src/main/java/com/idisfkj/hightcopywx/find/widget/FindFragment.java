@@ -69,13 +69,6 @@ public class FindFragment extends Fragment implements BaseQuickAdapter.RequestLo
 
     private void initAdapter() {
         findAdapter = new FindAdapter(find_item, mDataList);
-        findAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-//                mDataList.get(position).setEncouragetitle("更新--" + position);
-//                findAdapter.setNewData(mDataList);
-            }
-        });
         findAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener(){
 
             @Override

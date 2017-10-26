@@ -39,7 +39,7 @@ public class FindDataHelper extends BaseDataHelper {
         String userPhone= SharedPreferencesManager.getString("userPhone");
         ContentValues values = new ContentValues();
         values.put(ownmobile, userPhone);
-        values.put(wordid, info.getWordid());
+        values.put(wordid, info.getId());
         values.put(bookid, info.getBookid());
         values.put(WordDataInfo.english, info.getEnglish());
         values.put(WordDataInfo.chinese, info.getChinese());

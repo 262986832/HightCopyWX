@@ -29,7 +29,6 @@ public class ChatActivityTranslateModule {
         return new ChatModelTranslateImpl();
     }
 
-
     @Provides
     ChatPresenterTranslate presenterTranslate(ChatModelTranslate chatModelTranslate, SpeechSynthesizerService speechSynthesizerService, ChatActivityTranslate chatActivityTranslate){
         return new ChatPresenterTranslateImpl(chatModelTranslate,speechSynthesizerService,chatActivityTranslate);

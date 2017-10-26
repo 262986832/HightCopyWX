@@ -33,26 +33,28 @@ import dagger.Provides;
 public class AppModule {
     private App application;
 
-    public AppModule(App application){
-        this.application=application;
+    public AppModule(App application) {
+        this.application = application;
     }
 
     @Provides
     @Singleton
-    public App provideApplication(){
+    public App provideApplication() {
         return application;
     }
 
     @Provides
     @Singleton
-    public Gson provideGson(){
+    public Gson provideGson() {
         return new Gson();
     }
 
     @Provides
     @Singleton
-    SpeechSynthesizerService speechSynthesizerService(){
+    public SpeechSynthesizerService speechSynthesizerService() {
         return new SpeechSynthesizerService(App.getAppContext());
     }
+
+
 
 }
