@@ -9,8 +9,6 @@ import com.idisfkj.hightcopywx.util.SignUtils;
 import com.idisfkj.hightcopywx.util.SpeechSynthesizerService;
 
 import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
-import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 import rx.Observable;
@@ -26,6 +24,11 @@ import static com.idisfkj.hightcopywx.util.UrlUtils.ZHTOEN;
 
 public class ChatModelTranslateImpl implements ChatModelTranslate {
     protected SpeechSynthesizerService speechSynthesizerService;
+    private Retrofit mRetrofit;
+
+    public ChatModelTranslateImpl(Retrofit mRetrofit) {
+        this.mRetrofit = mRetrofit;
+    }
 
     interface ApiBaidu {
         //http://api.fanyi.baidu.com/api/trans/vip/translate?q=apple&from=en&to=zh&appid=2015063000000001&salt=1435660288&sign=f89f9594663708c1605f3d736d01d2d4
@@ -42,12 +45,8 @@ public class ChatModelTranslateImpl implements ChatModelTranslate {
 
     @Override
     public void translate(final TranslateListner translateListner, int type, final ChatMessageInfo chatMessageInfo) {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://api.fanyi.baidu.com/api/trans/vip/translate/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .build();
-        ApiBaidu apiService = retrofit.create(ApiBaidu.class);
+
+        ApiBaidu apiService = mRetrofit.create(ApiBaidu.class);
 
         String salt = SignUtils.getRandomInt(10);
         String sign = SignUtils.getSign(BuildConfig.BAIDU_APP_ID, chatMessageInfo.getMessageContent(), salt, BuildConfig.BAIDU_SCREAT_KEY);
