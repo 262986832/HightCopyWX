@@ -2,7 +2,6 @@ package com.idisfkj.hightcopywx.find.presenter.imp;
 
 import com.idisfkj.hightcopywx.find.model.EncourageEntity;
 import com.idisfkj.hightcopywx.find.model.EncourageModel;
-import com.idisfkj.hightcopywx.find.model.imp.EncourageModeImp;
 import com.idisfkj.hightcopywx.find.presenter.EncouragePresenter;
 import com.idisfkj.hightcopywx.find.view.EncourageView;
 
@@ -16,9 +15,9 @@ public class EncouragePresenterImp implements EncouragePresenter,EncourageModel.
     private EncourageModel encourageModel;
     private EncourageView encourageView;
 
-    public EncouragePresenterImp(EncourageView encourageView) {
+    public EncouragePresenterImp(EncourageView encourageView,EncourageModel encourageModel) {
         this.encourageView = encourageView;
-        encourageModel=new EncourageModeImp();
+        this.encourageModel=encourageModel;
     }
 
     @Override

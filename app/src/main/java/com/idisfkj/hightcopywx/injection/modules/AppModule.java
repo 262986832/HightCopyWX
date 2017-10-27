@@ -23,11 +23,15 @@ package com.idisfkj.hightcopywx.injection.modules;
 import com.google.gson.Gson;
 import com.idisfkj.hightcopywx.App;
 import com.idisfkj.hightcopywx.util.SpeechSynthesizerService;
+import com.idisfkj.hightcopywx.util.UrlUtils;
 
 import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 @Module
 public class AppModule {
@@ -53,6 +57,16 @@ public class AppModule {
     @Singleton
     public SpeechSynthesizerService speechSynthesizerService() {
         return new SpeechSynthesizerService(App.getAppContext());
+    }
+    @Provides
+    @Singleton
+    public Retrofit retrofit(){
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(UrlUtils.SERVER_API)
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .build();
+        return retrofit;
     }
 
 

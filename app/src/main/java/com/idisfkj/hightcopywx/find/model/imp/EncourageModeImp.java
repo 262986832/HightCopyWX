@@ -6,13 +6,12 @@ import com.idisfkj.hightcopywx.beans.RespondPage;
 import com.idisfkj.hightcopywx.beans.gson.JsonParseUtils;
 import com.idisfkj.hightcopywx.find.model.EncourageEntity;
 import com.idisfkj.hightcopywx.find.model.EncourageModel;
-import com.idisfkj.hightcopywx.util.UrlUtils;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
-import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Query;
@@ -27,6 +26,12 @@ import rx.schedulers.Schedulers;
 
 public class EncourageModeImp implements EncourageModel {
     String limit = "5";
+    @Inject
+    public Retrofit retrofit;
+
+    public EncourageModeImp(Retrofit retrofit) {
+        this.retrofit = retrofit;
+    }
 
     interface EncourageService {
         @GET("getEncourageList")
@@ -39,14 +44,9 @@ public class EncourageModeImp implements EncourageModel {
 
     @Override
     public void getEncourageData(final GetEncourageListener getEncourageListener, int page) {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(UrlUtils.SERVER_API)
-                .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .build();
         EncourageService apiService = retrofit.create(EncourageService.class);
 
-        rx.Observable<RespondPage> observable = apiService.getEncourageList(App.token, String.valueOf(page), "5", "id", "asc");
+        rx.Observable<RespondPage> observable = apiService.getEncourageList(App.token, String.valueOf(page), limit, "id", "asc");
         if (observable == null) {
             return;
         }

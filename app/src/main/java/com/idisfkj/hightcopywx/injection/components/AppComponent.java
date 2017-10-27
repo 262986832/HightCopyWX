@@ -27,6 +27,7 @@ import com.idisfkj.hightcopywx.util.SpeechSynthesizerService;
 import javax.inject.Singleton;
 
 import dagger.Component;
+import retrofit2.Retrofit;
 
 /**
  * Created by GuDong on 12/27/15 16:41.
@@ -40,4 +41,5 @@ public interface AppComponent {
     void inject(App application);
     App getApp();
     SpeechSynthesizerService getSpeechSynthesizerService();
+    Retrofit getRetrofit();
 }

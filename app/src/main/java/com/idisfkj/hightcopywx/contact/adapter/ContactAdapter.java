@@ -28,7 +28,9 @@ public class ContactAdapter extends BaseQuickAdapter<WordsEntity, BaseViewHolder
                 .crossFade(3000)
                 .placeholder(R.mipmap.loading)
                 .error(R.mipmap.loaderror)
-                .into((ImageView) helper.getView(R.id.find_card_imgurl));
+                .into((ImageView) helper.getView(R.id.contact_item_picture));
+        helper.setText(R.id.contact_item_title, item.getEnglish());
+        helper.setText(R.id.contact_item_content, item.getChinese());
     }
 
 

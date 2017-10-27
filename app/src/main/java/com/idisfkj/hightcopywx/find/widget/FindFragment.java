@@ -16,12 +16,15 @@ import com.idisfkj.hightcopywx.find.ItemDecoration;
 import com.idisfkj.hightcopywx.find.adapter.FindAdapter;
 import com.idisfkj.hightcopywx.find.model.EncourageEntity;
 import com.idisfkj.hightcopywx.find.presenter.EncouragePresenter;
-import com.idisfkj.hightcopywx.find.presenter.imp.EncouragePresenterImp;
 import com.idisfkj.hightcopywx.find.view.EncourageView;
+import com.idisfkj.hightcopywx.injection.components.DaggerFindComponent;
+import com.idisfkj.hightcopywx.injection.modules.FindModules;
 import com.idisfkj.hightcopywx.util.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.inject.Inject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -32,23 +35,22 @@ import static com.idisfkj.hightcopywx.R.layout.find_item;
  * Created by idisfkj on 16/4/19.
  * Email : idisfkj@qq.com.
  */
-public class FindFragment extends Fragment implements BaseQuickAdapter.RequestLoadMoreListener,
-        EncourageView {
+public class FindFragment extends Fragment implements EncourageView,BaseQuickAdapter.RequestLoadMoreListener{
     @Bind(R.id.find_recyclerView)
     RecyclerView mFind_recyclerView;
-
     private List<EncourageEntity> mDataList;
     private FindAdapter findAdapter;
-    private EncouragePresenter mEncouragePresenter;
-
     private int page = 1;
     private boolean isEnd = false;
+    @Inject
+    public EncouragePresenter mEncouragePresenter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = LayoutInflater.from(getContext()).inflate(R.layout.find_layout, null);
         ButterKnife.bind(this, view);
-        mEncouragePresenter = new EncouragePresenterImp(this);
+        DaggerFindComponent.builder().findModules(new FindModules(this)).appComponent(App.getInstance().getAppComponent()).build();
+
         initView();
         initData();
         initAdapter();
@@ -64,7 +66,7 @@ public class FindFragment extends Fragment implements BaseQuickAdapter.RequestLo
 
     private void initData() {
         mDataList = new ArrayList<>();
-        mEncouragePresenter.getEncourageData(page);
+     //   mEncouragePresenter.getEncourageData(page);
     }
 
     private void initAdapter() {

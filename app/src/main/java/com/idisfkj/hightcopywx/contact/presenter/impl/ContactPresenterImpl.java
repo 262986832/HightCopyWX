@@ -3,6 +3,7 @@ package com.idisfkj.hightcopywx.contact.presenter.impl;
 import com.idisfkj.hightcopywx.beans.WordsEntity;
 import com.idisfkj.hightcopywx.contact.model.ContactModel;
 import com.idisfkj.hightcopywx.contact.presenter.ContactPresenter;
+import com.idisfkj.hightcopywx.contact.view.ContactView;
 
 import java.util.List;
 
@@ -11,14 +12,21 @@ import java.util.List;
  */
 
 public class ContactPresenterImpl implements ContactPresenter,ContactModel.GetWordListener {
-    @Override
-    public void getWordsData(int page) {
-
+    private ContactModel mContactModel;
+    private ContactView mContactView;
+    public ContactPresenterImpl(ContactView mContactView, ContactModel mContactModel) {
+        this.mContactView = mContactView;
+        this.mContactModel=mContactModel;
     }
 
     @Override
-    public void onGetWordSuccess(List<WordsEntity> WordEntityList) {
+    public void getWordsData(int page) {
+        mContactModel.getWordData(this,page);
+    }
 
+    @Override
+    public void onGetWordSuccess(List<WordsEntity> wordsEntityList) {
+        mContactView.onGetWordsSuccess(wordsEntityList);
     }
 
     @Override

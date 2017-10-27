@@ -11,7 +11,7 @@ import java.util.List;
 public interface ContactModel {
     void getWordData(GetWordListener getWordListener, int page);
     interface GetWordListener{
-        void onGetWordSuccess(List<WordsEntity> WordEntityList);
+        void onGetWordSuccess(List<WordsEntity> wordsEntityList);
         void onGetWordFail();
     }
 }
