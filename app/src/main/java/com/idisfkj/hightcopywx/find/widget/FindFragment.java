@@ -49,7 +49,11 @@ public class FindFragment extends Fragment implements EncourageView,BaseQuickAda
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = LayoutInflater.from(getContext()).inflate(R.layout.find_layout, null);
         ButterKnife.bind(this, view);
-        DaggerFindComponent.builder().findModules(new FindModules(this)).appComponent(App.getInstance().getAppComponent()).build();
+        DaggerFindComponent
+                .builder()
+                .findModules(new FindModules(this))
+                .appComponent(App.getInstance().getAppComponent())
+                .build();
 
         initView();
         initData();
@@ -66,7 +70,7 @@ public class FindFragment extends Fragment implements EncourageView,BaseQuickAda
 
     private void initData() {
         mDataList = new ArrayList<>();
-     //   mEncouragePresenter.getEncourageData(page);
+        mEncouragePresenter.getEncourageData(page);
     }
 
     private void initAdapter() {

@@ -1,6 +1,6 @@
 package com.idisfkj.hightcopywx.injection.components;
 
-import com.idisfkj.hightcopywx.find.view.EncourageView;
+import com.idisfkj.hightcopywx.find.widget.FindFragment;
 import com.idisfkj.hightcopywx.injection.FindScope;
 import com.idisfkj.hightcopywx.injection.modules.FindModules;
 
@@ -12,5 +12,5 @@ import dagger.Component;
 @FindScope
 @Component(modules = {FindModules.class},dependencies = {AppComponent.class})
 public interface FindComponent {
-    void inject(EncourageView encourageView);
+    void inject(FindFragment findFragment);
 }
