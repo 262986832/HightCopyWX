@@ -5,7 +5,6 @@ import com.idisfkj.hightcopywx.find.model.imp.EncourageModeImp;
 import com.idisfkj.hightcopywx.find.presenter.EncouragePresenter;
 import com.idisfkj.hightcopywx.find.presenter.imp.EncouragePresenterImp;
 import com.idisfkj.hightcopywx.find.view.EncourageView;
-import com.idisfkj.hightcopywx.injection.FindScope;
 
 import dagger.Module;
 import dagger.Provides;
@@ -21,12 +20,10 @@ public class FindModules {
         this.mEncourageView = encourageView;
     }
     @Provides
-    @FindScope
     EncourageModel encourageModel(Retrofit retrofit){
         return  new EncourageModeImp(retrofit);
     }
     @Provides
-    @FindScope
     EncouragePresenter encouragePresenter(EncourageModel encourageModel){
         return new EncouragePresenterImp(mEncourageView,encourageModel);
     }

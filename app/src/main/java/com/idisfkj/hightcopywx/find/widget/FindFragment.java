@@ -53,7 +53,7 @@ public class FindFragment extends Fragment implements EncourageView,BaseQuickAda
                 .builder()
                 .findModules(new FindModules(this))
                 .appComponent(App.getInstance().getAppComponent())
-                .build();
+                .build().inject(this);
 
         initView();
         initData();
