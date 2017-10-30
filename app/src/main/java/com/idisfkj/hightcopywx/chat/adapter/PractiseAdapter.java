@@ -1,4 +1,4 @@
-package com.idisfkj.hightcopywx.contact.adapter;
+package com.idisfkj.hightcopywx.chat.adapter;
 
 import android.widget.ImageView;
 
@@ -15,9 +15,9 @@ import java.util.List;
  * Created by fvelement on 2017/9/29.
  */
 
-public class ContactAdapter extends BaseQuickAdapter<WordsEntity, BaseViewHolder> {
+public class PractiseAdapter extends BaseQuickAdapter<WordsEntity, BaseViewHolder> {
 
-    public ContactAdapter(int layoutResId, List<WordsEntity> list) {
+    public PractiseAdapter(int layoutResId, List<WordsEntity> list) {
         super(layoutResId, list);
     }
 
@@ -28,10 +28,14 @@ public class ContactAdapter extends BaseQuickAdapter<WordsEntity, BaseViewHolder
                 .crossFade(3000)
                 .placeholder(R.mipmap.loading)
                 .error(R.mipmap.loaderror)
-                .into((ImageView) helper.getView(R.id.contact_item_picture));
-        helper.setText(R.id.contact_item_title, item.getEnglish());
-        helper.setText(R.id.contact_item_content, item.getChinese());
-        helper.addOnClickListener(R.id.contact_item_title).addOnClickListener(R.id.contact_item_content);
+                .into((ImageView) helper.getView(R.id.practise_card_imgurl));
+        helper.setText(R.id.practise_card_title, item.getEnglish());
+        helper.setText(R.id.practise_card_text, item.getChinese());
+        helper.addOnClickListener(R.id.practise_card_imgurl)
+                .addOnClickListener(R.id.practise_card_title)
+                .addOnClickListener(R.id.practise_card_text)
+                .addOnClickListener(R.id.practise_picture);
+
     }
 
 

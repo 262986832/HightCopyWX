@@ -65,11 +65,8 @@ public class ChatRoomsFragment extends Fragment implements ChatRoomsView, Loader
                 int chatType = wxhd.getChatType();
                 Intent intent;
                 switch (chatType) {
-                    case App.CHAT_TYPE_ENGLISHTOCHINESE:
-                        intent = new Intent(getActivity(), ChatActivityTranslateEnToZh.class);
-                        break;
-                    case App.CHAT_TYPE_CHINESETOENGLISH:
-                        intent = new Intent(getActivity(), ChatActivityTranslateZhToEn.class);
+                    case App.CHAT_TYPE_PRACTISE:
+                        intent = new Intent(getActivity(), ChatActivityPractise.class);
                         break;
                     case App.CHAT_TYPE_ENGLISH_STUDY:
                         intent = new Intent(getActivity(), ChatActivityStudy.class);

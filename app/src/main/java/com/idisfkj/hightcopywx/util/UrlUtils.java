@@ -32,7 +32,7 @@ public class UrlUtils {
     public static final int ENTOZH = 1;
     //服务端
     //public static final String SERVER_API = "http://198.35.45.235:8001/api/";
-    public static final String SERVER_API = "http://10.16.66.207:8001/api/";
+    public static final String SERVER_API = "http://10.16.66.246:8001/api/";
 
 
     public UrlUtils() {

@@ -27,35 +27,25 @@ public class ChatRoomsModelImp implements ChatRoomsModel {
 
         ChatRoomItemInfo chatRoomItemInfo = new ChatRoomItemInfo();
         if (count==0) {
+            String chatRoomIDPratise=ownMoible+"005";
+            chatRoomItemInfo.setTitle("英语练习");
+            chatRoomItemInfo.setContent("英语练习");
+            chatRoomItemInfo.setTime(CalendarUtils.getCurrentDate());
+            chatRoomItemInfo.setChatRoomID(chatRoomIDPratise);
+            chatRoomItemInfo.setOwnMobile(ownMoible);
+            chatRoomItemInfo.setChatType(App.CHAT_TYPE_PRACTISE);
+            mHelper.insert(chatRoomItemInfo);
+            MiPushClient.subscribe(App.getAppContext(),chatRoomIDPratise,ownMoible);
+
             String chatRoomIDStudyEnglish=ownMoible+"004";
-            chatRoomItemInfo.setTitle("英语学习");
-            chatRoomItemInfo.setContent("让我们来开心的学习英语吧。");
+            chatRoomItemInfo.setTitle("英语考试");
+            chatRoomItemInfo.setContent("英语考试。");
             chatRoomItemInfo.setTime(CalendarUtils.getCurrentDate());
             chatRoomItemInfo.setChatRoomID(chatRoomIDStudyEnglish);
             chatRoomItemInfo.setOwnMobile(ownMoible);
             chatRoomItemInfo.setChatType(App.CHAT_TYPE_ENGLISH_STUDY);
             mHelper.insert(chatRoomItemInfo);
             MiPushClient.subscribe(App.getAppContext(),chatRoomIDStudyEnglish,ownMoible);
-
-            String chatRoomIDChineseToEnglish=ownMoible+"002";
-            chatRoomItemInfo.setTitle("汉英翻译");
-            chatRoomItemInfo.setContent("您说的中文，将被翻译成英文。");
-            chatRoomItemInfo.setTime(CalendarUtils.getCurrentDate());
-            chatRoomItemInfo.setChatRoomID(chatRoomIDChineseToEnglish);
-            chatRoomItemInfo.setOwnMobile(ownMoible);
-            chatRoomItemInfo.setChatType(App.CHAT_TYPE_CHINESETOENGLISH);
-            mHelper.insert(chatRoomItemInfo);
-            MiPushClient.subscribe(App.getAppContext(),chatRoomIDChineseToEnglish,ownMoible);
-
-            String chatRoomIDEnglishToChinese=ownMoible+"003";
-            chatRoomItemInfo.setTitle("英汉翻译");
-            chatRoomItemInfo.setContent("您说英文，将被翻译成中文。");
-            chatRoomItemInfo.setTime(CalendarUtils.getCurrentDate());
-            chatRoomItemInfo.setChatRoomID(chatRoomIDEnglishToChinese);
-            chatRoomItemInfo.setOwnMobile(ownMoible);
-            chatRoomItemInfo.setChatType(App.CHAT_TYPE_ENGLISHTOCHINESE);
-            mHelper.insert(chatRoomItemInfo);
-            MiPushClient.subscribe(App.getAppContext(),chatRoomIDEnglishToChinese,ownMoible);
 
             String chatRoomIDTranslate=ownMoible+"004";
             chatRoomItemInfo.setTitle("汉英互译");
@@ -66,6 +56,8 @@ public class ChatRoomsModelImp implements ChatRoomsModel {
             chatRoomItemInfo.setChatType(App.CHAT_TYPE_TRANSLATE_ENZH);
             mHelper.insert(chatRoomItemInfo);
             MiPushClient.subscribe(App.getAppContext(),chatRoomIDTranslate,ownMoible);
+
+
 
             chatRoomItemInfo.setTitle(App.COMPLAIN_PROPOSE);
             chatRoomItemInfo.setContent(App.COMPLAIN_PROPOSE_MESSAGE);
