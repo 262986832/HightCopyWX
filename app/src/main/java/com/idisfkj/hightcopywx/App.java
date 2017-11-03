@@ -27,12 +27,6 @@ public class App extends Application{
     public static final String APP_KEY = "5631746467903";
     public static final String APP_SECRET_KEY = "HxMA7STSUQMLEiDX+zo+5A==";
     public static final String TAG = "com.idisfkj.hightcopywx";
-    public static final String DEVELOPER_ID = "/f6ukNwIPpdSmkrgsmklcMbW6WefG01XkxdILDNEUVw=";
-    public static final String DEVELOPER_MOBILE = "15300112238";
-    public static final String COMPLAIN_PROPOSE = "投诉与建议";
-    public static final String COMPLAIN_PROPOSE_MESSAGE = "欢迎注册高仿微信App,如有问题可以在此留言与我。";
-    public static final String HELLO_MESSAGE = "你已添加了%s，现在可以开始聊天了";
-    public static final String UNREADNUM = "unReadNum";
     public static final int CHAT_TYPE_CHAT=0;
     public static final int CHAT_TYPE_PRACTISE=1;
     public static final int CHAT_TYPE_ENGLISH_STUDY=2;

@@ -41,8 +41,6 @@ import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.AppSettingsDialog;
 import pub.devrel.easypermissions.EasyPermissions;
 
-import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
-
 /**
  * Created by fvelement on 2017/10/13.
  */

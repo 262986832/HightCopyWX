@@ -39,7 +39,7 @@ public class ChatRoomsModelImp implements ChatRoomsModel {
 
             String chatRoomIDStudyEnglish=ownMoible+"004";
             chatRoomItemInfo.setTitle("英语考试");
-            chatRoomItemInfo.setContent("英语考试。");
+            chatRoomItemInfo.setContent("英语考试");
             chatRoomItemInfo.setTime(CalendarUtils.getCurrentDate());
             chatRoomItemInfo.setChatRoomID(chatRoomIDStudyEnglish);
             chatRoomItemInfo.setOwnMobile(ownMoible);
@@ -47,7 +47,7 @@ public class ChatRoomsModelImp implements ChatRoomsModel {
             mHelper.insert(chatRoomItemInfo);
             MiPushClient.subscribe(App.getAppContext(),chatRoomIDStudyEnglish,ownMoible);
 
-            String chatRoomIDTranslate=ownMoible+"004";
+            String chatRoomIDTranslate=ownMoible+"003";
             chatRoomItemInfo.setTitle("汉英互译");
             chatRoomItemInfo.setContent("汉英实时互译");
             chatRoomItemInfo.setTime(CalendarUtils.getCurrentDate());
@@ -59,8 +59,8 @@ public class ChatRoomsModelImp implements ChatRoomsModel {
 
 
 
-            chatRoomItemInfo.setTitle(App.COMPLAIN_PROPOSE);
-            chatRoomItemInfo.setContent(App.COMPLAIN_PROPOSE_MESSAGE);
+            chatRoomItemInfo.setTitle("投诉与建议");
+            chatRoomItemInfo.setContent("如有问题可以在此留言与我");
             chatRoomItemInfo.setTime(CalendarUtils.getCurrentDate());
             chatRoomItemInfo.setChatRoomID(chatRoomIDPropose);
             chatRoomItemInfo.setOwnMobile(ownMoible);
