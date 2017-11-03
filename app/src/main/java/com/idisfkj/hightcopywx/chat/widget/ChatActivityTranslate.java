@@ -1,6 +1,8 @@
 package com.idisfkj.hightcopywx.chat.widget;
 
+import android.Manifest;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -35,13 +37,16 @@ import javax.inject.Inject;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import pub.devrel.easypermissions.AfterPermissionGranted;
+import pub.devrel.easypermissions.AppSettingsDialog;
+import pub.devrel.easypermissions.EasyPermissions;
 
 /**
  * Created by fvelement on 2017/10/13.
  */
 
 public class ChatActivityTranslate extends BaseActivityNew
-        implements View.OnFocusChangeListener, ISpeechView, ChatTranslateView {
+        implements View.OnFocusChangeListener, ISpeechView, ChatTranslateView , EasyPermissions.PermissionCallbacks{
     @Bind(R.id.chat_content)
     EditText mChatContent;
     @Bind(R.id.chat_view)
@@ -120,6 +125,23 @@ public class ChatActivityTranslate extends BaseActivityNew
         return null;
     }
 
+    public static final int WRITE_EXTERNAL_STORAGE = 100;
+    String[] params = {Manifest.permission.RECORD_AUDIO};
+    /**
+     * 检查权限
+     */
+    @AfterPermissionGranted(WRITE_EXTERNAL_STORAGE)
+    private void checkPerm() {
+
+        if (EasyPermissions.hasPermissions(this, params)) {
+            //已经获取到权限
+            speechRecognizerService.startSpeechRecognizer();
+        } else {
+            EasyPermissions.requestPermissions(this, "需要录音权限", WRITE_EXTERNAL_STORAGE, params);
+        }
+
+    }
+
     public void init() {
         chatMessageInfoList = new ArrayList<ChatMessageInfo>();
         mChatAdapter = new TranslateAdapter(this, getData());
@@ -165,8 +187,9 @@ public class ChatActivityTranslate extends BaseActivityNew
 
     @OnClick(R.id.voice_button)
     public void onVoiceClick() {
+        checkPerm();
         setENTOZH();
-        speechRecognizerService.startSpeechRecognizer();
+
     }
 
     private void setENTOZH() {
@@ -176,8 +199,9 @@ public class ChatActivityTranslate extends BaseActivityNew
 
     @OnClick(R.id.voice_button2)
     public void onVoiceClick2() {
+        checkPerm();
         setZHTOEN();
-        speechRecognizerService.startSpeechRecognizer();
+
     }
 
     private void setZHTOEN() {
@@ -237,4 +261,29 @@ public class ChatActivityTranslate extends BaseActivityNew
         mChatAdapter.setNewData(chatMessageInfoList);
         chatView.scrollToPosition(chatMessageInfoList.size() - 1);
     }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
+    }
+
+
+    @Override
+    public void onPermissionsGranted(int requestCode, List<String> perms) {
+        speechRecognizerService.startSpeechRecognizer();
+    }
+
+    @Override
+    public void onPermissionsDenied(int requestCode, List<String> perms) {
+        if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
+            //这里需要重新设置Rationale和title，否则默认是英文格式
+            new AppSettingsDialog.Builder(this)
+                    .setRationale("语音识别需要录音权限，现在去设置？")
+                    .setTitle("权限设置")
+                    .build()
+                    .show();
+        }
+    }
+
 }
