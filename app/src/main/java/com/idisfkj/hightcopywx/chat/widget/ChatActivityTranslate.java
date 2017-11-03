@@ -41,6 +41,8 @@ import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.AppSettingsDialog;
 import pub.devrel.easypermissions.EasyPermissions;
 
+import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
+
 /**
  * Created by fvelement on 2017/10/13.
  */
@@ -125,19 +127,19 @@ public class ChatActivityTranslate extends BaseActivityNew
         return null;
     }
 
-    public static final int WRITE_EXTERNAL_STORAGE = 100;
+    public static final int RECORD_AUDIO = 100;
     String[] params = {Manifest.permission.RECORD_AUDIO};
     /**
      * 检查权限
      */
-    @AfterPermissionGranted(WRITE_EXTERNAL_STORAGE)
+    @AfterPermissionGranted(RECORD_AUDIO)
     private void checkPerm() {
 
         if (EasyPermissions.hasPermissions(this, params)) {
             //已经获取到权限
             speechRecognizerService.startSpeechRecognizer();
         } else {
-            EasyPermissions.requestPermissions(this, "需要录音权限", WRITE_EXTERNAL_STORAGE, params);
+            EasyPermissions.requestPermissions(this, "需要录音权限", RECORD_AUDIO, params);
         }
 
     }
