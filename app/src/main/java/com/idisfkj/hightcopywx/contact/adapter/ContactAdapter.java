@@ -26,7 +26,7 @@ public class ContactAdapter extends BaseQuickAdapter<WordsEntity, BaseViewHolder
         Glide.with(App.getAppContext()).
                 load(item.getImgurl())
                 .crossFade(3000)
-                .placeholder(R.mipmap.loading)
+                .placeholder(R.mipmap.loading1)
                 .error(R.mipmap.loaderror)
                 .into((ImageView) helper.getView(R.id.contact_item_picture));
         helper.setText(R.id.contact_item_title, item.getEnglish());

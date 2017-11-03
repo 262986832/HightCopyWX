@@ -97,7 +97,7 @@ public class ChatAdapter extends RecyclerViewCursorBaseAdapter<RecyclerView.View
                 Glide.with(App.getAppContext()).
                         load(imgurl)
                         .crossFade(5000)
-                        .placeholder(R.mipmap.loading)
+                        .placeholder(R.mipmap.loading1)
                         .error(R.mipmap.loaderror)
                         .into(((ChatReceiveViewHolder) holder).chat_receive_card_imgurl);
                 ((ChatReceiveViewHolder) holder).chat_receive_card_title.
